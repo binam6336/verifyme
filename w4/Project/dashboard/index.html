@@ -1,0 +1,103 @@
+<!-- dashboard/index.html -->
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>پنل مدیریتی تولیدکننده - سامانه گارانتی هوشمند</title>
+    <link rel="stylesheet" href="../assets/css/global.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="panel-layout">
+
+        <aside class="sidebar">
+            <div class="brand">
+                <div class="logo-icon">G</div>
+                <h2>گارانتی هوشمند</h2>
+            </div>
+
+            <nav class="menu">
+                <a href="../dashboard" class="menu-item active">
+                    <span class="icon"><img src="../assets/img/icon/dashboard.png" alt="داشبورد" width="60%"></span>
+                    داشبورد
+                </a>
+
+                <div class="menu-group">
+                    <button class="menu-item has-submenu" id="product-menu-btn">
+                        <span><span class="icon"><img src="../assets/img/icon/products2.png" alt=""></span> مدیریت
+                            محصولات</span>
+                        <span class="arrow">▼</span>
+                    </button>
+                    <div class="submenu" id="product-submenu">
+                        <a href="../products/new" class="submenu-item"><span><img class="icon"
+                                    src="../assets/img/icon/add.png" alt="add"></span> ثبت محصول جدید</a>
+                        <a href="../products/list" class="submenu-item"><span><img class="icon"
+                                    src="../assets/img/icon/list.png" alt=""></span> لیست محصولات</a>
+                    </div>
+                </div>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+
+            <header class="top-bar">
+                <div class="welcome-section">
+                    <h3>بررسی وضعیت جاری</h3>
+                    <p style="color: var(--text-muted); font-size: 0.85rem;">خوش آمدید، <span
+                            id="user-display-name">...</span></p>
+                </div>
+                <div class="user-profile">
+                    <!-- کادر آواتار با آیدی اختصاصی جهت کنترل کامل فرانت -->
+                    <div class="user-avatar" id="avatar-container">
+                        <img id="user-avatar-img" src="" alt="User Avatar"
+                            style="display: none; width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">
+                    </div>
+                    <span id="user-role">تولیدکننده</span>
+                </div>
+            </header>
+
+            <section class="content-body">
+                <div class="stats-container">
+
+                    <div class="stat-card">
+                        <div class="card-header">
+                            <span class="icon-lg"><img src="../assets/img/icon/products.png" alt=""></span>
+                            <h3>کل محصولات</h3>
+                        </div>
+                        <p class="card-value" id="stat-total">-</p>
+                        <div class="card-glow"></div>
+                    </div>
+
+                    <div class="stat-card accent">
+                        <div class="card-header">
+                            <span class="icon-lg"><img src="../assets/img/icon/warranty.png" alt="" width="85%"></span>
+                            <h3>گارانتی‌های فعال</h3>
+                        </div>
+                        <p class="card-value" id="stat-active">-</p>
+                        <div class="card-glow"></div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="card-header">
+                            <span class="icon-lg"><img src="../assets/img/icon/pending.png" alt=""></span>
+                            <h3>در انتظار</h3>
+                        </div>
+                        <p class="card-value" id="stat-pending">-</p>
+                        <div class="card-glow"></div>
+                    </div>
+
+                </div>
+            </section>
+        </main>
+
+    </div>
+
+    <script src="../config/api-config.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>

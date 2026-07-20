@@ -1,0 +1,114 @@
+<!-- products/new/index.html -->
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ثبت محصول جدید - سامانه گارانتی</title>
+    <link rel="stylesheet" href="../../assets/css/global.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- نگهدارنده پیام‌های Toast -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <div class="panel-layout">
+
+        <!-- منوی سایدبار شیشه‌ای هماهنگ -->
+        <aside class="sidebar">
+            <div class="brand">
+                <div class="logo-icon">G</div>
+                <h2>گارانتی هوشمند</h2>
+            </div>
+
+            <nav class="menu">
+                <a href="../../dashboard" class="menu-item">
+                    <span class="icon"><img src="../../assets/img/icon/dashboard.png" alt="داشبورد"></span>
+                    داشبورد
+                </a>
+
+                <div class="menu-group">
+                    <button class="menu-item has-submenu active" id="product-menu-btn">
+                        <span><span class="icon"><img src="../../assets/img/icon/products2.png" alt=""></span> مدیریت
+                            محصولات</span>
+                        <span class="arrow">▼</span>
+                    </button>
+                    <div class="submenu show" id="product-submenu">
+                        <a href="../new" class="submenu-item active">
+                            <span><img class="icon" src="../../assets/img/icon/add.png" alt="add"></span> ثبت محصول جدید
+                        </a>
+                        <a href="../list" class="submenu-item">
+                            <span><img class="icon" src="../../assets/img/icon/list.png" alt=""></span> لیست محصولات
+                        </a>
+                    </div>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- بخش اصلی سمت چپ -->
+        <main class="main-content">
+
+            <!-- هدر بار یکپارچه شده با نسخه ۲.۶ (آواتار هوشمند) -->
+            <header class="top-bar">
+                <div class="welcome-section">
+                    <h3>مدیریت محصولات</h3>
+                    <p style="color: var(--text-muted); font-size: 0.85rem;">افزودن کالا به چرخه گارانتی و صدور سریال
+                    </p>
+                </div>
+                <div class="user-profile">
+                    <div class="user-avatar" id="avatar-container">
+                        <img id="user-avatar-img" src="" alt="User Avatar"
+                            style="display: none; width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">
+                    </div>
+                    <span id="user-role">تولیدکننده</span>
+                </div>
+            </header>
+
+            <!-- بدنه فرم شیشه‌ای -->
+            <section class="content-body">
+                <div class="form-container">
+                    <div class="form-header">
+                        <h2>مشخصات محصول جدید</h2>
+                        <p>اطلاعات زیر را با دقت پر کنید. سریال‌های گارانتی بر اساس تعداد وارد شده صادر خواهند شد.</p>
+                    </div>
+
+                    <form id="product-form" class="glass-form">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="product_name">نام محصول</label>
+                                <input type="text" id="product_name" placeholder="مثال: پاوربانک نوین پاور ۲۰۰۰"
+                                    required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="brand">برند محصول</label>
+                                <input type="text" id="brand" placeholder="مثال: X-Company" required>
+                            </div>
+
+                            <div class="form-group full-width">
+                                <label for="quantity">تعداد تولید (تیراژ)</label>
+                                <input type="number" id="quantity" min="1" placeholder="مثال: 500" required>
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" id="submit-btn" class="btn-primary">
+                                <span class="btn-text">ثبت محصول و صدور گارانتی</span>
+                                <div class="loader" id="btn-loader"></div>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+        </main>
+
+    </div>
+
+    <script src="../../config/api-config.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>

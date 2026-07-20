@@ -1,0 +1,329 @@
+/* dashboard/style.css */
+
+.panel-layout {
+    display: flex;
+    min-height: 100vh;
+    padding: 20px;
+    /* یک فاصله از حاشیه مرورگر */
+    gap: 20px;
+}
+
+/* استایل سایدبار شیشه‌ای */
+.sidebar {
+    width: 280px;
+    background: var(--panel-glass);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--border-glass);
+    border-radius: 20px;
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-bottom: 25px;
+    border-bottom: 1px solid var(--border-glass);
+    margin-bottom: 25px;
+}
+
+.logo-icon {
+    width: 40px;
+    height: 40px;
+    background-color: var(--primary-red-dark);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.brand h2 {
+    color: var(--text-primary);
+    font-size: 1.2rem;
+}
+
+.menu {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.menu-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 18px;
+    color: var(--text-muted);
+    text-decoration: none;
+    border-radius: 12px;
+    font-weight: 500;
+    background: none;
+    border: 1px solid transparent;
+    width: 100%;
+    cursor: pointer;
+    text-align: right;
+    transition: all 0.3s ease;
+}
+
+.menu-item .icon {
+    margin-left: 10px;
+}
+
+.menu-item:hover {
+    color: var(--text-primary);
+    background-color: rgba(255, 255, 255, 0.03);
+    border-color: var(--border-glass);
+}
+
+.menu-item.active {
+    background-color: var(--primary-red-dark);
+    color: #fff;
+    box-shadow: var(--glow-effect);
+}
+
+/* زیرمنوها */
+.submenu {
+    display: none;
+    /* پیش‌فرض کاملاً مخفی */
+    flex-direction: column;
+    gap: 6px;
+    padding-right: 30px;
+    margin-top: 6px;
+}
+
+.submenu.show {
+    display: flex !important;
+
+}
+
+.submenu-item {
+    padding: 10px;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.9rem;
+    border-radius: 8px;
+    transition: color 0.2s;
+}
+
+.submenu-item:hover {
+    color: var(--primary-red-hover);
+}
+
+/* بخش محتوا */
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* هدر بالا شیشه‌ای */
+.top-bar {
+    height: 80px;
+    background: var(--panel-glass);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--border-glass);
+    border-radius: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 30px;
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 6px 14px 6px 8px;
+    /* اصلاح پدینگ برای تعادل بیشتر با آواتار */
+    border-radius: 50px;
+    border: 1px solid var(--border-glass);
+}
+
+.user-avatar {
+    width: 35px;
+    height: 35px;
+    background-color: var(--primary-red-hover);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    flex-shrink: 0;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.user-avatar img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    border-radius: 50%;
+}
+
+/* کارت‌های خلاقانه */
+.content-body {
+    flex: 1;
+}
+
+.stats-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+}
+
+.stat-card {
+    background: var(--panel-glass);
+    backdrop-filter: blur(5px);
+    padding: 30px;
+    border-radius: 20px;
+    border: 1px solid var(--border-glass);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.stat-card.accent {
+    border-color: var(--primary-red-dark);
+}
+
+.stat-card.accent:hover {
+    border-color: var(--primary-red-hover);
+    box-shadow: var(--glow-effect);
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 2;
+}
+
+.icon-lg {
+    font-size: 2rem;
+}
+
+.stat-card h3 {
+    font-size: 1rem;
+    color: var(--text-muted);
+}
+
+.card-value {
+    font-size: 2.8rem;
+    font-weight: bold;
+    color: var(--text-primary);
+    position: relative;
+    z-index: 2;
+    letter-spacing: -1px;
+}
+
+/* افکت درخشش پس‌زمینه کارت */
+.card-glow {
+    position: absolute;
+    bottom: -50px;
+    left: -50px;
+    width: 150px;
+    height: 150px;
+    background: radial-gradient(circle, rgba(129, 19, 49, 0.2) 0%, transparent 70%);
+    border-radius: 50%;
+    z-index: 1;
+}
+
+/* ==========================================================================
+   بخش اصلاحی مربوط به آیکون‌های تصویری منو (رفع به هم ریختگی نسخه ۲.۲)
+   ========================================================================== */
+
+/* ۱. تراز کردن کل ردیف منو به صورت افقی و عمودی */
+.menu-item {
+    display: flex;
+    justify-content: flex-start;
+    /* ترازبندی از راست برای حل مشکل چپ‌چین شدن */
+    align-items: center;
+    gap: 12px;
+    /* ایجاد فاصله استاندارد بین آیکون و متن */
+    padding: 14px 18px;
+    color: var(--text-muted);
+    text-decoration: none;
+    border-radius: 12px;
+    font-weight: 500;
+    background: none;
+    border: 1px solid transparent;
+    width: 100%;
+    cursor: pointer;
+    text-align: right;
+    transition: all 0.3s ease;
+}
+
+/* برای دکمه‌هایی که زیرمنو دارند (مثل مدیریت محصولات) که فلش در چپ‌ترین حالت بماند */
+.menu-item.has-submenu {
+    justify-content: space-between;
+}
+
+/* ۲. استانداردسازی ظرف نگهدارنده آیکون */
+.menu-item .icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    /* عرض ثابت برای تراز ایستادن متن‌ها زیر هم */
+    height: 24px;
+    /* ارتفاع ثابت */
+    flex-shrink: 0;
+    /* جلوگیری از تغییر شکل آیکون در صفحات کوچک */
+}
+
+/* ۳. کنترل اندازه و موقعیت دقیق عکس آیکون‌ها */
+.menu-item .icon img {
+    width: 100% !important;
+    /* لغو مقادیر درصدی نامنظم در HTML */
+    height: 100% !important;
+    object-fit: contain;
+    /* حفظ تناسب تصویر */
+    vertical-align: middle;
+}
+
+/* ۴. اصلاح استایل آیتم‌های داخل زیرمنو (مثل افزودن محصول جدید) */
+.submenu-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    /* فاصله بین آیکون کوچک و متن */
+    padding: 10px;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.9rem;
+    border-radius: 8px;
+    transition: color 0.2s;
+}
+
+/* استانداردسازی تگ span داخل زیرمنو که عکس را نگه داشته */
+.submenu-item span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    /* آیکون‌های زیرمنو کمی کوچک‌تر از منوی اصلی */
+    height: 18px;
+    flex-shrink: 0;
+}
+
+.submenu-item span img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: contain;
+}
