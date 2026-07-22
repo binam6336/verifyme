@@ -19,12 +19,12 @@
             id int PRIMARY KEY,
             name varchar(255),
             category varchar(255),
-            count varchar(255),
-            userid varchar(255)
+            userid varchar(255),
+            brand varchar(255)
             );  
             -- product test
-            INSERT INTO product ( name , category , count , userid )
-            VALUES ('test' , 'test', 'test','test');
+            INSERT INTO product ( name , category , userid )
+            VALUES ('test' , 'test', 'test');
 
         -- licences
             CREATE TABLE licences (
