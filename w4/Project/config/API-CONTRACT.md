@@ -27,27 +27,31 @@
 }
 
 # Create Product API
- url = /api/company/dashboard/
- 
+url = /server/api/company/products/create/index.php
+
 `` Request json body
----------------------
 {
-  "token": "USER_AUTH_TOKEN_HERE",
-  "product_name": "پاوربانک ۱۰۰۰۰ شیائومی",
-  "brand": "شیائومی",
-  "quantity": 150
+"token": "USER_AUTH_TOKEN_HERE",
+"product_name": "هندزفری بلوتوثی مدل Pro 2",
+"category": "لوازم جانبی موبایل",
+"brand": "شیائومی"
 }
- 
- `` Expected Response
----------------------
+
+`` Expected Response
 {
-  "status": "success",
-  "message": "محصول جدید با موفقیت ثبت شد و ۵۰۰ کد گارانتی برای آن صادر گردید."
+"status": "success",
+"message": "محصول با موفقیت ثبت شد.",
+"data": {
+"product_id": 104,
+"product_name": "هندزفری بلوتوثی مدل Pro 2",
+"category": "لوازم جانبی موبایل",
+"brand": "شیائومی",
+"created_at": "2026-07-22 12:00:00"
+}
 }
 
 `` Error Response
----------------------
 {
-  "status": "error",
-  "message": "موجودی انبار شما یا سقف مجاز ثبت محصول در این ماه به پایان رسیده است."
+"status": "error",
+"message": "ارسال نام محصول، دسته‌بندی و برند الزامی است."
 }
