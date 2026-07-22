@@ -4,13 +4,11 @@ document.addEventListener("DOMContentLoaded", () => {
     initSubmenu();
     initFormSubmit();
 
-    // لود خودکار اطلاعات هدر بار بر اساس دیتای زنده بک‌اند
     if (typeof API_CONFIG !== 'undefined') {
         loadHeaderData();
     }
 });
 
-// مدیریت زیرمنو سایدبار
 function initSubmenu() {
     const btn = document.getElementById("product-menu-btn");
     const submenu = document.getElementById("product-submenu");
@@ -27,7 +25,6 @@ function initSubmenu() {
     }
 }
 
-// لود کردن مشخصات هدر از بک‌اند
 async function loadHeaderData() {
     try {
         const response = await API_CONFIG.sendRequest(
@@ -37,11 +34,8 @@ async function loadHeaderData() {
 
         if (response && response.status === "success" && response.data) {
             const data = response.data;
-
-            // رندر نام و نقش در هدر
             if (document.getElementById("user-role")) document.getElementById("user-role").textContent = data.user.role;
 
-            // رندر هوشمند آواتار
             const avatarImg = document.getElementById("user-avatar-img");
             const avatarContainer = document.getElementById("avatar-container");
 
@@ -63,7 +57,7 @@ async function loadHeaderData() {
     }
 }
 
-// مدیریت ثبت فرم گارانتی و نمایش Toast
+// مدیریت ثبت محصول جدید (ارسال نام، دسته‌بندی و برند)
 function initFormSubmit() {
     const form = document.getElementById("product-form");
     const submitBtn = document.getElementById("submit-btn");
@@ -74,8 +68,8 @@ function initFormSubmit() {
             e.preventDefault();
 
             const product_name = document.getElementById("product_name").value.trim();
+            const category = document.getElementById("category").value.trim();
             const brand = document.getElementById("brand").value.trim();
-            const quantity = parseInt(document.getElementById("quantity").value);
 
             submitBtn.disabled = true;
             loader.style.display = "block";
@@ -86,13 +80,13 @@ function initFormSubmit() {
                     {
                         token: "SESSION_TOKEN_123456",
                         product_name: product_name,
-                        brand: brand,
-                        quantity: quantity
+                        category: category,
+                        brand: brand
                     }
                 );
 
                 if (response.status === "success") {
-                    showToast(response.message, "success");
+                    showToast(response.message || "محصول با موفقیت ثبت شد.", "success");
                     form.reset();
                 } else {
                     showToast(response.message || "خطایی رخ داده است.", "error");
@@ -108,7 +102,6 @@ function initFormSubmit() {
     }
 }
 
-// سیستم Toast انیمیشنی
 function showToast(message, type = "success") {
     const container = document.getElementById("toast-container");
     if (!container) return;
