@@ -2,16 +2,16 @@
 
 const API_CONFIG = {
     // آدرس پایه سرور محلی
-    BASE_URL: "http://127.0.0.1/w4/Project",
+    BASE_URL: "http://127.0.0.1/warranty/verifyme/w4/Project/server/api/company/",
 
     ENDPOINTS: {
         // احراز هویت
-        REGISTER: "/server/api/auth/register/index.php",
-        LOGIN: "/server/api/auth/login/index.php",
+        REGISTER: "auth/register/index.php",
+        LOGIN: "auth/login/index.php",
 
         // پنل تولیدکننده
-        DASHBOARD_INIT: "/server/api/company/dashboard/init/index.php",
-        PRODUCT_CREATE: "/server/api/company/products/create/index.php"
+        DASHBOARD_INIT: "dashboard/init/index.php",
+        PRODUCT_CREATE: "products/create/index.php"
     },
 
     // متد دریافت توکن از حافظه مرورگر
