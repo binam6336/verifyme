@@ -24,3 +24,4 @@ company-panel/
         company/
         ├── dashboard/init/index.php
         └── products/create/index.php
+        └── auth/register/index.php

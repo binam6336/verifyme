@@ -6,12 +6,12 @@ const API_CONFIG = {
 
     ENDPOINTS: {
         // احراز هویت
-        REGISTER: "auth/register/index.php",
-        LOGIN: "auth/login/index.php",
+        REGISTER: "auth/register/",
+        LOGIN: "auth/login/",
 
         // پنل تولیدکننده
-        DASHBOARD_INIT: "dashboard/init/index.php",
-        PRODUCT_CREATE: "products/create/index.php"
+        DASHBOARD_INIT: "dashboard/init/",
+        PRODUCT_CREATE: "products/create/"
     },
 
     // متد دریافت توکن از حافظه مرورگر

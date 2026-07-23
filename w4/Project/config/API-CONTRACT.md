@@ -55,3 +55,42 @@ url = /server/api/company/products/create/index.php
 "status": "error",
 "message": "ارسال نام محصول، دسته‌بندی و برند الزامی است."
 }
+
+# Register (Add User) API
+url = /server/api/company/products/create/index.php
+
+`` Request json body
+{
+  "first_name": "علی",
+  "last_name": "محمدی",
+  "company_name": "صوتی تصویری پارس",
+  "email": "info@company.com",
+  "mobile": "09123456789",
+  "password": "user_password_here"
+}
+
+`` Expected Response
+{
+  "status": "success",
+  "message": "ثبت‌نام با موفقیت انجام شد.",
+  "data": {
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+    "user": {
+      "id": 102,
+      "first_name": "علی",
+      "last_name": "محمدی",
+      "company_name": "صوتی تصویری پارس",
+      "email": "info@company.com",
+      "mobile": "09123456789"
+    }
+  }
+}
+
+`` Error Response
+{
+  "status": "error",
+  "message": "شماره موبایل یا ایمیل وارد شده قبلاً در سیستم ثبت شده است.",
+  "errors": {
+    "mobile": "این شماره موبایل تکراری است."
+  }
+}
