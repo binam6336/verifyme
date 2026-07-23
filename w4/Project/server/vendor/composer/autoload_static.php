@@ -10,6 +10,7 @@ class ComposerStaticInit08b565c61ee3426666291665c74958e6
         'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
         '5897ea0ac4cccf14d323035e65887801' => __DIR__ . '/..' . '/symfony/polyfill-php82/bootstrap.php',
         '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
+        '2cffec82183ee1cea088009cef9a6fc3' => __DIR__ . '/..' . '/ezyang/htmlpurifier/library/HTMLPurifier.composer.php',
         '9b38cf48e83f5d8f60375221cd213eee' => __DIR__ . '/..' . '/phpstan/phpstan/bootstrap.php',
         'ec07570ca5a812141189b1fa81503674' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Assert/Functions.php',
     );
@@ -101,6 +102,16 @@ class ComposerStaticInit08b565c61ee3426666291665c74958e6
         'DeepCopy\\' =>
         array (
             0 => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy',
+        ),
+    );
+
+    public static $prefixesPsr0 = array (
+        'H' =>
+        array (
+            'HTMLPurifier' =>
+            array (
+                0 => __DIR__ . '/..' . '/ezyang/htmlpurifier/library',
+            ),
         ),
     );
 
@@ -1349,6 +1360,7 @@ class ComposerStaticInit08b565c61ee3426666291665c74958e6
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInit08b565c61ee3426666291665c74958e6::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit08b565c61ee3426666291665c74958e6::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit08b565c61ee3426666291665c74958e6::$prefixesPsr0;
             $loader->classMap = ComposerStaticInit08b565c61ee3426666291665c74958e6::$classMap;
 
         }, null, ClassLoader::class);

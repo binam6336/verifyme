@@ -3,7 +3,7 @@
         "monolog/monolog": "^3.10",
         "guzzlehttp/guzzle": "*",
         "firebase/php-jwt": "*",
-        "ezyang/htmlpurifier": "*"
+        "ezyang/htmlpurifier": "^4.19"
     },
     "require-dev": {
         "phpunit/phpunit": "^11.5",
