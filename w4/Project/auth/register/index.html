@@ -1,0 +1,87 @@
+<!-- auth/register/index.html -->
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ثبت‌نام در سامانه گارانتی هوشمند</title>
+    <link rel="stylesheet" href="../../assets/css/global.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="auth-body">
+
+    <!-- نگهدارنده پیام‌های Toast -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <div class="auth-container">
+        <div class="auth-card glass-card">
+
+            <div class="auth-header">
+                <div class="logo-icon">G</div>
+                <h2>ثبت‌نام تولیدکننده</h2>
+                <p>جهت مدیریت گارانتی محصولات، اطلاعات شرکت خود را وارد کنید.</p>
+            </div>
+
+            <form id="register-form" class="auth-form">
+                <div class="form-grid">
+
+                    <div class="form-group">
+                        <label for="first_name">نام</label>
+                        <input type="text" id="first_name" placeholder="مثال: علی" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="last_name">نام خانوادگی</label>
+                        <input type="text" id="last_name" placeholder="مثال: محمدی" required>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="company_name">نام شرکت / برند</label>
+                        <input type="text" id="company_name" placeholder="مثال: شرکت ارتباطات نوین" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">ایمیل</label>
+                        <input type="email" id="email" placeholder="info@company.com" required dir="ltr">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="mobile">شماره موبایل</label>
+                        <input type="tel" id="mobile" placeholder="09123456789" maxlength="11" required dir="ltr">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">رمز عبور</label>
+                        <input type="password" id="password" placeholder="••••••••" required dir="ltr">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirm_password">تایید رمز عبور</label>
+                        <input type="password" id="confirm_password" placeholder="••••••••" required dir="ltr">
+                    </div>
+
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" id="submit-btn" class="btn-primary full-width">
+                        <span class="btn-text">ثبت‌نام و ورود به پنل</span>
+                        <div class="loader" id="btn-loader"></div>
+                    </button>
+                </div>
+
+                <div class="auth-footer">
+                    <span>قبلاً ثبت‌نام کرده‌اید؟</span>
+                    <a href="../login">ورود به حساب کاربری</a>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+    <script src="../../config/api-config.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>

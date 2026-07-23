@@ -1,24 +1,41 @@
 // config/api-config.js
 
 const API_CONFIG = {
-    // آدرس پایه سرور محلی شما
+    // آدرس پایه سرور محلی
     BASE_URL: "http://localhost/w4/Project",
 
     ENDPOINTS: {
-        // اضافه شدن پوشه server به ساختار آدرس‌دهی
+        // احراز هویت
+        REGISTER: "/server/api/auth/register/index.php",
+        LOGIN: "/server/api/auth/login/index.php",
+
+        // پنل تولیدکننده
         DASHBOARD_INIT: "/server/api/company/dashboard/init/index.php",
         PRODUCT_CREATE: "/server/api/company/products/create/index.php"
     },
 
-    async sendRequest(endpoint, payload) {
+    // متد دریافت توکن از حافظه مرورگر
+    getToken() {
+        return localStorage.getItem("user_token") || "";
+    },
+
+    // متد ارسال درخواست متمرکز
+    async sendRequest(endpoint, payload = {}) {
         const url = `${this.BASE_URL}${endpoint}`;
+
+        // تزریق خودکار توکن به تمام درخواست‌ها
+        const requestPayload = {
+            token: this.getToken(),
+            ...payload
+        };
+
         try {
             const response = await fetch(url, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify(payload)
+                body: JSON.stringify(requestPayload)
             });
 
             if (!response.ok) {
@@ -42,6 +59,12 @@ const API_CONFIG = {
                             user: { name: "شرکت نمونه (دمو آفلاین)", role: "تولیدکننده" },
                             stats: { total_products: 0, active_warranties: 0, pending_activations: 0 }
                         }
+                    });
+                } else if (endpoint.includes("register") || endpoint.includes("login")) {
+                    resolve({
+                        status: "success",
+                        message: "عملیات احراز هویت با موفقیت انجام شد.",
+                        data: { token: "DEMO_TOKEN_123456" }
                     });
                 } else {
                     resolve({
