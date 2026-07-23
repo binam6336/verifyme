@@ -2,7 +2,7 @@
 
 const API_CONFIG = {
     // آدرس پایه سرور محلی
-    BASE_URL: "http://localhost/w4/Project",
+    BASE_URL: "http://127.0.0.1/w4/Project",
 
     ENDPOINTS: {
         // احراز هویت
