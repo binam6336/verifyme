@@ -29,7 +29,7 @@ async function loadHeaderData() {
     try {
         const response = await API_CONFIG.sendRequest(
             API_CONFIG.ENDPOINTS.DASHBOARD_INIT,
-            { token: "SESSION_TOKEN_123456" }
+            { token: "USER_AUTH_TOKEN_HERE" }
         );
 
         if (response && response.status === "success" && response.data) {
@@ -57,54 +57,71 @@ async function loadHeaderData() {
     }
 }
 
-// مدیریت ثبت محصول جدید (ارسال نام، دسته‌بندی و برند)
 function initFormSubmit() {
     const form = document.getElementById("product-form");
     const submitBtn = document.getElementById("submit-btn");
     const loader = document.getElementById("btn-loader");
 
-    if (form) {
-        form.addEventListener("submit", async (e) => {
-            e.preventDefault();
+    if (!form) return;
 
-            const product_name = document.getElementById("product_name").value.trim();
-            const category = document.getElementById("category").value.trim();
-            const brand = document.getElementById("brand").value.trim();
+    form.addEventListener("submit", async (e) => {
+        e.preventDefault();
 
-            submitBtn.disabled = true;
-            loader.style.display = "block";
+        // دریافت عناصر به صورت ایمن
+        const productNameEl = document.getElementById("product_name");
+        const categoryEl = document.getElementById("category");
+        const brandEl = document.getElementById("brand");
 
-            try {
-                const response = await API_CONFIG.sendRequest(
-                    API_CONFIG.ENDPOINTS.PRODUCT_CREATE,
-                    {
-                        token: "SESSION_TOKEN_123456",
-                        product_name: product_name,
-                        category: category,
-                        brand: brand
-                    }
-                );
+        // اگر هرکدام در HTML نبودند پیغام خطا بده
+        if (!productNameEl || !categoryEl || !brandEl) {
+            showToast("یکی از ورودی‌های فرم در HTML یافت نشد!", "error");
+            console.error("ورودی‌های یافت نشده:", { productNameEl, categoryEl, brandEl });
+            return;
+        }
 
-                if (response.status === "success") {
-                    showToast(response.message || "محصول با موفقیت ثبت شد.", "success");
-                    form.reset();
-                } else {
-                    showToast(response.message || "خطایی رخ داده است.", "error");
+        const product_name = productNameEl.value.trim();
+        const category = categoryEl.value.trim();
+        const brand = brandEl.value.trim();
+
+        if (submitBtn) submitBtn.disabled = true;
+        if (loader) loader.style.display = "block";
+
+        try {
+            const response = await API_CONFIG.sendRequest(
+                API_CONFIG.ENDPOINTS.PRODUCT_CREATE,
+                {
+                    token: "USER_AUTH_TOKEN_HERE",
+                    product_name: product_name,
+                    category: category,
+                    brand: brand
                 }
+            );
 
-            } catch (error) {
-                showToast(error.message || "ارتباط با سرور برقرار نشد.", "error");
-            } finally {
-                submitBtn.disabled = false;
-                loader.style.display = "none";
+            if (response && response.status === "success") {
+                showToast(response.message || "محصول با موفقیت ثبت شد.", "success");
+                form.reset();
+            } else {
+                showToast((response && response.message) || "خطایی رخ داده است.", "error");
             }
-        });
-    }
+
+        } catch (error) {
+            console.error("خطای ارسال:", error);
+            showToast("ارتباط با سرور برقرار نشد.", "error");
+        } finally {
+            if (submitBtn) submitBtn.disabled = false;
+            if (loader) loader.style.display = "none";
+        }
+    });
 }
 
 function showToast(message, type = "success") {
-    const container = document.getElementById("toast-container");
-    if (!container) return;
+    let container = document.getElementById("toast-container");
+    if (!container) {
+        container = document.createElement("div");
+        container.id = "toast-container";
+        container.className = "toast-container";
+        document.body.appendChild(container);
+    }
 
     const toast = document.createElement("div");
     toast.className = `toast ${type}`;
