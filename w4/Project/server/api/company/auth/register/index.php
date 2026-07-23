@@ -10,7 +10,9 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
   "status"=> "error",
   "message"=> "ثبت‌نام با موفقیت انجام شد55S22.",
     "errors" => [
-        "mobile" => "حطا در پردازش"
+        "mobile" => "حطا در پردازش",
+"method" => "متد ارسالی صحیح نیست"
+
     ]
     ];
 
@@ -20,7 +22,8 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
   "status"=> "error",
   "message"=> "خطا در انجام عملیات",
     "errors" => [
-        "method" => "متد ارسالی صحیح نیست"
+        "method" => "متد ارسالی صحیح نیست",
+"token" => "توکن ارسالی صحیح نیست"
     ]
     ];
   }
