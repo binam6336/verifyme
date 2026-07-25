@@ -7,11 +7,8 @@ namespace Src\Services\Cleardata\Mobilevalidator;
 class Mobilevalidator
 {
 
-    public function ClearData(array $data)
+    public function isvalid(string $data)
     {
-        foreach ($data as $key => $value) {
-            $value = $value;
-        }
-        return $data;
+        return true;
     }
 }

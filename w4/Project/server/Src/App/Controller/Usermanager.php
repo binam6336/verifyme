@@ -11,19 +11,17 @@
 // ** DeleteUser
 //
 
-namespace Src\App\Controller\Usermanager;
+namespace Src\App\Controller;
 
 require __DIR__ . '/../../../vendor/autoload.php';
 
-// use App\Model\Usermanager\Usermanager as ModelUsermanager;
+
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Src\Services\Cleardata\Emailvalidator\Emailvalidator;
 use Src\Services\Cleardata\Mobilevalidator\Mobilevalidator;
 use Src\Services\Cleardata\Htmlclear\Htmlclear;
-
-use function PHPUnit\Framework\isEmpty;
-use function PHPUnit\Framework\isNull;
+use Src\App\Model\Usermanager as Modelusermanager;
 
 class Usermanager
 {
@@ -38,7 +36,7 @@ class Usermanager
     {
 
         // Model
-        // $this->model = new ModelUsermanager;
+        $this->model = new Modelusermanager;
 
         // validators
         $this->htmlclear = new Htmlclear;
@@ -69,7 +67,7 @@ class Usermanager
 
         // checking data is not null
         foreach ($data as $key => $value) {
-            if (!isNull($value) || !isEmpty($value) || !isNull($password) || !isEmpty($password)) {
+            if (is_null($value) || empty($value) || is_null($password) || empty($password)) {
                 return [
                     "status" => "error",
                     "message" => "مقادیر ارسال نمیتواند خالی باشد لطفا پارامتر های الزامی را وارد نمایید",
@@ -101,14 +99,28 @@ class Usermanager
         $data['password'] = $password;
 
         // chech other data
-        $data['email'] = $this->emailvalidator->ClearData([$data['email']]);
+        if ($this->emailvalidator->isvalid($data['email']) == false) {
+            return [
+                "status" => "error",
+                "message" => "لطفا یک ایمیل معتبر وارد کنید",
+                "errors" => [
+                    "email" => "email is not valid"
+                ]
+            ];
+        }
+        if ($this->mobilevalidator->isvalid($data['phone']) == false) {
+            return [
+                "status" => "error",
+                "message" => "لطفا یک تلفن معتبر وارد کنید",
+                "errors" => [
+                    "phone" => "mobile is not valid"
+                ]
+            ];
+        }
 
-        $data['phone'] = $this->mobilevalidator->ClearData([$data['phone']]);
-
-        return $data;
 
         // send to Model
-
+        $this->model->NewUser($data);
     }
     public function UpdateUser() {}
     public function ReadUser() {}
@@ -116,4 +128,4 @@ class Usermanager
     public function DeleteUser() {}
 }
 $a = new Usermanager;
-print_r($a->Register("test<a>", "test", "test", "test", "test", "test", "test"));
+print_r($a->Register("test", "test", "test", "test", "test", "test", "test<>"));

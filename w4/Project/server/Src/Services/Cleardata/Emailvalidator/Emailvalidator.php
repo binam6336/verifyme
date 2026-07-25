@@ -7,11 +7,8 @@ namespace Src\Services\Cleardata\Emailvalidator;
 class Emailvalidator
 {
 
-    public function ClearData(array $data)
+    public function isvalid(string $data)
     {
-        foreach ($data as $key => $value) {
-            $value = $value;
-        }
-        return $data;
+        return true;
     }
 }

@@ -11,7 +11,7 @@
 // ** DeleteUser
 //
 
-namespace Src\App\Model\Usermanager;
+namespace Src\App\Model;
 
 require __DIR__ . '/../../../vendor/autoload.php';
 
@@ -26,14 +26,17 @@ class Usermanager
     public function __construct()
     {
         // logger
-        $this->logger  = $log = new Logger('app');
+        $this->logger  = new Logger('app');
 
         $this->logger->pushHandler(
             new StreamHandler(__DIR__ . '/app.log', Logger::DEBUG)
         );
     }
 
-    public function NewUser(array $data) {}
+    public function NewUser(array $data)
+    {
+        return $data;
+    }
     public function UpdateUser() {}
     public function GetUser() {}
     public function GetAllUsers() {}
