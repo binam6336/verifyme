@@ -1,13 +1,13 @@
 <?php
 
-namespace Services\Htmlclear;
+namespace Src\Services\Cleardata\Htmlclear;
 
 use HTMLPurifier;
 use HTMLPurifier_Config;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 
-require __DIR__ . '/../../../vendor/autoload.php';
+require __DIR__ . '/../../../../vendor/autoload.php';
 
 class Htmlclear
 {

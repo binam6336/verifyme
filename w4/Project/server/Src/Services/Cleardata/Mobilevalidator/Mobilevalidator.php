@@ -2,7 +2,7 @@
 
 // mock and demo of Mobilevalidator
 
-namespace Services\Cleardata\Mobilevalidator;
+namespace Src\Services\Cleardata\Mobilevalidator;
 
 class Mobilevalidator
 {

@@ -2,7 +2,7 @@
 
 // mock and demo of Emailvalidator
 
-namespace Services\Cleardata\Emailvalidator;
+namespace Src\Services\Cleardata\Emailvalidator;
 
 class Emailvalidator
 {
