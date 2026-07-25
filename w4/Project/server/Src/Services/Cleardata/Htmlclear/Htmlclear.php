@@ -1,6 +1,6 @@
 <?php
 
-namespace Services\Cleardata;
+namespace Services\Htmlclear;
 
 use HTMLPurifier;
 use HTMLPurifier_Config;
@@ -9,7 +9,7 @@ use Monolog\Logger;
 
 require __DIR__ . '/../../../vendor/autoload.php';
 
-class Cleardata
+class Htmlclear
 {
     private $logger;
     private $purifierconf;
@@ -28,5 +28,25 @@ class Cleardata
         // HTML purifier
         $this->purifierconf = HTMLPurifier_Config::createDefault();
         $this->purifier = new HTMLPurifier($this->purifierconf);
+    }
+
+    public function CleanData(array $data)
+    {
+        foreach ($data as $key => $value) {
+            $clean = $this->purifier->purify($value);
+            if ($clean !== $value) {
+                return [
+                    "isclean" => false,
+                    "message" => "data s not clear",
+                    "field" => $key,
+                    "clean" => $data
+                ];
+            }
+        }
+        return [
+            "isclean" => true,
+            "message" => "is clen data",
+            "clean" => $data
+        ];
     }
 }
