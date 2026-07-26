@@ -120,7 +120,31 @@ class Usermanager
 
 
         // send to Model
-        $this->model->NewUser($data);
+        if ($this->model->NewUser($data)) {
+            return [
+                "status" => "status",
+                "message" => "ثبت‌نام با موفقیت انجام شد.",
+                "data" => [
+                    "token" => "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+                    "user" => [
+                        "id" => 102,
+                        "first_name" => "علی",
+                        "last_name" => "محمدی",
+                        "company_name" => "صوتی تصویری پارس",
+                        "email" => "info@company.com",
+                        "mobile" => "09123456789"
+                    ]
+                ]
+            ];
+        } else {
+            return [
+                "status" => "error",
+                "message" => "خطا در اتصال به دیتابیس",
+                "errors" => [
+                    "DatBase" => "error on DB"
+                ]
+            ];
+        }
     }
     public function UpdateUser() {}
     public function ReadUser() {}
