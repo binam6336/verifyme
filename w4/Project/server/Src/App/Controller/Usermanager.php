@@ -66,8 +66,17 @@ class Usermanager
 
 
         // checking data is not null
+        if (is_null($password) || empty($password)) {
+            return [
+                "status" => "error",
+                "message" => "مقادیر ارسال نمیتواند خالی باشد لطفا پارامتر های الزامی را وارد نمایید",
+                "error" => [
+                    "isnull" => "data is null"
+                ]
+            ];
+        }
         foreach ($data as $key => $value) {
-            if (is_null($value) || empty($value) || is_null($password) || empty($password)) {
+            if (is_null($value) || empty($value)) {
                 return [
                     "status" => "error",
                     "message" => "مقادیر ارسال نمیتواند خالی باشد لطفا پارامتر های الزامی را وارد نمایید",
@@ -123,7 +132,7 @@ class Usermanager
         $send = $this->model->NewUser($data);
         if ($send['status']) {
             return [
-                "status" => "status",
+                "status" => "success",
                 "message" => "ثبت‌نام با موفقیت انجام شد.",
                 "data" => [
                     "token" => $send['token'],
@@ -132,7 +141,7 @@ class Usermanager
                         "last_name" => $data['lastName'],
                         "company_name" => $data['companyname'],
                         "email" => $data['email'],
-                        "mobile" => $data['email']
+                        "mobile" => $data['phone']
                     ]
                 ]
             ];
@@ -152,4 +161,4 @@ class Usermanager
     public function DeleteUser() {}
 }
 $a = new Usermanager;
-print_r($a->Register("test", "test", "test", "test", "test", "test", "test<>"));
+print_r($a->Register("test", "test echo 'testp'; ", "test", "test", "test", "test", "test<>"));

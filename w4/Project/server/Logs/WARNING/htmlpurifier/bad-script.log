@@ -17,3 +17,4 @@
 [2026-07-26T00:12:53.870230+02:00] app.WARNING: not clean data is entered [{"firstName":"test <>","lastName":"test","companyname":"test","email":"test","username":"test","phone":"test"}] []
 [2026-07-26T00:12:54.658553+02:00] app.WARNING: not clean data is entered [{"firstName":"test <>","lastName":"test","companyname":"test","email":"test","username":"test","phone":"test"}] []
 [2026-07-26T00:14:05.433338+02:00] app.WARNING: not clean data is entered [{"firstName":"test","lastName":"test","companyname":"test","email":"test <alert>","username":"test","phone":"test"}] []
+[2026-07-27T00:40:39.483114+02:00] app.WARNING: not clean data is entered [{"firstName":"test","lastName":"test<>","companyname":"test","email":"test","username":"test","phone":"test"}] []
