@@ -1,7 +1,7 @@
 -- create tables
         -- user
             CREATE TABLE user (
-            id int PRIMARY KEY,
+            id int PRIMARY KEY AUTO_INCREMENT ,
             lastName varchar(255),
             firstName varchar(255),
             companyname varchar(255),
@@ -16,7 +16,7 @@
 
         -- ptroduct
             CREATE TABLE product (
-            id int PRIMARY KEY,
+            id int PRIMARY KEY AUTO_INCREMENT ,
             name varchar(255),
             category varchar(255),
             userid varchar(255),
@@ -28,7 +28,7 @@
 
         -- licences
             CREATE TABLE licences (
-            id int PRIMARY KEY,
+            id int PRIMARY KEY AUTO_INCREMENT ,
             licenceshash varchar(255),
             expire varchar(255),
             productid varchar(255)
@@ -39,7 +39,7 @@
 
         -- authorization
             CREATE TABLE authorization (
-            id int PRIMARY KEY,
+            id int PRIMARY KEY AUTO_INCREMENT ,
             token varchar(255),
             expire varchar(255),
             ip varchar(255)

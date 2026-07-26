@@ -58,9 +58,14 @@ class Usermanager
         $stmt->bindParam(":phone", $data['phone']);
         $stmt->bindParam(":password", $data['password']);
 
+        $token = "token";
 
         if ($stmt->execute()) {
-            return true;
+            return [
+                "status" => true,
+                "id" => $this->conn->lastInsertId(),
+                "token" => $token
+            ];
         } else {
             return false;
         }

@@ -15,7 +15,7 @@ use PDO;
 
 class Config
 {
-    private $dbname = "crm";
+    private $dbname = "company";
     private $username = "root";
     private $password = "";
 

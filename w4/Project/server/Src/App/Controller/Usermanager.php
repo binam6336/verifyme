@@ -120,19 +120,19 @@ class Usermanager
 
 
         // send to Model
-        if ($this->model->NewUser($data)) {
+        $send = $this->model->NewUser($data);
+        if ($send['status']) {
             return [
                 "status" => "status",
                 "message" => "ثبت‌نام با موفقیت انجام شد.",
                 "data" => [
-                    "token" => "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+                    "token" => $send['token'],
                     "user" => [
-                        "id" => 102,
-                        "first_name" => "علی",
-                        "last_name" => "محمدی",
-                        "company_name" => "صوتی تصویری پارس",
-                        "email" => "info@company.com",
-                        "mobile" => "09123456789"
+                        "first_name" => $data['firstName'],
+                        "last_name" => $data['lastName'],
+                        "company_name" => $data['companyname'],
+                        "email" => $data['email'],
+                        "mobile" => $data['email']
                     ]
                 ]
             ];
