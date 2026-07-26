@@ -67,7 +67,9 @@ class Usermanager
                 "token" => $token
             ];
         } else {
-            return false;
+            return [
+                "status" => false
+            ];
         }
     }
     public function UpdateUser() {}
