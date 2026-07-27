@@ -1,0 +1,83 @@
+<?php
+
+//
+// @description = این کلاس توکن رو ایجاد میکنه مشخص میکنه برای کدوم کاربره و میفرسته 
+// Make and insert token in DB
+// methods
+// ** SaveToken
+// ** CreateToken
+//
+
+namespace Src\Services\Authorization;
+
+require __DIR__ . '/../../../vendor/autoload.php';
+
+use Monolog\Handler\StreamHandler;
+use Monolog\Logger;
+use Src\Config\Config;
+
+class Authorization
+{
+    private $logger;
+    private $config;
+    private $conn;
+
+    public function __construct()
+    {
+
+        // Config
+        $this->config = new Config;
+        $this->conn = $this->config->getConnection();
+
+        // logger
+        $this->logger  = new Logger('app');
+
+        $this->logger->pushHandler(
+            new StreamHandler(__DIR__ . '/../../../Logs/WARNING/TokenError.log', Logger::WARNING)
+        );
+    }
+
+    public function SaveToken($token, $userid)
+    {
+
+        $expire = time() + 60 * 60 * 24 * 20;
+
+        // if ip was 127.0.0.1 this part will save 127.0 and match with currect user ip
+        $userip = $_SERVER['REMOTE_ADDR'];
+        $parts = explode(".", $userip);
+        $ip = $parts[0] . "." .  $parts[1];
+
+        $sql = " INSERT INTO authorization ( token , expire , ip , userid )
+            VALUES (:token , :expire, :ip , :userid)";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(":token", $token);
+        $stmt->bindParam(":expire", $expire);
+        $stmt->bindParam(":ip", $ip);
+        $stmt->bindParam(":userid", $userid);
+
+        if ($stmt->execute()) {
+            return true;
+        } else return false;
+    }
+    public function CreateToken($id)
+    {
+        $token = bin2hex(random_bytes(70));
+
+        $save = $this->SaveToken($token, $id);
+        if ($save == true) {
+            return [
+                "status" => true,
+                "token" => $token
+            ];
+        } else {
+            $this->logger->warning("Error for insert token in database");
+            return [
+                "status" => false
+            ];
+        }
+    }
+}
+
+$a = new Authorization;
+print_r($b = $a->CreateToken(12));

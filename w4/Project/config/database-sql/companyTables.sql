@@ -42,8 +42,9 @@
             id int PRIMARY KEY AUTO_INCREMENT ,
             token varchar(255),
             expire varchar(255),
-            ip varchar(255)
+            ip varchar(255),
+            userid varchar(255)
             );  
             -- authorization test
-            INSERT INTO authorization ( token , expire , ip )
-            VALUES ('test' , 'test', 'test');
+            INSERT INTO authorization ( token , expire , ip , userid)
+            VALUES ('test' , 'test', 'test' , 1);
