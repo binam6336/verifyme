@@ -1,143 +1,129 @@
-// products/new/app.js
+/* ============================================
+   منطق صفحه ثبت محصول جدید
+   ============================================ */
 
 document.addEventListener("DOMContentLoaded", () => {
-    initSubmenu();
-    initFormSubmit();
 
-    if (typeof API_CONFIG !== 'undefined') {
-        loadHeaderData();
+    // ---- ارجاعات DOM ----
+    const productForm = document.getElementById("product-form");
+    const submitBtn = document.getElementById("submit-btn");
+    const toastContainer = document.getElementById("toast-container");
+    const avatarImg = document.getElementById("user-avatar-img");
+
+    // ارجاعات منو
+    const productMenuBtn = document.getElementById("product-menu-btn");
+    const productSubmenu = document.getElementById("product-submenu");
+    const sidebar = document.getElementById("sidebar");
+    const mobileMenuBtn = document.getElementById("mobile-menu-btn");
+
+
+    // ---- منطق زیرمنوی محصولات ----
+    if (productMenuBtn && productSubmenu) {
+        productMenuBtn.addEventListener("click", () => {
+            productMenuBtn.classList.toggle("open");
+            productSubmenu.classList.toggle("open");
+        });
     }
-});
 
-function initSubmenu() {
-    const btn = document.getElementById("product-menu-btn");
-    const submenu = document.getElementById("product-submenu");
 
-    if (btn && submenu) {
-        btn.addEventListener("click", (e) => {
-            e.preventDefault();
-            submenu.classList.toggle("show");
-            const arrow = btn.querySelector(".arrow");
-            if (arrow) {
-                arrow.textContent = submenu.classList.contains("show") ? "▲" : "▼";
+    // ---- منطق منوی موبایل ----
+    if (mobileMenuBtn && sidebar) {
+        mobileMenuBtn.addEventListener("click", () => {
+            sidebar.classList.toggle("mobile-open");
+        });
+
+        // بستن سایدبار با کلیک خارج از آن
+        document.addEventListener("click", (e) => {
+            if (!sidebar.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+                sidebar.classList.remove("mobile-open");
             }
         });
     }
-}
 
-async function loadHeaderData() {
-    try {
-        const response = await API_CONFIG.sendRequest(
-            API_CONFIG.ENDPOINTS.DASHBOARD_INIT,
-            { token: "USER_AUTH_TOKEN_HERE" }
-        );
 
-        if (response && response.status === "success" && response.data) {
-            const data = response.data;
-            if (document.getElementById("user-role")) document.getElementById("user-role").textContent = data.user.role;
-
-            const avatarImg = document.getElementById("user-avatar-img");
-            const avatarContainer = document.getElementById("avatar-container");
-
-            if (avatarImg && avatarContainer) {
-                if (data.user && data.user.avatar && data.user.avatar.trim() !== "") {
-                    avatarContainer.textContent = "";
-                    avatarContainer.appendChild(avatarImg);
-                    avatarImg.src = data.user.avatar;
-                    avatarImg.style.display = "block";
-                } else {
-                    avatarImg.style.display = "none";
-                    avatarContainer.textContent = data.user.name ? data.user.name.charAt(0) : "G";
-                    avatarContainer.style.color = "#fff";
-                }
-            }
-        }
-    } catch (error) {
-        console.error("خطا در بارگذاری اطلاعات هدر:", error);
+    // ---- آواتار کاربر ----
+    const savedAvatar = localStorage.getItem("user_avatar");
+    if (savedAvatar && avatarImg) {
+        avatarImg.src = savedAvatar;
+        avatarImg.style.display = "block";
+        avatarImg.onerror = () => {
+            avatarImg.style.display = "none";
+        };
     }
-}
 
-function initFormSubmit() {
-    const form = document.getElementById("product-form");
-    const submitBtn = document.getElementById("submit-btn");
-    const loader = document.getElementById("btn-loader");
 
-    if (!form) return;
+    // ---- نمایش تاست ----
+    function showToast(message, type = "success") {
+        const toast = document.createElement("div");
+        toast.className = `toast ${type}`;
+        toast.textContent = message;
+        toastContainer.appendChild(toast);
 
-    form.addEventListener("submit", async (e) => {
+        setTimeout(() => {
+            toast.classList.add("removing");
+            toast.addEventListener("animationend", () => toast.remove());
+        }, 4000);
+    }
+
+
+    // ---- تغییر وضعیت دکمه (لودینگ / عادی) ----
+    function toggleLoading(isLoading) {
+        if (isLoading) {
+            submitBtn.classList.add("loading");
+            submitBtn.disabled = true;
+        } else {
+            submitBtn.classList.remove("loading");
+            submitBtn.disabled = false;
+        }
+    }
+
+
+    // ---- سابمیت فرم ----
+    productForm.addEventListener("submit", async (e) => {
         e.preventDefault();
 
-        // دریافت عناصر به صورت ایمن
-        const productNameEl = document.getElementById("product_name");
-        const categoryEl = document.getElementById("category");
-        const brandEl = document.getElementById("brand");
+        // فقط داده‌های فرم — توکن توسط api-config در هدر Authorization قرار می‌گیرد
+        const payload = {
+            product_name: document.getElementById("product_name").value.trim(),
+            category: document.getElementById("category").value.trim(),
+            brand: document.getElementById("brand").value.trim()
+        };
 
-        // اگر هرکدام در HTML نبودند پیغام خطا بده
-        if (!productNameEl || !categoryEl || !brandEl) {
-            showToast("یکی از ورودی‌های فرم در HTML یافت نشد!", "error");
-            console.error("ورودی‌های یافت نشده:", { productNameEl, categoryEl, brandEl });
+        // اعتبارسنجی ساده فرانت
+        if (!payload.product_name || !payload.category || !payload.brand) {
+            showToast("لطفاً تمام فیلدها را پر کنید.", "error");
             return;
         }
 
-        const product_name = productNameEl.value.trim();
-        const category = categoryEl.value.trim();
-        const brand = brandEl.value.trim();
-
-        if (submitBtn) submitBtn.disabled = true;
-        if (loader) loader.style.display = "block";
+        toggleLoading(true);
 
         try {
-            const response = await API_CONFIG.sendRequest(
-                API_CONFIG.ENDPOINTS.PRODUCT_CREATE,
-                {
-                    token: "USER_AUTH_TOKEN_HERE",
-                    product_name: product_name,
-                    category: category,
-                    brand: brand
-                }
-            );
+            const response = await API_CONFIG.sendRequest("products/create/", payload);
 
-            if (response && response.status === "success") {
-                showToast(response.message || "محصول با موفقیت ثبت شد.", "success");
-                form.reset();
+            if (response.status === "success") {
+
+                // استفاده از داده‌های بازگشتی برای بازخورد غنی‌تر
+                const productId = response.data?.product_id;
+                const successMsg = productId
+                    ? `محصول با موفقیت ثبت شد (کد: ${productId}).`
+                    : (response.message || "محصول با موفقیت ثبت شد.");
+
+                showToast(successMsg, "success");
+
+                // پاک کردن فرم بعد از موفقیت
+                productForm.reset();
+
             } else {
-                showToast((response && response.message) || "خطایی رخ داده است.", "error");
+                // نمایش دقیق پیام خطای ارسالی از بک‌اند
+                showToast(response.message || "خطایی در ثبت محصول رخ داد.", "error");
             }
 
         } catch (error) {
-            console.error("خطای ارسال:", error);
-            showToast("ارتباط با سرور برقرار نشد.", "error");
+            console.error("خطا در ارسال فرم:", error);
+            showToast("اتصال برقرار نشد. لطفاً دوباره تلاش کنید.", "warning");
         } finally {
-            if (submitBtn) submitBtn.disabled = false;
-            if (loader) loader.style.display = "none";
+            toggleLoading(false);
         }
     });
-}
 
-function showToast(message, type = "success") {
-    let container = document.getElementById("toast-container");
-    if (!container) {
-        container = document.createElement("div");
-        container.id = "toast-container";
-        container.className = "toast-container";
-        document.body.appendChild(container);
-    }
-
-    const toast = document.createElement("div");
-    toast.className = `toast ${type}`;
-    const emoji = type === "success" ? "✅" : "❌";
-
-    toast.innerHTML = `
-        <span>${emoji}</span>
-        <div class="toast-content">${message}</div>
-    `;
-
-    container.appendChild(toast);
-
-    setTimeout(() => {
-        toast.classList.add("hide");
-        toast.addEventListener("animationend", () => {
-            toast.remove();
-        });
-    }, 4000);
-}
+});

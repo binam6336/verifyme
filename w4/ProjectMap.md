@@ -1,23 +1,23 @@
 company-panel/
 │
 ├── config/
-│   └── api-config.js      <-- 🚀 آپدیت شد (اصلاح مسیر اندپوینت‌ها به پوشه server)
+│   └── api-config.js     
 │
 ├── dashboard/
-│   ├── index.html         <-- (بدون تغییر)
-│   └── app.js             <-- (بدون تغییر)
+│   ├── index.html         
+│   └── app.js            
 │
 |
-|├── auth/                  <-- 📁 پوشه احراز هویت
-│   └── register/          <-- 📁 صفحه ثبت‌نام
-│       ├── index.html     <-- فرم ثبت‌نام شیشه‌ای
-│       ├── style.css      <-- استایل اختصاصی صفحه احراز هویت
+|├── auth/                 
+│   └── register/          
+│       ├── index.html    
+│       ├── style.css     
 │       └── app.js
 |
 ├── products/
 │   └── new/
-│       ├── index.html     <-- (بدون تغییر)
-│       └── app.js         <-- (بدون تغییر)
+│       ├── index.html     
+│       └── app.js         
 │
 └── server/                <-- 📁 پوشه جدید بک‌اِند
     └── api/

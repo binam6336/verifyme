@@ -1,4 +1,3 @@
-<!-- dashboard/index.html -->
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 
@@ -6,15 +5,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>پنل مدیریتی تولیدکننده - سامانه گارانتی هوشمند</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100;200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="../assets/css/global.css">
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
+    <!-- لودینگ اولیه صفحه -->
+    <div class="page-loader" id="page-loader">
+        <div class="loader-spinner"></div>
+        <p>در حال بارگذاری...</p>
+    </div>
+
     <div class="panel-layout">
 
-        <aside class="sidebar">
+        <aside class="sidebar" id="sidebar">
             <div class="brand">
                 <div class="logo-icon">G</div>
                 <h2>گارانتی هوشمند</h2>
@@ -22,21 +30,27 @@
 
             <nav class="menu">
                 <a href="../dashboard" class="menu-item active">
-                    <span class="icon"><img src="../assets/img/icon/dashboard.png" alt="داشبورد" width="60%"></span>
+                    <span class="icon"><img src="../assets/img/icon/dashboard.png" alt="داشبورد"></span>
                     داشبورد
                 </a>
 
                 <div class="menu-group">
                     <button class="menu-item has-submenu" id="product-menu-btn">
-                        <span><span class="icon"><img src="../assets/img/icon/products2.png" alt=""></span> مدیریت
-                            محصولات</span>
+                        <span>
+                            <span class="icon"><img src="../assets/img/icon/products2.png" alt="محصولات"></span>
+                            مدیریت محصولات
+                        </span>
                         <span class="arrow">▼</span>
                     </button>
                     <div class="submenu" id="product-submenu">
-                        <a href="../products/new" class="submenu-item"><span><img class="icon"
-                                    src="../assets/img/icon/add.png" alt="add"></span> ثبت محصول جدید</a>
-                        <a href="../products/list" class="submenu-item"><span><img class="icon"
-                                    src="../assets/img/icon/list.png" alt=""></span> لیست محصولات</a>
+                        <a href="../products/new" class="submenu-item">
+                            <span class="icon"><img src="../assets/img/icon/add.png" alt="افزودن"></span>
+                            ثبت محصول جدید
+                        </a>
+                        <a href="../products/list" class="submenu-item">
+                            <span class="icon"><img src="../assets/img/icon/list.png" alt="لیست"></span>
+                            لیست محصولات
+                        </a>
                     </div>
                 </div>
             </nav>
@@ -45,45 +59,51 @@
         <main class="main-content">
 
             <header class="top-bar">
-                <div class="welcome-section">
-                    <h3>بررسی وضعیت جاری</h3>
-                    <p style="color: var(--text-muted); font-size: 0.85rem;">خوش آمدید، <span
-                            id="user-display-name">...</span></p>
+                <div class="flex items-center">
+                    <button class="mobile-menu-toggle" id="mobile-menu-btn">
+                        <span></span>
+                    </button>
+                    <div class="welcome-section">
+                        <h3>بررسی وضعیت جاری</h3>
+                        <p style="color: var(--text-muted); font-size: 0.85rem;">خوش آمدید، <span
+                                id="user-display-name">...</span></p>
+                    </div>
                 </div>
                 <div class="user-profile">
-                    <!-- کادر آواتار با آیدی اختصاصی جهت کنترل کامل فرانت -->
+                    <span id="user-role">تولیدکننده</span>
                     <div class="user-avatar" id="avatar-container">
                         <img id="user-avatar-img" src="" alt="User Avatar"
                             style="display: none; width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">
+                        <span id="avatar-initials" style="display: none;"></span>
                     </div>
-                    <span id="user-role">تولیدکننده</span>
                 </div>
             </header>
 
             <section class="content-body">
                 <div class="stats-container">
 
-                    <div class="stat-card">
+                    <div class="stat-card animate-in animate-in-delay-1">
                         <div class="card-header">
-                            <span class="icon-lg"><img src="../assets/img/icon/products.png" alt=""></span>
+                            <span class="icon-lg"><img src="../assets/img/icon/products.png" alt="محصولات"></span>
                             <h3>کل محصولات</h3>
                         </div>
                         <p class="card-value" id="stat-total">-</p>
                         <div class="card-glow"></div>
                     </div>
 
-                    <div class="stat-card accent">
+                    <div class="stat-card accent animate-in animate-in-delay-2">
                         <div class="card-header">
-                            <span class="icon-lg"><img src="../assets/img/icon/warranty.png" alt="" width="85%"></span>
+                            <span class="icon-lg"><img src="../assets/img/icon/warranty.png" alt="گارانتی"
+                                    width="85%"></span>
                             <h3>گارانتی‌های فعال</h3>
                         </div>
                         <p class="card-value" id="stat-active">-</p>
                         <div class="card-glow"></div>
                     </div>
 
-                    <div class="stat-card">
+                    <div class="stat-card animate-in animate-in-delay-3">
                         <div class="card-header">
-                            <span class="icon-lg"><img src="../assets/img/icon/pending.png" alt=""></span>
+                            <span class="icon-lg"><img src="../assets/img/icon/pending.png" alt="در انتظار"></span>
                             <h3>در انتظار</h3>
                         </div>
                         <p class="card-value" id="stat-pending">-</p>
@@ -95,6 +115,9 @@
         </main>
 
     </div>
+
+    <!-- کانتینر تاست -->
+    <div class="toast-container" id="toast-container"></div>
 
     <script src="../config/api-config.js"></script>
     <script src="app.js"></script>

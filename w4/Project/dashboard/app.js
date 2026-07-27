@@ -1,86 +1,192 @@
-// dashboard/app.js
+/* ============================================
+   منطق صفحه داشبورد
+   ============================================ */
 
 document.addEventListener("DOMContentLoaded", () => {
-    console.log("صفحه لود شد. درحال راه‌اندازی منو...");
-    initSubmenu();
 
-    try {
-        loadDashboardData();
-    } catch (e) {
-        console.warn("خطا در لود دیتای بک‌اند:", e);
+    // ---- ارجاعات DOM ----
+    const pageLoader = document.getElementById("page-loader");
+    const userNameEl = document.getElementById("user-display-name");
+    const userRoleEl = document.getElementById("user-role");
+    const avatarImg = document.getElementById("user-avatar-img");
+    const avatarInitials = document.getElementById("avatar-initials");
+    const productMenuBtn = document.getElementById("product-menu-btn");
+    const productSubmenu = document.getElementById("product-submenu");
+    const sidebar = document.getElementById("sidebar");
+    const mobileMenuBtn = document.getElementById("mobile-menu-btn");
+    const toastContainer = document.getElementById("toast-container");
+    const statTotal = document.getElementById("stat-total");
+    const statActive = document.getElementById("stat-active");
+    const statPending = document.getElementById("stat-pending");
+
+
+    // ---- زیرمنوی محصولات ----
+    if (productMenuBtn && productSubmenu) {
+        productMenuBtn.addEventListener("click", () => {
+            productMenuBtn.classList.toggle("open");
+            productSubmenu.classList.toggle("open");
+        });
     }
-});
 
-function initSubmenu() {
-    const btn = document.getElementById("product-menu-btn");
-    const submenu = document.getElementById("product-submenu");
 
-    if (btn && submenu) {
-        btn.addEventListener("click", function (event) {
-            event.preventDefault();
-            submenu.classList.toggle("show");
+    // ---- منوی موبایل ----
+    if (mobileMenuBtn && sidebar) {
+        mobileMenuBtn.addEventListener("click", () => {
+            sidebar.classList.toggle("mobile-open");
+        });
 
-            const arrow = btn.querySelector(".arrow");
-            if (arrow) {
-                arrow.textContent = submenu.classList.contains("show") ? "▲" : "▼";
+        document.addEventListener("click", (e) => {
+            if (!sidebar.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+                sidebar.classList.remove("mobile-open");
             }
         });
     }
-}
 
-async function loadDashboardData() {
-    if (typeof API_CONFIG === 'undefined') {
-        console.warn("فایل api-config.js لود نشده است. استفاده از دیتای آفلاین.");
-        renderDashboard({
-            user: { name: "تولیدکننده نمونه (آفلاین)", role: "مدیر شرکت", avatar: "" },
-            stats: { total_products: 500, active_warranties: 150, pending_activations: 350 }
-        });
-        return;
+
+    // ---- تبدیل رقم انگلیسی به فارسی ----
+    function toPersianDigits(num) {
+        const persianDigits = ["۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"];
+        return String(num).replace(/\d/g, (d) => persianDigits[parseInt(d)]);
     }
 
-    const response = await API_CONFIG.sendRequest(
-        API_CONFIG.ENDPOINTS.DASHBOARD_INIT,
-        { token: API_CONFIG.getToken() }
-    );
 
-    if (response && response.status === "success" && response.data) {
-        renderDashboard(response.data);
+    // ---- انیمیشن شمارش عدد ----
+    function animateNumber(element, target, duration = 1100) {
+        if (typeof target !== "number" || target < 0) {
+            element.textContent = "۰";
+            return;
+        }
+
+        const startTime = performance.now();
+
+        function update(currentTime) {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            const current = Math.round(target * eased);
+
+            element.textContent = toPersianDigits(current);
+
+            if (progress < 1) {
+                requestAnimationFrame(update);
+            }
+        }
+
+        requestAnimationFrame(update);
     }
-}
 
-function renderDashboard(data) {
-    if (document.getElementById("user-display-name")) document.getElementById("user-display-name").textContent = data.user.name;
-    if (document.getElementById("user-role")) document.getElementById("user-role").textContent = data.user.role;
 
-    // مدیریت و رندر هوشمند آواتار از API
-    const avatarImg = document.getElementById("user-avatar-img");
-    const avatarContainer = document.getElementById("avatar-container");
+    // ---- استخراج حروف اول نام ----
+    function extractInitials(name) {
+        if (!name || !name.trim()) return "؟";
+        const parts = name.trim().split(/\s+/);
+        if (parts.length >= 2) {
+            return parts[0][0] + parts[1][0];
+        }
+        return parts[0].substring(0, 2);
+    }
 
-    if (avatarImg && avatarContainer) {
-        if (data.user && data.user.avatar && data.user.avatar.trim() !== "") {
-            // اگر آدرس معتبر بود متن را پاک کرده و تصویر را فعال میکنیم
-            avatarContainer.textContent = "";
-            avatarContainer.appendChild(avatarImg);
-            avatarImg.src = data.user.avatar;
+
+    // ---- تنظیم آواتار ----
+    function setupAvatar(user) {
+        if (user.avatar && user.avatar.trim() !== "") {
+            avatarImg.src = user.avatar;
             avatarImg.style.display = "block";
+            avatarInitials.style.display = "none";
+
+            // اگر عکس لود نشد → فال‌بک به حروف اول نام
+            avatarImg.onerror = () => {
+                avatarImg.style.display = "none";
+                avatarInitials.textContent = extractInitials(user.name);
+                avatarInitials.style.display = "block";
+            };
         } else {
-            // اگر عکسی از سمت سرور نیامد، حرف اول نام شرکت رندر می‌شود
+            // بدون آواتار → حروف اول نام
             avatarImg.style.display = "none";
-            avatarContainer.textContent = data.user.name ? data.user.name.charAt(0) : "G";
-            avatarContainer.style.color = "#fff";
+            avatarInitials.textContent = extractInitials(user.name);
+            avatarInitials.style.display = "block";
         }
     }
 
-    // رندر اعداد آمار با فرمت یونیکد فارسی
-    if (data.stats) {
-        if (document.getElementById("stat-total") && data.stats.total_products !== undefined) {
-            document.getElementById("stat-total").textContent = data.stats.total_products.toLocaleString('fa-IR');
-        }
-        if (document.getElementById("stat-active") && data.stats.active_warranties !== undefined) {
-            document.getElementById("stat-active").textContent = data.stats.active_warranties.toLocaleString('fa-IR');
-        }
-        if (document.getElementById("stat-pending") && data.stats.pending_activations !== undefined) {
-            document.getElementById("stat-pending").textContent = data.stats.pending_activations.toLocaleString('fa-IR');
+
+    // ---- نمایش تاست ----
+    function showToast(message, type = "success") {
+        const toast = document.createElement("div");
+        toast.className = `toast ${type}`;
+        toast.textContent = message;
+        toastContainer.appendChild(toast);
+
+        setTimeout(() => {
+            toast.classList.add("removing");
+            toast.addEventListener("animationend", () => toast.remove());
+        }, 3500);
+    }
+
+
+    // ---- مخفی کردن لودر ----
+    function hideLoader() {
+        if (pageLoader) {
+            pageLoader.classList.add("hidden");
+            setTimeout(() => pageLoader.remove(), 600);
         }
     }
-}
+
+
+    // ---- داده‌های جایگزین آفلاین ----
+    function setFallbackData() {
+        userNameEl.textContent = "شرکت نمونه (دمو)";
+        avatarImg.style.display = "none";
+        avatarInitials.textContent = extractInitials("شرکت نمونه");
+        avatarInitials.style.display = "block";
+
+        setTimeout(() => {
+            animateNumber(statTotal, 0, 800);
+            animateNumber(statActive, 0, 800);
+            animateNumber(statPending, 0, 800);
+        }, 200);
+    }
+
+
+    // ---- بارگذاری اصلی داشبورد ----
+    async function loadDashboard() {
+        try {
+            const response = await API_CONFIG.sendRequest("dashboard/init/");
+
+            if (response.status === "success" && response.data) {
+                const { user, stats } = response.data;
+
+                // اطلاعات کاربر
+                if (user) {
+                    userNameEl.textContent = user.name || "نامشخص";
+                    if (user.role) userRoleEl.textContent = user.role;
+                    setupAvatar(user);
+                }
+
+                // آمار با انیمیشن شمارش
+                if (stats) {
+                    setTimeout(() => {
+                        animateNumber(statTotal, stats.total_products, 1200);
+                        animateNumber(statActive, stats.active_warranties, 1400);
+                        animateNumber(statPending, stats.pending_activations, 1000);
+                    }, 200);
+                }
+
+            } else {
+                showToast(response.message || "خطا در دریافت اطلاعات", "error");
+                setFallbackData();
+            }
+
+        } catch (error) {
+            console.error("خطا در بارگذاری داشبورد:", error);
+            showToast("اتصال برقرار نشد — حالت آفلاین", "warning");
+            setFallbackData();
+        } finally {
+            hideLoader();
+        }
+    }
+
+
+    // ---- شروع ----
+    loadDashboard();
+
+});

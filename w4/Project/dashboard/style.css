@@ -1,329 +1,204 @@
-/* dashboard/style.css */
+/* ============================================
+   استایل اختصاصی صفحه داشبورد
+   ============================================ */
 
-.panel-layout {
-    display: flex;
-    min-height: 100vh;
-    padding: 20px;
-    /* یک فاصله از حاشیه مرورگر */
-    gap: 20px;
-}
 
-/* استایل سایدبار شیشه‌ای */
-.sidebar {
-    width: 280px;
-    background: var(--panel-glass);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid var(--border-glass);
-    border-radius: 20px;
-    padding: 30px 20px;
-    display: flex;
-    flex-direction: column;
-}
-
-.brand {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding-bottom: 25px;
-    border-bottom: 1px solid var(--border-glass);
-    margin-bottom: 25px;
-}
-
-.logo-icon {
-    width: 40px;
-    height: 40px;
-    background-color: var(--primary-red-dark);
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #fff;
-    font-weight: bold;
-    font-size: 1.5rem;
-}
-
-.brand h2 {
-    color: var(--text-primary);
-    font-size: 1.2rem;
-}
-
-.menu {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.menu-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 14px 18px;
-    color: var(--text-muted);
-    text-decoration: none;
-    border-radius: 12px;
-    font-weight: 500;
-    background: none;
-    border: 1px solid transparent;
-    width: 100%;
-    cursor: pointer;
-    text-align: right;
-    transition: all 0.3s ease;
-}
-
-.menu-item .icon {
-    margin-left: 10px;
-}
-
-.menu-item:hover {
-    color: var(--text-primary);
-    background-color: rgba(255, 255, 255, 0.03);
-    border-color: var(--border-glass);
-}
-
-.menu-item.active {
-    background-color: var(--primary-red-dark);
-    color: #fff;
-    box-shadow: var(--glow-effect);
-}
-
-/* زیرمنوها */
-.submenu {
-    display: none;
-    /* پیش‌فرض کاملاً مخفی */
-    flex-direction: column;
-    gap: 6px;
-    padding-right: 30px;
-    margin-top: 6px;
-}
-
-.submenu.show {
-    display: flex !important;
-
-}
-
-.submenu-item {
-    padding: 10px;
-    color: var(--text-muted);
-    text-decoration: none;
-    font-size: 0.9rem;
-    border-radius: 8px;
-    transition: color 0.2s;
-}
-
-.submenu-item:hover {
-    color: var(--primary-red-hover);
-}
-
-/* بخش محتوا */
-.main-content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-/* هدر بالا شیشه‌ای */
-.top-bar {
-    height: 80px;
-    background: var(--panel-glass);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid var(--border-glass);
-    border-radius: 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 30px;
-}
-
-.user-profile {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    background: rgba(0, 0, 0, 0.2);
-    padding: 6px 14px 6px 8px;
-    /* اصلاح پدینگ برای تعادل بیشتر با آواتار */
-    border-radius: 50px;
-    border: 1px solid var(--border-glass);
-}
-
-.user-avatar {
-    width: 35px;
-    height: 35px;
-    background-color: var(--primary-red-hover);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    flex-shrink: 0;
-    font-weight: bold;
-    font-size: 1.1rem;
-}
-
-.user-avatar img {
-    width: 100% !important;
-    height: 100% !important;
-    object-fit: cover !important;
-    border-radius: 50%;
-}
-
-/* کارت‌های خلاقانه */
-.content-body {
-    flex: 1;
-}
-
+/* ---------- کانتینر آمار ---------- */
 .stats-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 25px;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 24px;
+    max-width: 1100px;
 }
 
+
+/* ---------- کارت آمار ---------- */
 .stat-card {
-    background: var(--panel-glass);
-    backdrop-filter: blur(5px);
-    padding: 30px;
-    border-radius: 20px;
-    border: 1px solid var(--border-glass);
     position: relative;
+    padding: 30px 28px 28px;
+    border-radius: var(--radius-lg);
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    border: 1px solid var(--glass-border);
     overflow: hidden;
-    transition: transform 0.3s ease, border-color 0.3s ease;
+    transition: all 0.45s var(--ease-out-expo);
+    cursor: default;
+}
+
+/* خط قرمز پایین کارت — نمایش در هاور */
+.stat-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 10%;
+    right: 10%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    opacity: 0;
+    transition: opacity 0.45s ease;
 }
 
 .stat-card:hover {
-    transform: translateY(-5px);
-    border-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-6px);
+    background: var(--glass-bg-hover);
+    border-color: rgba(230, 57, 70, 0.18);
+    box-shadow:
+        0 12px 40px rgba(0, 0, 0, 0.35),
+        0 0 60px var(--accent-glow-soft);
 }
 
+.stat-card:hover::after {
+    opacity: 0.7;
+}
+
+
+/* ---------- حالت اکسنت (کارت وسط) ---------- */
 .stat-card.accent {
-    border-color: var(--primary-red-dark);
+    border-color: rgba(230, 57, 70, 0.15);
+    background: linear-gradient(135deg,
+            rgba(230, 57, 70, 0.06) 0%,
+            var(--glass-bg) 50%,
+            rgba(230, 57, 70, 0.04) 100%);
+}
+
+.stat-card.accent::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: 20%;
+    right: 20%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    opacity: 0.5;
+    border-radius: 2px;
 }
 
 .stat-card.accent:hover {
-    border-color: var(--primary-red-hover);
-    box-shadow: var(--glow-effect);
+    border-color: rgba(230, 57, 70, 0.3);
+    box-shadow:
+        0 12px 40px rgba(0, 0, 0, 0.35),
+        0 0 80px rgba(230, 57, 70, 0.15);
 }
 
+
+/* ---------- هدر کارت ---------- */
 .card-header {
     display: flex;
     align-items: center;
-    gap: 15px;
-    margin-bottom: 20px;
-    position: relative;
-    z-index: 2;
+    gap: 14px;
+    margin-bottom: 18px;
+}
+
+.card-header h3 {
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: var(--text-secondary);
 }
 
 .icon-lg {
-    font-size: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+    border-radius: var(--radius-sm);
+    background: rgba(255, 255, 255, 0.04);
+    transition: all var(--transition-normal);
 }
 
-.stat-card h3 {
-    font-size: 1rem;
-    color: var(--text-muted);
+.icon-lg img {
+    opacity: 0.55;
+    transition: opacity var(--transition-normal);
 }
 
+.stat-card:hover .icon-lg {
+    background: rgba(230, 57, 70, 0.1);
+}
+
+.stat-card:hover .icon-lg img {
+    opacity: 0.9;
+}
+
+.stat-card.accent .icon-lg {
+    background: rgba(230, 57, 70, 0.1);
+}
+
+.stat-card.accent .icon-lg img {
+    opacity: 0.75;
+}
+
+
+/* ---------- مقدار عددی ---------- */
 .card-value {
-    font-size: 2.8rem;
-    font-weight: bold;
+    font-size: 2.6rem;
+    font-weight: 900;
     color: var(--text-primary);
-    position: relative;
-    z-index: 2;
+    line-height: 1;
     letter-spacing: -1px;
+    padding-right: 4px;
+    transition: color var(--transition-normal);
 }
 
-/* افکت درخشش پس‌زمینه کارت */
+.stat-card.accent .card-value {
+    background: linear-gradient(135deg, #fff, var(--accent-light));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.stat-card:hover .card-value {
+    transform: scale(1.02);
+}
+
+
+/* ---------- درخشش پس‌زمینه کارت ---------- */
 .card-glow {
     position: absolute;
-    bottom: -50px;
-    left: -50px;
-    width: 150px;
-    height: 150px;
-    background: radial-gradient(circle, rgba(129, 19, 49, 0.2) 0%, transparent 70%);
-    border-radius: 50%;
-    z-index: 1;
+    top: -40%;
+    left: -40%;
+    width: 120%;
+    height: 120%;
+    background: radial-gradient(circle at 30% 30%,
+            rgba(230, 57, 70, 0.06) 0%,
+            transparent 60%);
+    opacity: 0;
+    transition: opacity 0.7s ease;
+    pointer-events: none;
 }
 
-/* ==========================================================================
-   بخش اصلاحی مربوط به آیکون‌های تصویری منو (رفع به هم ریختگی نسخه ۲.۲)
-   ========================================================================== */
-
-/* ۱. تراز کردن کل ردیف منو به صورت افقی و عمودی */
-.menu-item {
-    display: flex;
-    justify-content: flex-start;
-    /* ترازبندی از راست برای حل مشکل چپ‌چین شدن */
-    align-items: center;
-    gap: 12px;
-    /* ایجاد فاصله استاندارد بین آیکون و متن */
-    padding: 14px 18px;
-    color: var(--text-muted);
-    text-decoration: none;
-    border-radius: 12px;
-    font-weight: 500;
-    background: none;
-    border: 1px solid transparent;
-    width: 100%;
-    cursor: pointer;
-    text-align: right;
-    transition: all 0.3s ease;
+.stat-card:hover .card-glow {
+    opacity: 1;
 }
 
-/* برای دکمه‌هایی که زیرمنو دارند (مثل مدیریت محصولات) که فلش در چپ‌ترین حالت بماند */
-.menu-item.has-submenu {
-    justify-content: space-between;
+.stat-card.accent .card-glow {
+    opacity: 0.5;
 }
 
-/* ۲. استانداردسازی ظرف نگهدارنده آیکون */
-.menu-item .icon {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 24px;
-    /* عرض ثابت برای تراز ایستادن متن‌ها زیر هم */
-    height: 24px;
-    /* ارتفاع ثابت */
-    flex-shrink: 0;
-    /* جلوگیری از تغییر شکل آیکون در صفحات کوچک */
+.stat-card.accent:hover .card-glow {
+    opacity: 1;
 }
 
-/* ۳. کنترل اندازه و موقعیت دقیق عکس آیکون‌ها */
-.menu-item .icon img {
-    width: 100% !important;
-    /* لغو مقادیر درصدی نامنظم در HTML */
-    height: 100% !important;
-    object-fit: contain;
-    /* حفظ تناسب تصویر */
-    vertical-align: middle;
+
+/* ---------- ریسپانسیو ---------- */
+@media (max-width: 768px) {
+    .stats-container {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .card-value {
+        font-size: 2.2rem;
+    }
+
+    .stat-card {
+        padding: 24px 22px;
+    }
 }
 
-/* ۴. اصلاح استایل آیتم‌های داخل زیرمنو (مثل افزودن محصول جدید) */
-.submenu-item {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    /* فاصله بین آیکون کوچک و متن */
-    padding: 10px;
-    color: var(--text-muted);
-    text-decoration: none;
-    font-size: 0.9rem;
-    border-radius: 8px;
-    transition: color 0.2s;
-}
-
-/* استانداردسازی تگ span داخل زیرمنو که عکس را نگه داشته */
-.submenu-item span {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 18px;
-    /* آیکون‌های زیرمنو کمی کوچک‌تر از منوی اصلی */
-    height: 18px;
-    flex-shrink: 0;
-}
-
-.submenu-item span img {
-    width: 100% !important;
-    height: 100% !important;
-    object-fit: contain;
+@media (max-width: 480px) {
+    .card-value {
+        font-size: 1.8rem;
+    }
 }
