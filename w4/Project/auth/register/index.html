@@ -1,4 +1,3 @@
-<!-- auth/register/index.html -->
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 
@@ -6,14 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ثبت‌نام شرکت | سامانه گارانتی هوشمند</title>
-    <!-- مسیر اصلاح‌شده: ۳ مرحله عقب جهت رسیدن به پوشه ریشه -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100;200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="../../assets/css/global.css">
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body class="auth-body">
 
-    <!-- نگهدارنده پیام‌های سیستم (Toast) -->
     <div id="toast-container" class="toast-container"></div>
 
     <div class="auth-container">
@@ -53,15 +53,15 @@
                         <input type="tel" id="mobile" placeholder="09123456789" maxlength="11" required dir="ltr">
                     </div>
 
-                    <!-- جایگزین بخش رمز عبور در index.html -->
                     <div class="form-group">
                         <label for="password">رمز عبور</label>
-                        <input type="password" id="password" placeholder="••••••••" minlength="8" required dir="ltr">
+                        <input type="password" id="password" placeholder="حداقل ۸ کاراکتر" minlength="8" required
+                            dir="ltr">
                     </div>
 
                     <div class="form-group">
                         <label for="confirm_password">تأیید رمز عبور</label>
-                        <input type="password" id="confirm_password" placeholder="••••••••" minlength="8" required
+                        <input type="password" id="confirm_password" placeholder="تکرار رمز عبور" minlength="8" required
                             dir="ltr">
                     </div>
 
@@ -76,12 +76,13 @@
                         <span>قبلاً ثبت‌نام کرده‌اید؟</span>
                         <a href="../login">ورود به حساب</a>
                     </div>
+                </div>
             </form>
+            <!-- تگ form که در کد قبلی جا افتاده بود اینجا بسته شد -->
 
         </div>
     </div>
 
-    <!-- مسیر اصلاح‌شده JS: ۳ مرحله عقب -->
     <script src="../../config/api-config.js"></script>
     <script src="app.js"></script>
 </body>

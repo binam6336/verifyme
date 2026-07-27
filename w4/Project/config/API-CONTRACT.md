@@ -1,96 +1,139 @@
-# Dashboard API
- url = /api/company/dashboard/init
- 
-`` Request json body
----------------------
-{
-  "token": "USER_AUTH_TOKEN_HERE"
-}
- 
+┌──────────────────────────────────────────────────────────────────┐
+│  API CONTRACT : ثبت‌نام شرکت (Register)                          │
+├──────────────────────────────────────────────────────────────────┤
+│  ENDPOINT  : auth/register/                                     │
+│  METHOD    : POST                                                │
+│  CONTENT   : application/json                                    │
+│                                                                  │
+│  ── HEADERS ────────────────────────────────────────────────── │
+│  Content-Type: application/json                                  │
+│  (چون کاربر هنوز توکن نداره، هدر Authorization ارسال نمیشه)      │
+│                                                                  │
+│  ── REQUEST BODY ───────────────────────────────────────────── │
+│  {                                                               │
+│    "first_name":   "string (required) — نام مسئول",              │
+│    "last_name":    "string (required) — نام خانوادگی",           │
+│    "company_name": "string (required) — نام شرکت",               │
+│    "email":        "string (required) — ایمیل رسمی",             │
+│    "mobile":       "string (required) — شماره همراه",            │
+│    "password":     "string (required) — رمز عبور"                │
+│  }                                                               │
+│                                                                  │
+│  ── RESPONSE (Success) ────────────────────────────────────── │
+│  {                                                               │
+│    "status":  "success",                                         │
+│    "message": "ثبت‌نام با موفقیت انجام شد.",                      │
+│    "data": {                                                     │
+│      "token": "string — توکن احراز هویت",                        │
+│      "user": {                                                   │
+│        "id":           "number — شناسه کاربر",                   │
+│        "first_name":   "string",                                 │
+│        "last_name":    "string",                                 │
+│        "company_name": "string",                                 │
+│        "email":        "string",                                 │
+│        "mobile":       "string"                                  │
+│      }                                                          │
+│    }                                                            │
+│  }                                                              │
+│                                                                 │
+│  ── RESPONSE (Error) ──────────────────────────────────────── │
+│  {                                                              │
+│    "status":  "error",                                          │
+│    "message": "شماره موبایل یا ایمیل وارد شده قبلاً ثبت شده.",   │
+│    "errors": {                                                  │
+│      "mobile": "این شماره موبایل تکراری است."                   │
+│    }                                                            │
+│  }                                                              │
+└──────────────────────────────────────────────────────────────────┘
 
-`` Expected Response
----------------------
-{
-  "status": "success",
-  "data": {
-    "user": {
-      "name": "شرکت ارتباطات نوین x",
-      "role": "تولید کننده",
-      "avatar": "https://api.dicebear.com/7.x/bottts/svg?seed=company" // <-- آدرس عکس یا لوگوی شرکت از سرور
-    },
-    "stats": {
-      "total_products": 500,
-      "active_warranties": 120,
-      "pending_activations": 380
-    }
-  }
-}
 
-# Create Product API
-url = /server/api/company/products/create/index.php
 
-`` Request json body
-{
-"token": "USER_AUTH_TOKEN_HERE",
-"product_name": "هندزفری بلوتوثی مدل Pro 2",
-"category": "لوازم جانبی موبایل",
-"brand": "شیائومی"
-}
 
-`` Expected Response
-{
-"status": "success",
-"message": "محصول با موفقیت ثبت شد.",
-"data": {
-"product_id": 104,
-"product_name": "هندزفری بلوتوثی مدل Pro 2",
-"category": "لوازم جانبی موبایل",
-"brand": "شیائومی",
-"created_at": "2026-07-22 12:00:00"
-}
-}
 
-`` Error Response
-{
-"status": "error",
-"message": "ارسال نام محصول، دسته‌بندی و برند الزامی است."
-}
 
-# Register (Add User) API
-url = /server/api/company/products/create/index.php
 
-`` Request json body
-{
-  "first_name": "علی",
-  "last_name": "محمدی",
-  "company_name": "صوتی تصویری پارس",
-  "email": "info@company.com",
-  "mobile": "09123456789",
-  "password": "user_password_here"
-}
 
-`` Expected Response
-{
-  "status": "success",
-  "message": "ثبت‌نام با موفقیت انجام شد.",
-  "data": {
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-    "user": {
-      "id": 102,
-      "first_name": "علی",
-      "last_name": "محمدی",
-      "company_name": "صوتی تصویری پارس",
-      "email": "info@company.com",
-      "mobile": "09123456789"
-    }
-  }
-}
 
-`` Error Response
-{
-  "status": "error",
-  "message": "شماره موبایل یا ایمیل وارد شده قبلاً در سیستم ثبت شده است.",
-  "errors": {
-    "mobile": "این شماره موبایل تکراری است."
-  }
-}
+
+┌──────────────────────────────────────────────────────────────────┐
+│  API CONTRACT : دریافت اطلاعات داشبورد (Dashboard Init)         │
+├──────────────────────────────────────────────────────────────────┤
+│  ENDPOINT  : dashboard/init/                                    │
+│  METHOD    : POST                                                │
+│                                                                  │
+│  ── HEADERS ────────────────────────────────────────────────── │
+│  Authorization: Bearer <TOKEN>                                   │
+│  Content-Type: application/json                                  │
+│                                                                  │
+│  ── REQUEST BODY ───────────────────────────────────────────── │
+│  {}  (خالی — فقط توکن در هدر ارسال می‌شود)                      │
+│                                                                  │
+│  ── SUCCESS RESPONSE ──────────────────────────────────────── │
+│  {                                                               │
+│    "status": "success",                                          │
+│    "data": {                                                     │
+│      "user": {                                                   │
+│        "name": "string",                                         │
+│        "role": "string",                                         │
+│        "avatar": "string (URL)"                                  │
+│      },                                                          │
+│      "stats": {                                                  │
+│        "total_products": "number",                               │
+│        "active_warranties": "number",                            │
+│        "pending_activations": "number"                           │
+│      }                                                           │
+│    }                                                             │
+│  }                                                               │
+│                                                                  │
+│  ── ERROR RESPONSE ────────────────────────────────────────── │
+│  {                                                               │
+│    "status": "error",                                            │
+│    "message": "توکن نامعتبر است."                                │
+│  }                                                               │
+└──────────────────────────────────────────────────────────────────┘
+
+
+
+
+
+
+
+
+
+
+┌──────────────────────────────────────────────────────────────────┐
+│  API CONTRACT : ثبت محصول جدید (Product Create)                 │
+├──────────────────────────────────────────────────────────────────┤
+│  ENDPOINT  : products/create/                                   │
+│  METHOD    : POST                                                │
+│                                                                  │
+│  ── HEADERS ────────────────────────────────────────────────── │
+│  Authorization: Bearer <TOKEN>                                   │
+│  Content-Type: application/json                                  │
+│                                                                  │
+│  ── REQUEST BODY ───────────────────────────────────────────── │
+│  {                                                               │
+│    "product_name": "string (required)",                          │
+│    "category": "string (required)",                              │
+│    "brand": "string (required)"                                  │
+│  }                                                               │
+│                                                                  │
+│  ── SUCCESS RESPONSE ──────────────────────────────────────── │
+│  {                                                               │
+│    "status": "success",                                          │
+│    "message": "محصول با موفقیت ثبت شد.",                         │
+│    "data": {                                                     │
+│      "product_id": "number",                                    │
+│      "product_name": "string",                                  │
+│      "category": "string",                                      │
+│      "brand": "string",                                         │
+│      "created_at": "string (DATETIME)"                           │
+│    }                                                             │
+│  }                                                               │
+│                                                                  │
+│  ── ERROR RESPONSE ────────────────────────────────────────── │
+│  {                                                               │
+│    "status": "error",                                            │
+│    "message": "ارسال نام محصول، دسته‌بندی و برند الزامی است."    │
+│  }                                                               │
+└──────────────────────────────────────────────────────────────────┘

@@ -43,7 +43,7 @@ const API_CONFIG = {
         };
 
         if (token) {
-            headers["Authorization"] = `Bearer ${token}`;
+            headers["Authorization"] = `${token}`;
         }
 
         try {

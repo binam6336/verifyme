@@ -1,121 +1,123 @@
-// auth/register/app.js
+/* ============================================
+   منطق صفحه ثبت‌نام
+   ============================================ */
 
 document.addEventListener("DOMContentLoaded", () => {
-    initRegisterForm();
-});
 
-function initRegisterForm() {
-    const form = document.getElementById("register-form");
+    // ---- ارجاعات DOM ----
+    const registerForm = document.getElementById("register-form");
     const submitBtn = document.getElementById("submit-btn");
-    const loader = document.getElementById("btn-loader");
+    const toastContainer = document.getElementById("toast-container");
 
-    if (!form) return;
+    const firstNameEl = document.getElementById("first_name");
+    const lastNameEl = document.getElementById("last_name");
+    const companyNameEl = document.getElementById("company_name");
+    const emailEl = document.getElementById("email");
+    const mobileEl = document.getElementById("mobile");
+    const passwordEl = document.getElementById("password");
+    const confirmPasswordEl = document.getElementById("confirm_password");
 
-    form.addEventListener("submit", async (e) => {
+
+    // ---- نمایش تاست ----
+    function showToast(message, type = "success") {
+        const toast = document.createElement("div");
+        toast.className = `toast ${type}`;
+        toast.textContent = message;
+        toastContainer.appendChild(toast);
+
+        setTimeout(() => {
+            toast.classList.add("removing");
+            toast.addEventListener("animationend", () => toast.remove());
+        }, 4000);
+    }
+
+
+    // ---- تغییر وضعیت دکمه ----
+    function toggleLoading(isLoading) {
+        if (isLoading) {
+            submitBtn.classList.add("loading");
+            submitBtn.disabled = true;
+        } else {
+            submitBtn.classList.remove("loading");
+            submitBtn.disabled = false;
+        }
+    }
+
+
+    // ---- سابمیت فرم ----
+    registerForm.addEventListener("submit", async (e) => {
         e.preventDefault();
 
-        const firstName = document.getElementById("first_name").value.trim();
-        const lastName = document.getElementById("last_name").value.trim();
-        const companyName = document.getElementById("company_name").value.trim();
-        const email = document.getElementById("email").value.trim();
-        const mobile = document.getElementById("mobile").value.trim();
-        const password = document.getElementById("password").value;
-        const confirmPassword = document.getElementById("confirm_password").value;
+        const password = passwordEl.value.trim();
+        const confirmPassword = confirmPasswordEl.value.trim();
+        const mobile = mobileEl.value.trim();
 
-        // اعتبارسنجی رمز عبور
+        // اعتبارسنجی فرانت: تطابق رمز عبور
         if (password !== confirmPassword) {
-            showToast("رمز عبور و تایید آن یکسان نیستند!", "error");
+            showToast("رمز عبور و تکرار آن مطابقت ندارند.", "error");
             return;
         }
 
-        if (password.length < 6) {
-            showToast("رمز عبور باید حداقل ۶ کاراکتر باشد.", "error");
+        // اعتبارسنجی فرانت: طول شماره موبایل
+        if (mobile.length < 11 || !mobile.startsWith("09")) {
+            showToast("شماره موبایل وارد شده نامعتبر است.", "error");
             return;
         }
 
-        // اعتبارسنجی شماره موبایل
-        if (!/^09\d{9}$/.test(mobile)) {
-            showToast("شماره موبایل وارد شده معتبر نیست.", "error");
-            return;
-        }
+        // ساخت پیلود — توکن ارسال نمیشه چون هنوز نداریم
+        // فیلد confirm_password هم فقط برای چک فرانته و به بک‌اند نمیره
+        const payload = {
+            first_name: firstNameEl.value.trim(),
+            last_name: lastNameEl.value.trim(),
+            company_name: companyNameEl.value.trim(),
+            email: emailEl.value.trim(),
+            mobile: mobile,
+            password: password
+        };
 
-        if (submitBtn) submitBtn.disabled = true;
-        if (loader) loader.style.display = "block";
+        toggleLoading(true);
 
         try {
-            let response;
-            if (typeof API_CONFIG !== 'undefined') {
-                response = await API_CONFIG.sendRequest(
-                    API_CONFIG.ENDPOINTS.REGISTER,
-                    {
-                        first_name: firstName,
-                        last_name: lastName,
-                        company_name: companyName,
-                        email: email,
-                        mobile: mobile,
-                        password: password
-                    }
-                );
-            } else {
-                // دمو آفلاین در صورت عدم وجود کانفیگ
-                response = {
-                    status: "success",
-                    message: "ثبت‌نام با موفقیت انجام شد.",
-                    data: { token: "DEMO_TOKEN_998877" }
-                };
-            }
+            const response = await API_CONFIG.sendRequest("auth/register/", payload);
 
-            if (response && response.status === "success") {
-                showToast(response.message || "ثبت‌نام با موفقیت انجام شد.", "success");
+            if (response.status === "success") {
 
-                // ذخیره توکن در localStorage جهت استفاده در کدهای فرانت‌اِند
-                if (response.data && response.data.token) {
-                    localStorage.setItem("user_token", response.data.token);
+                // ذخیره توکن در حافظه مرورگر (مربوط به api-config.js)
+                API_CONFIG.setToken(response.data.token);
+
+                // ذخیره نام شرکت برای نمایش سریع در داشبورد (اختیاری)
+                if (response.data.user?.company_name) {
+                    localStorage.setItem("user_company_name", response.data.user.company_name);
                 }
 
-                // انتقال به داشبورد پس از ۱.۵ ثانیه
+                showToast(response.message || "ثبت‌نام با موفقیت انجام شد. در حال انتقال...", "success");
+
+                // ریدایرکت به داشبورد بعد از ۱.۵ ثانیه
                 setTimeout(() => {
                     window.location.href = "../../dashboard";
                 }, 1500);
 
             } else {
-                showToast((response && response.message) || "خطایی در ثبت‌نام رخ داد.", "error");
+                // هندلینگ خطاها
+                let errorMsg = response.message || "خطایی در ثبت‌نام رخ داد.";
+
+                // اگر بک‌اند خطای فیلد خاصی فرستاده (مثل تکراری بودن موبایل)
+                if (response.errors && typeof response.errors === "object") {
+                    const firstFieldError = Object.values(response.errors)[0];
+                    if (firstFieldError) {
+                        errorMsg = firstFieldError;
+                    }
+                }
+
+                showToast(errorMsg, "error");
             }
 
         } catch (error) {
-            console.error("خطای ثبت‌نام:", error);
-            showToast("ارتباط با سرور برقرار نشد.", "error");
+            console.error("خطا در ارسال فرم ثبت‌نام:", error);
+            showToast("اتصال به سرور برقرار نشد. لطفاً دوباره تلاش کنید.", "warning");
         } finally {
-            if (submitBtn) submitBtn.disabled = false;
-            if (loader) loader.style.display = "none";
+            toggleLoading(false);
         }
     });
-}
 
-function showToast(message, type = "success") {
-    let container = document.getElementById("toast-container");
-    if (!container) {
-        container = document.createElement("div");
-        container.id = "toast-container";
-        container.className = "toast-container";
-        document.body.appendChild(container);
-    }
-
-    const toast = document.createElement("div");
-    toast.className = `toast ${type}`;
-    const emoji = type === "success" ? "✅" : "❌";
-
-    toast.innerHTML = `
-        <span>${emoji}</span>
-        <div class="toast-content">${message}</div>
-    `;
-
-    container.appendChild(toast);
-
-    setTimeout(() => {
-        toast.classList.add("hide");
-        toast.addEventListener("animationend", () => {
-            toast.remove();
-        });
-    }, 4000);
-}
+});
