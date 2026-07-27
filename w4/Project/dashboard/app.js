@@ -38,10 +38,9 @@ async function loadDashboardData() {
         return;
     }
 
-    const mockToken = "SESSION_TOKEN_123456";
     const response = await API_CONFIG.sendRequest(
         API_CONFIG.ENDPOINTS.DASHBOARD_INIT,
-        { token: mockToken }
+        { token: API_CONFIG.getToken() }
     );
 
     if (response && response.status === "success" && response.data) {
