@@ -44,7 +44,7 @@ class Usermanager
         $this->logger  = new Logger('app');
 
         $this->logger->pushHandler(
-            new StreamHandler(__DIR__ . '/app.log', Logger::DEBUG)
+            new StreamHandler(__DIR__ . '/../../../Logs/Warning/Model/Usermanager.log', Logger::DEBUG)
         );
     }
 
@@ -62,14 +62,14 @@ class Usermanager
         $stmt->bindParam(":phone", $data['phone']);
         $stmt->bindParam(":password", $data['password']);
 
-        $userid = $this->conn->lastInsertId();
 
-        $token = $this->auth->CreateToken($userid);
+
+        $token = $this->auth->CreateToken($this->conn->lastInsertId());
 
         if ($stmt->execute()) {
             return [
                 "status" => true,
-                "id" => $userid,
+                "id" => $this->conn->lastInsertId(),
                 "token" => $token
             ];
         } else {
