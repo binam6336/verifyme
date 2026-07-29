@@ -18,6 +18,7 @@ require __DIR__ . '/../../../vendor/autoload.php';
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Src\Config\Config;
+use Src\Services\Authorization\Authorization;
 
 class Usermanager
 {
@@ -28,6 +29,7 @@ class Usermanager
 
     private $logger;
 
+    private $auth;
     public function __construct()
     {
 
@@ -35,6 +37,8 @@ class Usermanager
         $this->config = new Config;
         $this->conn = $this->config->getConnection();
 
+        // authorization
+        $this->auth = new Authorization;
 
         // logger
         $this->logger  = new Logger('app');
@@ -58,12 +62,14 @@ class Usermanager
         $stmt->bindParam(":phone", $data['phone']);
         $stmt->bindParam(":password", $data['password']);
 
-        $token = "token";
+        $userid = $this->conn->lastInsertId();
+
+        $token = $this->auth->CreateToken($userid);
 
         if ($stmt->execute()) {
             return [
                 "status" => true,
-                "id" => $this->conn->lastInsertId(),
+                "id" => $userid,
                 "token" => $token
             ];
         } else {
