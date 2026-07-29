@@ -12,9 +12,19 @@ header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-W
 header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
 header("Content-Type: application/json; charset=UTF-8");
 
-if ($_SERVER['REQUEST_METHOD'] == "POST") {
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+  http_response_code(200);
+  exit;
+}
 
-  $data = json_decode(file_get_contents("php://input"), true);
+if ($_SERVER['REQUEST_METHOD'] === "POST") {
+  $post = file_get_contents("php://input");
+  $data = json_decode($post, true);
+
+  // check json val
+  if (json_last_error() !== JSON_ERROR_NONE) {
+    http_response_code(400);
+  }
 
   $usermanager = new Usermanager;
 
@@ -36,6 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
   //   $response
   // ]);
 } else {
+  http_response_code(400);
   $response = [
     "status" => "error",
     "message" => "خطا در انجام عملیات",
