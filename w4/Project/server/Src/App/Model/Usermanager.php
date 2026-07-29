@@ -64,7 +64,7 @@ class Usermanager
 
 
 
-        $token = $this->auth->CreateToken($this->conn->lastInsertId());
+        $token = $this->auth->CreateToken($this->conn->lastInsertId())['token'];
 
         if ($stmt->execute()) {
             return [

@@ -43,6 +43,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     ]
 
   ];
+
+  $logger->debug("response", [
+    $response
+  ]);
 } else {
   $response = [
     "status" => "error",
