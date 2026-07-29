@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
   );
 
 
-  $register = $usermanager->Register("test", "test", "test", "test", "test", "test", "test");
+  $register = $usermanager->Register($data['first_name'], $data['last_name'], $data['company_name'], $data['email'], $data['mobile'], $data['mobile'], $data['password']);
 
   $response = $register;
 
