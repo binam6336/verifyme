@@ -161,5 +161,5 @@ class Usermanager
     public function GetAllUsers() {}
     public function DeleteUser() {}
 }
-$a = new Usermanager;
-print_r($a->Register("test", "test echo 'testp'; ", "test", "test", "test", "test", "test<>"));
+// $a = new Usermanager;
+// print_r($a->Register("test", "test echo 'testp'; ", "test", "test", "test", "test", "test<>"));

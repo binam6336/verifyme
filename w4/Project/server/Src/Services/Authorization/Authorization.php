@@ -79,5 +79,5 @@ class Authorization
     }
 }
 
-$a = new Authorization;
-print_r($b = $a->CreateToken(12));
+// $a = new Authorization;
+// print_r($b = $a->CreateToken(12));

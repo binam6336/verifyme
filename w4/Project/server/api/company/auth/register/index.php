@@ -1,6 +1,8 @@
 <?php
 // حل مشکل دسترسی و پیش‌پرواز مرورگر
 
+require __DIR__ . '/../../../../vendor/autoload.php';
+
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Src\App\Controller\Usermanager;
@@ -24,11 +26,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
   $token = $register['data']['token'];
 
   $id = $register['data']['user']['id'];
-
-  $logger->debug("auth data", [
-    "id" => $id,
-    "token" => $token
-  ]);
 
   $response = [
     "status" => "success",
