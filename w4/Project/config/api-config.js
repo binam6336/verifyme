@@ -72,42 +72,42 @@ const API_CONFIG = {
     },
 
     // پاسخ‌های مک — فقط زمانی اجرا میشه که سرور در دسترس نباشه
-    getMockResponse(endpoint, payload) {
-        return new Promise((resolve) => {
-            setTimeout(() => {
+    // getMockResponse(endpoint, payload) {
+    //     return new Promise((resolve) => {
+    //         setTimeout(() => {
 
-                if (endpoint.includes("dashboard")) {
-                    resolve({
-                        status: "success",
-                        data: {
-                            user: {
-                                name: "شرکت نمونه (دمو آفلاین)",
-                                role: "تولید کننده",
-                                avatar: ""
-                            },
-                            stats: {
-                                total_products: 0,
-                                active_warranties: 0,
-                                pending_activations: 0
-                            }
-                        }
-                    });
+    //             if (endpoint.includes("dashboard")) {
+    //                 resolve({
+    //                     status: "success",
+    //                     data: {
+    //                         user: {
+    //                             name: "شرکت نمونه (دمو آفلاین)",
+    //                             role: "تولید کننده",
+    //                             avatar: ""
+    //                         },
+    //                         stats: {
+    //                             total_products: 0,
+    //                             active_warranties: 0,
+    //                             pending_activations: 0
+    //                         }
+    //                     }
+    //                 });
 
-                } else if (endpoint.includes("register") || endpoint.includes("login")) {
-                    resolve({
-                        status: "success",
-                        message: "عملیات احراز هویت با موفقیت انجام شد.",
-                        data: { token: "DEMO_TOKEN_123456" }
-                    });
+    //             } else if (endpoint.includes("register") || endpoint.includes("login")) {
+    //                 resolve({
+    //                     status: "success",
+    //                     message: "عملیات احراز هویت با موفقیت انجام شد.",
+    //                     data: { token: "DEMO_TOKEN_123456" }
+    //                 });
 
-                } else {
-                    resolve({
-                        status: "success",
-                        message: "عملیات در حالت آفلاین انجام شد."
-                    });
-                }
+    //             } else {
+    //                 resolve({
+    //                     status: "success",
+    //                     message: "عملیات در حالت آفلاین انجام شد."
+    //                 });
+    //             }
 
-            }, 500);
-        });
-    }
+    //         }, 500);
+    //     });
+    // }
 };
