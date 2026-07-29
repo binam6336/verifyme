@@ -97,7 +97,7 @@ class Usermanager
                 "status" => "error",
                 "message" => "لطفا از کاراکتر های غیر مجاز ( <>%/ و غیره ) استفاده نکنید",
                 "errors" => [
-                    "security error" => "don't use bad characters"
+                    "security error" => "لطفا از کاراکتر های غیر مجاز ( <>%/ و غیره ) استفاده نکنید"
                 ]
             ];
         }

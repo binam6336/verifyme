@@ -14,6 +14,8 @@ header("Content-Type: application/json; charset=UTF-8");
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
+  $data = json_decode(file_get_contents("php://input"), true);
+
   $usermanager = new Usermanager;
 
   $logger = new Logger('app');
@@ -21,39 +23,24 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
   $logger->pushHandler(
     new StreamHandler(__DIR__ . '/../../../../Logs/Register/Register.log', Logger::DEBUG)
   );
+
+
   $register = $usermanager->Register("test", "test", "test", "test", "test", "test", "test", "test");
 
-  $token = $register['data']['token'];
+  $response = $register;
 
-  $id = $register['data']['user']['id'];
 
-  $response = [
-    "status" => "success",
-    "message" => "ثبت‌نام با موفقیت انجام شد55S22.",
-    "data" => [
-      "token" => $token,
-      "user" => [
-        "id" => $id,
-        "first_name" => "test",
-        "last_name" => "last_name",
-        "company_name" => "test company",
-        "email" => "email",
-        "mobile" =>  "phone"
-      ]
-    ]
-
-  ];
-
-  $logger->debug("response", [
-    $response
-  ]);
+  // logs
+  // $logger->debug("input data", [$data]);
+  // $logger->debug("response", [
+  //   $response
+  // ]);
 } else {
   $response = [
     "status" => "error",
     "message" => "خطا در انجام عملیات",
     "errors" => [
-      "method" => "متد ارسالی صحیح نیست",
-      "token" => "توکن ارسالی صحیح نیست"
+      "method" => "متد ارسالی صحیح نیست"
     ]
   ];
 }
