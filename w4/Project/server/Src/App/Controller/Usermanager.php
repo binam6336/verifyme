@@ -141,7 +141,8 @@ class Usermanager
                         "last_name" => $data['lastName'],
                         "company_name" => $data['companyname'],
                         "email" => $data['email'],
-                        "mobile" => $data['phone']
+                        "mobile" => $data['phone'],
+                        "id" => $send['id']
                     ]
                 ]
             ];
