@@ -1,10 +1,4 @@
-/* ============================================
-   منطق صفحه داشبورد
-   ============================================ */
-
 document.addEventListener("DOMContentLoaded", () => {
-
-    // ---- ارجاعات DOM ----
     const pageLoader = document.getElementById("page-loader");
     const userNameEl = document.getElementById("user-display-name");
     const userRoleEl = document.getElementById("user-role");
@@ -14,179 +8,99 @@ document.addEventListener("DOMContentLoaded", () => {
     const productSubmenu = document.getElementById("product-submenu");
     const sidebar = document.getElementById("sidebar");
     const mobileMenuBtn = document.getElementById("mobile-menu-btn");
+    const sidebarOverlay = document.getElementById("sidebar-overlay");
     const toastContainer = document.getElementById("toast-container");
     const statTotal = document.getElementById("stat-total");
     const statActive = document.getElementById("stat-active");
     const statPending = document.getElementById("stat-pending");
+    const themeToggle = document.getElementById("theme-toggle");
 
-
-    // ---- زیرمنوی محصولات ----
-    if (productMenuBtn && productSubmenu) {
-        productMenuBtn.addEventListener("click", () => {
-            productMenuBtn.classList.toggle("open");
-            productSubmenu.classList.toggle("open");
-        });
+    // ==========================================
+    // منطق تم (استفاده از documentElement به جای body)
+    // ==========================================
+    if (localStorage.getItem("app_theme") === "light") {
+        themeToggle.checked = true; // فقط چک‌باکس رو سینک می‌کنیم چون کلاس تو head اضافه شده
     }
 
+    themeToggle.addEventListener("change", () => {
+        // رفع باگ اصلی: تغییر روی html اعمال میشه نه body
+        document.documentElement.classList.toggle("theme-light");
+        localStorage.setItem("app_theme", themeToggle.checked ? "light" : "dark");
+    });
 
-    // ---- منوی موبایل ----
-    if (mobileMenuBtn && sidebar) {
-        mobileMenuBtn.addEventListener("click", () => {
-            sidebar.classList.toggle("mobile-open");
-        });
-
-        document.addEventListener("click", (e) => {
-            if (!sidebar.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
-                sidebar.classList.remove("mobile-open");
-            }
-        });
-    }
-
-
-    // ---- تبدیل رقم انگلیسی به فارسی ----
-    function toPersianDigits(num) {
-        const persianDigits = ["۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"];
-        return String(num).replace(/\d/g, (d) => persianDigits[parseInt(d)]);
-    }
-
-
-    // ---- انیمیشن شمارش عدد ----
-    function animateNumber(element, target, duration = 1100) {
-        if (typeof target !== "number" || target < 0) {
-            element.textContent = "۰";
-            return;
-        }
-
-        const startTime = performance.now();
-
-        function update(currentTime) {
-            const elapsed = currentTime - startTime;
-            const progress = Math.min(elapsed / duration, 1);
-            const eased = 1 - Math.pow(1 - progress, 3);
-            const current = Math.round(target * eased);
-
-            element.textContent = toPersianDigits(current);
-
-            if (progress < 1) {
-                requestAnimationFrame(update);
-            }
-        }
-
-        requestAnimationFrame(update);
-    }
-
-
-    // ---- استخراج حروف اول نام ----
-    function extractInitials(name) {
-        if (!name || !name.trim()) return "؟";
-        const parts = name.trim().split(/\s+/);
-        if (parts.length >= 2) {
-            return parts[0][0] + parts[1][0];
-        }
-        return parts[0].substring(0, 2);
-    }
-
-
-    // ---- تنظیم آواتار ----
-    function setupAvatar(user) {
-        if (user.avatar && user.avatar.trim() !== "") {
-            avatarImg.src = user.avatar;
-            avatarImg.style.display = "block";
-            avatarInitials.style.display = "none";
-
-            // اگر عکس لود نشد → فال‌بک به حروف اول نام
-            avatarImg.onerror = () => {
-                avatarImg.style.display = "none";
-                avatarInitials.textContent = extractInitials(user.name);
-                avatarInitials.style.display = "block";
-            };
+    // ==========================================
+    // منوی موبایل و اورلی
+    // ==========================================
+    function toggleMobileMenu(close) {
+        const isOpen = sidebar.classList.contains("mobile-open");
+        if (close || isOpen) {
+            sidebar.classList.remove("mobile-open"); sidebarOverlay.classList.remove("active"); document.body.style.overflow = "";
         } else {
-            // بدون آواتار → حروف اول نام
-            avatarImg.style.display = "none";
-            avatarInitials.textContent = extractInitials(user.name);
-            avatarInitials.style.display = "block";
+            sidebar.classList.add("mobile-open"); sidebarOverlay.classList.add("active"); document.body.style.overflow = "hidden";
+        }
+    }
+    if (mobileMenuBtn) mobileMenuBtn.addEventListener("click", (e) => { e.stopPropagation(); toggleMobileMenu(); });
+    if (sidebarOverlay) sidebarOverlay.addEventListener("click", () => toggleMobileMenu(true));
+
+    // زیرمنو
+    if (productMenuBtn && productSubmenu) {
+        productMenuBtn.addEventListener("click", () => { productMenuBtn.classList.toggle("open"); productSubmenu.classList.toggle("open"); });
+    }
+
+    // ==========================================
+    // توابع کمکی
+    // ==========================================
+    function toPersianDigits(num) { return String(num).replace(/\d/g, (d) => "۰۱۲۳۴۵۶۷۸۹"[parseInt(d)]); }
+
+    function animateNumber(el, target, duration = 1100) {
+        if (typeof target !== "number" || target < 0) { el.textContent = "۰"; return; }
+        const start = performance.now();
+        (function update(now) {
+            const p = Math.min((now - start) / duration, 1);
+            el.textContent = toPersianDigits(Math.round(target * (1 - Math.pow(1 - p, 3))));
+            if (p < 1) requestAnimationFrame(update);
+        })(start);
+    }
+
+    function extractInitials(n) {
+        if (!n) return "؟"; const p = n.trim().split(/\s+/);
+        return p.length >= 2 ? p[0][0] + p[1][0] : p[0].substring(0, 2);
+    }
+
+    function setupAvatar(user) {
+        if (user.avatar && user.avatar.trim()) {
+            avatarImg.src = user.avatar; avatarImg.style.display = "block"; avatarInitials.style.display = "none";
+            avatarImg.onerror = () => { avatarImg.style.display = "none"; avatarInitials.textContent = extractInitials(user.name); avatarInitials.style.display = "block"; };
+        } else {
+            avatarImg.style.display = "none"; avatarInitials.textContent = extractInitials(user.name); avatarInitials.style.display = "block";
         }
     }
 
-
-    // ---- نمایش تاست ----
-    function showToast(message, type = "success") {
-        const toast = document.createElement("div");
-        toast.className = `toast ${type}`;
-        toast.textContent = message;
-        toastContainer.appendChild(toast);
-
-        setTimeout(() => {
-            toast.classList.add("removing");
-            toast.addEventListener("animationend", () => toast.remove());
-        }, 3500);
+    function showToast(msg, type = "success") {
+        const t = document.createElement("div"); t.className = `toast ${type}`; t.textContent = msg; toastContainer.appendChild(t);
+        setTimeout(() => { t.classList.add("removing"); t.addEventListener("animationend", () => t.remove()); }, 3500);
     }
 
+    function hideLoader() { if (pageLoader) { pageLoader.classList.add("hidden"); setTimeout(() => pageLoader.remove(), 600); } }
 
-    // ---- مخفی کردن لودر ----
-    function hideLoader() {
-        if (pageLoader) {
-            pageLoader.classList.add("hidden");
-            setTimeout(() => pageLoader.remove(), 600);
-        }
-    }
-
-
-    // ---- داده‌های جایگزین آفلاین ----
-    function setFallbackData() {
-        userNameEl.textContent = "شرکت نمونه (دمو)";
-        avatarImg.style.display = "none";
-        avatarInitials.textContent = extractInitials("شرکت نمونه");
-        avatarInitials.style.display = "block";
-
-        setTimeout(() => {
-            animateNumber(statTotal, 0, 800);
-            animateNumber(statActive, 0, 800);
-            animateNumber(statPending, 0, 800);
-        }, 200);
-    }
-
-
-    // ---- بارگذاری اصلی داشبورد ----
+    // ==========================================
+    // بارگذاری داده‌ها
+    // ==========================================
     async function loadDashboard() {
         try {
-            const response = await API_CONFIG.sendRequest("dashboard/init/");
-
-            if (response.status === "success" && response.data) {
-                const { user, stats } = response.data;
-
-                // اطلاعات کاربر
-                if (user) {
-                    userNameEl.textContent = user.name || "نامشخص";
-                    if (user.role) userRoleEl.textContent = user.role;
-                    setupAvatar(user);
-                }
-
-                // آمار با انیمیشن شمارش
-                if (stats) {
-                    setTimeout(() => {
-                        animateNumber(statTotal, stats.total_products, 1200);
-                        animateNumber(statActive, stats.active_warranties, 1400);
-                        animateNumber(statPending, stats.pending_activations, 1000);
-                    }, 200);
-                }
-
-            } else {
-                showToast(response.message || "خطا در دریافت اطلاعات", "error");
-                setFallbackData();
-            }
-
-        } catch (error) {
-            console.error("خطا در بارگذاری داشبورد:", error);
-            showToast("اتصال برقرار نشد — حالت آفلاین", "warning");
-            setFallbackData();
-        } finally {
-            hideLoader();
-        }
+            const res = await API_CONFIG.sendRequest("dashboard/init/");
+            if (res.status === "success" && res.data) {
+                const { user, stats } = res.data;
+                if (user) { userNameEl.textContent = user.name || "نامشخص"; if (user.role) userRoleEl.textContent = user.role; setupAvatar(user); }
+                if (stats) { setTimeout(() => { animateNumber(statTotal, stats.total_products, 1200); animateNumber(statActive, stats.active_warranties, 1400); animateNumber(statPending, stats.pending_activations, 1000); }, 200); }
+            } else { showToast(res.message || "خطا در دریافت اطلاعات", "error"); setFallback(); }
+        } catch (e) { console.error(e); showToast("اتصال برقرار نشد.", "warning"); setFallback(); } finally { hideLoader(); }
     }
 
+    function setFallback() {
+        userNameEl.textContent = "شرکت نمونه (دمو)"; avatarImg.style.display = "none"; avatarInitials.textContent = extractInitials("شرکت نمونه"); avatarInitials.style.display = "block";
+        setTimeout(() => { animateNumber(statTotal, 0, 800); animateNumber(statActive, 0, 800); animateNumber(statPending, 0, 800); }, 200);
+    }
 
-    // ---- شروع ----
     loadDashboard();
-
 });

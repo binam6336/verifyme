@@ -1,9 +1,7 @@
 /* ============================================
-   استایل اختصاصی صفحات احراز هویت (ثبت‌نام/ورود)
+   استایل اختصاصی صفحات احراز هویت
    ============================================ */
 
-
-/* ---------- بدنه صفحات auth ---------- */
 .auth-body {
     display: flex;
     align-items: center;
@@ -13,7 +11,6 @@
     position: relative;
 }
 
-/* گوی قرمز بزرگ پشت کارت */
 .auth-body::before {
     content: '';
     position: absolute;
@@ -43,8 +40,13 @@
     }
 }
 
+.auth-theme-toggle {
+    position: fixed;
+    top: 24px;
+    left: 24px;
+    z-index: 1000;
+}
 
-/* ---------- کانتینر ---------- */
 .auth-container {
     width: 100%;
     max-width: 480px;
@@ -53,23 +55,17 @@
     animation: fadeSlideUp 0.7s var(--ease-out-expo) both;
 }
 
-
-/* ---------- کارت شیشه‌ای ---------- */
 .glass-card {
     background: rgba(255, 255, 255, 0.03);
     backdrop-filter: blur(40px);
-    -webkit-backdrop-filter: blur(40px);
     border: 1px solid rgba(255, 255, 255, 0.07);
     border-radius: var(--radius-xl);
     padding: 40px 36px;
-    box-shadow:
-        0 20px 60px rgba(0, 0, 0, 0.5),
-        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05);
     position: relative;
     overflow: hidden;
 }
 
-/* خط قرمز بالای کارت */
 .glass-card::before {
     content: '';
     position: absolute;
@@ -81,8 +77,12 @@
     border-radius: 2px;
 }
 
+.theme-light .glass-card {
+    background: rgba(255, 255, 255, 0.95) !important;
+    border-color: rgba(0, 0, 0, 0.08) !important;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08) !important;
+}
 
-/* ---------- هدر ---------- */
 .auth-header {
     text-align: center;
     margin-bottom: 32px;
@@ -104,8 +104,6 @@
     line-height: 1.7;
 }
 
-
-/* ---------- فرم ---------- */
 .auth-form {
     display: flex;
     flex-direction: column;
@@ -122,8 +120,6 @@
     grid-column: 1 / -1;
 }
 
-
-/* ---------- فیلدها ---------- */
 .form-group label {
     display: block;
     font-size: 0.82rem;
@@ -156,13 +152,16 @@
     font-size: 0.82rem;
 }
 
-/* استایل خاص ایمیل و موبایل (چون LTR هستند) */
 .form-group input[dir="ltr"] {
     text-align: left;
 }
 
+.theme-light .form-group input {
+    background: rgba(0, 0, 0, 0.02) !important;
+    border-color: rgba(0, 0, 0, 0.1) !important;
+    color: #111827 !important;
+}
 
-/* ---------- دکمه سابمیت ---------- */
 .form-actions {
     grid-column: 1 / -1;
     margin-top: 4px;
@@ -207,7 +206,6 @@
     box-shadow: none !important;
 }
 
-/* لودر دکمه */
 .loader {
     width: 22px;
     height: 22px;
@@ -226,8 +224,6 @@
     display: block;
 }
 
-
-/* ---------- فوتر فرم ---------- */
 .auth-footer {
     grid-column: 1 / -1;
     display: flex;
@@ -249,8 +245,81 @@
     color: #fff;
 }
 
+.theme-light .auth-footer a {
+    color: var(--accent);
+}
 
-/* ---------- ریسپانسیو ---------- */
+.theme-light .auth-footer a:hover {
+    color: var(--accent-dark);
+}
+
+/* --- سوییچر تم --- */
+.theme-switch {
+    position: relative;
+    display: inline-block;
+    width: 52px;
+    height: 28px;
+}
+
+.theme-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    inset: 0;
+    background-color: var(--glass-bg-solid);
+    border: 1px solid var(--glass-border);
+    transition: 0.4s;
+    border-radius: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 6px;
+}
+
+.slider .icon-sun,
+.slider .icon-moon {
+    font-size: 14px;
+    transition: opacity 0.3s ease;
+}
+
+.slider .icon-sun {
+    opacity: 0.3;
+}
+
+.slider .icon-moon {
+    opacity: 1;
+}
+
+.theme-light .slider .icon-sun {
+    opacity: 1;
+}
+
+.theme-light .slider .icon-moon {
+    opacity: 0.3;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 22px;
+    width: 22px;
+    right: 3px;
+    bottom: 2px;
+    background-color: var(--accent);
+    transition: 0.4s;
+    border-radius: 50%;
+}
+
+input:checked+.slider:before {
+    transform: translateX(-23px);
+    background-color: #f59e0b;
+}
+
 @media (max-width: 520px) {
     .glass-card {
         padding: 28px 22px;
@@ -261,10 +330,7 @@
         grid-template-columns: 1fr;
     }
 
-    .form-group.full-width {
-        grid-column: auto;
-    }
-
+    .form-group.full-width,
     .form-actions,
     .auth-footer {
         grid-column: auto;

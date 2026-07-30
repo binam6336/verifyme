@@ -1,16 +1,14 @@
 /* ============================================
    سامانه گارانتی هوشمند — استایل کلی
-   تم: قرمز / مشکی / شیشه‌ای
+   تم: قرمز / مشکی / شیشه‌ای (پشتیبانی از لایت تم)
    ============================================ */
 
-/* ---------- ۱. متغیرهای تم ---------- */
+/* ---------- ۱. متغیرهای تم (پیش‌فرض: دارک) ---------- */
 :root {
-    /* پس‌زمینه */
     --bg-primary: #08080d;
     --bg-secondary: #0e0e15;
     --bg-tertiary: #15151f;
 
-    /* شیشه‌ای (Glassmorphism) */
     --glass-bg: rgba(255, 255, 255, 0.025);
     --glass-bg-hover: rgba(255, 255, 255, 0.055);
     --glass-bg-solid: rgba(255, 255, 255, 0.04);
@@ -18,7 +16,6 @@
     --glass-border-hover: rgba(255, 255, 255, 0.13);
     --glass-blur: 28px;
 
-    /* اکسنت قرمز */
     --accent: #e63946;
     --accent-dark: #b91c28;
     --accent-deeper: #8b1220;
@@ -27,12 +24,10 @@
     --accent-glow-soft: rgba(230, 57, 70, 0.10);
     --accent-subtle: rgba(230, 57, 70, 0.06);
 
-    /* متن */
     --text-primary: #ededf0;
     --text-secondary: #9898a8;
     --text-muted: #55556a;
 
-    /* وضعیت */
     --success: #34d399;
     --success-bg: rgba(52, 211, 153, 0.1);
     --warning: #fbbf24;
@@ -40,7 +35,6 @@
     --danger: #f87171;
     --danger-bg: rgba(248, 113, 113, 0.1);
 
-    /* ابعاد */
     --sidebar-width: 270px;
     --topbar-height: 72px;
     --radius-xs: 6px;
@@ -49,19 +43,16 @@
     --radius-lg: 18px;
     --radius-xl: 24px;
 
-    /* سایه */
     --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
     --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.4);
     --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.5);
     --shadow-accent: 0 4px 24px rgba(230, 57, 70, 0.2);
 
-    /* انتقال */
     --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
     --transition-fast: 0.2s var(--ease-out-expo);
     --transition-normal: 0.35s var(--ease-out-expo);
     --transition-slow: 0.6s var(--ease-out-expo);
 }
-
 
 /* ---------- ۲. ریست ---------- */
 *,
@@ -78,7 +69,6 @@ html {
     -webkit-text-size-adjust: 100%;
 }
 
-
 /* ---------- ۳. بدنه و پس‌زمینه ---------- */
 body {
     font-family: 'Vazirmatn', system-ui, -apple-system, sans-serif;
@@ -90,7 +80,6 @@ body {
     position: relative;
 }
 
-/* الگوی نقطه‌ای ظریف روی پس‌زمینه */
 body::before {
     content: '';
     position: fixed;
@@ -101,7 +90,6 @@ body::before {
     z-index: 0;
 }
 
-/* گوی گرادیان قرمز شناور — بالا راست */
 body::after {
     content: '';
     position: fixed;
@@ -131,7 +119,6 @@ body::after {
         transform: translate(30px, -50px) scale(0.95);
     }
 }
-
 
 /* ---------- ۴. تایپوگرافی ---------- */
 h1,
@@ -163,7 +150,6 @@ button {
     color: inherit;
 }
 
-
 /* ---------- ۵. اسکرول‌بار ---------- */
 ::-webkit-scrollbar {
     width: 6px;
@@ -182,7 +168,6 @@ button {
     background: rgba(255, 255, 255, 0.15);
 }
 
-
 /* ---------- ۶. لایه‌بندی کلی پنل ---------- */
 .panel-layout {
     display: flex;
@@ -190,7 +175,6 @@ button {
     position: relative;
     z-index: 1;
 }
-
 
 /* ---------- ۷. سایدبار ---------- */
 .sidebar {
@@ -211,7 +195,6 @@ button {
     overflow-x: hidden;
 }
 
-/* خط قرمز ظریف لبه سایدبار */
 .sidebar::after {
     content: '';
     position: absolute;
@@ -219,15 +202,9 @@ button {
     left: -1px;
     width: 1px;
     height: 100%;
-    background: linear-gradient(to bottom,
-            transparent 0%,
-            var(--accent-glow) 30%,
-            var(--accent) 50%,
-            var(--accent-glow) 70%,
-            transparent 100%);
+    background: linear-gradient(to bottom, transparent 0%, var(--accent-glow) 30%, var(--accent) 50%, var(--accent-glow) 70%, transparent 100%);
     opacity: 0.4;
 }
-
 
 /* ---------- ۸. برند / لوگو ---------- */
 .brand {
@@ -262,7 +239,6 @@ button {
     -webkit-text-fill-color: transparent;
     background-clip: text;
 }
-
 
 /* ---------- ۹. منو ---------- */
 .menu {
@@ -305,7 +281,6 @@ button {
     transition: opacity var(--transition-normal);
 }
 
-/* هاور عمومی */
 .menu-item:hover {
     color: var(--text-primary);
     background: var(--glass-bg-hover);
@@ -319,7 +294,6 @@ button {
     opacity: 0.9;
 }
 
-/* آیتم فعال */
 .menu-item.active {
     color: #fff;
     background: var(--accent-subtle);
@@ -345,7 +319,6 @@ button {
     background: var(--accent);
     box-shadow: 0 0 12px var(--accent-glow);
 }
-
 
 /* ---------- ۱۰. گروه منو و زیرمنو ---------- */
 .menu-group {
@@ -382,8 +355,7 @@ button {
     gap: 2px;
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.45s var(--ease-out-expo),
-        opacity 0.35s ease;
+    transition: max-height 0.45s var(--ease-out-expo), opacity 0.35s ease;
     opacity: 0;
     padding-right: 20px;
 }
@@ -428,7 +400,6 @@ button {
     opacity: 0.85;
 }
 
-
 /* ---------- ۱۱. محتوای اصلی ---------- */
 .main-content {
     flex: 1;
@@ -437,7 +408,6 @@ button {
     flex-direction: column;
     min-height: 100vh;
 }
-
 
 /* ---------- ۱۲. توپ‌بار ---------- */
 .top-bar {
@@ -499,10 +469,7 @@ button {
     position: absolute;
     inset: -3px;
     border-radius: 50%;
-    background: conic-gradient(from 0deg,
-            transparent 0%,
-            var(--accent) 25%,
-            transparent 50%);
+    background: conic-gradient(from 0deg, transparent 0%, var(--accent) 25%, transparent 50%);
     z-index: -1;
     opacity: 0;
     animation: rotateBorder 4s linear infinite;
@@ -526,13 +493,11 @@ button {
     border-radius: 50%;
 }
 
-
 /* ---------- ۱۳. بدنه محتوا ---------- */
 .content-body {
     flex: 1;
     padding: 32px 36px;
 }
-
 
 /* ---------- ۱۴. دکمه‌ها ---------- */
 .btn {
@@ -560,10 +525,6 @@ button {
     box-shadow: 0 6px 28px rgba(230, 57, 70, 0.4);
 }
 
-.btn-primary:active {
-    transform: translateY(0);
-}
-
 .btn-ghost {
     background: var(--glass-bg);
     border: 1px solid var(--glass-border);
@@ -576,17 +537,6 @@ button {
     border-color: var(--glass-border-hover);
     color: var(--text-primary);
 }
-
-.btn-sm {
-    padding: 8px 18px;
-    font-size: 0.82rem;
-}
-
-.btn-lg {
-    padding: 14px 36px;
-    font-size: 1rem;
-}
-
 
 /* ---------- ۱۵. فرم‌ها ---------- */
 .form-group {
@@ -629,22 +579,10 @@ button {
     color: var(--text-muted);
 }
 
-.form-textarea {
-    min-height: 120px;
-    resize: vertical;
-}
-
-.form-select {
-    appearance: none;
-    cursor: pointer;
-}
-
-
 /* ---------- ۱۶. کارت پایه ---------- */
 .card {
     background: var(--glass-bg);
     backdrop-filter: blur(var(--glass-blur));
-    -webkit-backdrop-filter: blur(var(--glass-blur));
     border: 1px solid var(--glass-border);
     border-radius: var(--radius-lg);
     padding: 28px;
@@ -655,7 +593,6 @@ button {
     background: var(--glass-bg-hover);
     border-color: var(--glass-border-hover);
 }
-
 
 /* ---------- ۱۷. تاست (اعلان) ---------- */
 .toast-container {
@@ -720,7 +657,6 @@ button {
     }
 }
 
-
 /* ---------- ۱۸. لودینگ صفحه ---------- */
 .page-loader {
     position: fixed;
@@ -762,7 +698,6 @@ button {
     }
 }
 
-
 /* ---------- ۱۹. انیمیشن ورود ---------- */
 @keyframes fadeSlideUp {
     from {
@@ -773,18 +708,6 @@ button {
     to {
         opacity: 1;
         transform: translateY(0);
-    }
-}
-
-@keyframes fadeSlideRight {
-    from {
-        opacity: 0;
-        transform: translateX(-20px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateX(0);
     }
 }
 
@@ -804,11 +727,6 @@ button {
     animation-delay: 0.3s;
 }
 
-.animate-in-delay-4 {
-    animation-delay: 0.4s;
-}
-
-
 /* ---------- ۲۰. ابزارها ---------- */
 .text-accent {
     color: var(--accent);
@@ -818,106 +736,33 @@ button {
     color: var(--text-muted);
 }
 
-.text-success {
-    color: var(--success);
-}
-
-.text-warning {
-    color: var(--warning);
-}
-
-.text-danger {
-    color: var(--danger);
-}
-
-.gap-sm {
-    gap: 8px;
-}
-
-.gap-md {
-    gap: 16px;
-}
-
-.gap-lg {
-    gap: 24px;
-}
-
 .flex {
     display: flex;
-}
-
-.flex-col {
-    flex-direction: column;
 }
 
 .items-center {
     align-items: center;
 }
 
-.justify-between {
-    justify-content: space-between;
-}
-
 .flex-1 {
     flex: 1;
 }
 
-.mt-sm {
-    margin-top: 8px;
+/* ---------- ۲۱. ریسپانسیو و اورلی ---------- */
+.sidebar-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    z-index: 90;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
 }
 
-.mt-md {
-    margin-top: 16px;
-}
-
-.mt-lg {
-    margin-top: 24px;
-}
-
-.mb-sm {
-    margin-bottom: 8px;
-}
-
-.mb-md {
-    margin-bottom: 16px;
-}
-
-.mb-lg {
-    margin-bottom: 24px;
-}
-
-
-/* ---------- ۲۱. ریسپانسیو ---------- */
-@media (max-width: 768px) {
-    :root {
-        --sidebar-width: 0px;
-    }
-
-    .sidebar {
-        transform: translateX(100%);
-        transition: transform 0.4s var(--ease-out-expo);
-        width: 270px;
-    }
-
-    .sidebar.mobile-open {
-        transform: translateX(0);
-    }
-
-    .main-content {
-        margin-right: 0;
-    }
-
-    .top-bar {
-        padding: 0 20px;
-    }
-
-    .content-body {
-        padding: 20px;
-    }
-
-    .mobile-menu-toggle {
-        display: flex !important;
-    }
+.sidebar-overlay.active {
+    opacity: 1;
+    visibility: visible;
 }
 
 .mobile-menu-toggle {
@@ -959,4 +804,133 @@ button {
 
 .mobile-menu-toggle span::after {
     top: 6px;
+}
+
+@media (max-width: 1024px) {
+    .content-body {
+        padding: 24px !important;
+    }
+
+    .top-bar {
+        padding: 0 24px !important;
+    }
+}
+
+@media (max-width: 768px) {
+    :root {
+        --sidebar-width: 0px;
+    }
+
+    .sidebar {
+        transform: translateX(100%);
+        transition: transform 0.4s var(--ease-out-expo);
+        width: 280px;
+        box-shadow: -10px 0 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .sidebar.mobile-open {
+        transform: translateX(0);
+    }
+
+    .main-content {
+        margin-right: 0;
+    }
+
+    .top-bar {
+        padding: 0 16px !important;
+    }
+
+    .content-body {
+        padding: 16px !important;
+    }
+
+    .mobile-menu-toggle {
+        display: flex !important;
+    }
+}
+
+/* ============================================
+   سیستم تم روشن (Light Theme Overrides)
+   ============================================ */
+body,
+.sidebar,
+.top-bar,
+.stat-card,
+.card,
+.form-group input,
+.btn,
+.submenu-item,
+.menu-item {
+    transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.theme-light {
+    --bg-primary: #f3f4f6;
+    --bg-secondary: #ffffff;
+    --bg-tertiary: #f9fafb;
+    --glass-bg: rgba(255, 255, 255, 0.85);
+    --glass-bg-hover: rgba(255, 255, 255, 0.95);
+    --glass-bg-solid: rgba(255, 255, 255, 0.9);
+    --glass-border: rgba(0, 0, 0, 0.08);
+    --glass-border-hover: rgba(0, 0, 0, 0.15);
+    --glass-blur: 28px;
+    --accent: #dc2626;
+    --accent-dark: #b91c1c;
+    --accent-light: #ef4444;
+    --accent-glow: rgba(220, 38, 38, 0.2);
+    --accent-glow-soft: rgba(220, 38, 38, 0.08);
+    --accent-subtle: rgba(220, 38, 38, 0.06);
+    --text-primary: #111827;
+    --text-secondary: #4b5563;
+    --text-muted: #9ca3af;
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.07);
+    --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.1);
+}
+
+.theme-light body::before {
+    display: none;
+}
+
+.theme-light body::after {
+    opacity: 0.05;
+}
+
+.theme-light .sidebar {
+    background: rgba(255, 255, 255, 0.95);
+    border-left-color: rgba(0, 0, 0, 0.06);
+    box-shadow: -4px 0 20px rgba(0, 0, 0, 0.05);
+}
+
+.theme-light .sidebar::after {
+    opacity: 0.2;
+}
+
+.theme-light .brand h2 {
+    background: linear-gradient(135deg, #111827, #4b5563) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
+.theme-light .menu-item.active {
+    color: var(--accent) !important;
+}
+
+.theme-light .top-bar {
+    background: rgba(255, 255, 255, 0.9);
+    border-bottom-color: rgba(0, 0, 0, 0.06);
+}
+
+/* فیکس رنگ آیکون ها در تم روشن (تبدیل سفید به قرمز) */
+.theme-light .menu-item .icon img,
+.theme-light .submenu-item .icon img,
+.theme-light .icon-lg img {
+    filter: invert(18%) sepia(98%) saturate(2500%) hue-rotate(355deg) brightness(95%) contrast(105%);
+    opacity: 1 !important;
+}
+
+.theme-light .user-avatar {
+    border-color: rgba(220, 38, 38, 0.4) !important;
+    color: var(--accent) !important;
 }

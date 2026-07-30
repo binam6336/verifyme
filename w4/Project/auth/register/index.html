@@ -5,6 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ثبت‌نام شرکت | سامانه گارانتی هوشمند</title>
+
+    <!-- جلوگیری از فلش سیاه -->
+    <script>if (localStorage.getItem("app_theme") === "light") document.documentElement.classList.add("theme-light");</script>
+
     <link
         href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100;200;300;400;500;600;700;800;900&display=swap"
         rel="stylesheet">
@@ -15,6 +19,16 @@
 <body class="auth-body">
 
     <div id="toast-container" class="toast-container"></div>
+
+    <div class="auth-theme-toggle">
+        <label class="theme-switch" for="auth-theme-toggle">
+            <input type="checkbox" id="auth-theme-toggle">
+            <div class="slider round">
+                <span class="icon-sun">☀️</span>
+                <span class="icon-moon">🌙</span>
+            </div>
+        </label>
+    </div>
 
     <div class="auth-container">
         <div class="auth-card glass-card">
@@ -27,59 +41,48 @@
 
             <form id="register-form" class="auth-form">
                 <div class="form-grid">
-
                     <div class="form-group">
                         <label for="first_name">نام مسئول</label>
                         <input type="text" id="first_name" placeholder="مثلاً: علی" required>
                     </div>
-
                     <div class="form-group">
                         <label for="last_name">نام خانوادگی</label>
                         <input type="text" id="last_name" placeholder="مثلاً: محمدی" required>
                     </div>
-
                     <div class="form-group full-width">
                         <label for="company_name">نام شرکت / برند</label>
                         <input type="text" id="company_name" placeholder="مثلاً: صوتی تصویری پارس" required>
                     </div>
-
                     <div class="form-group full-width">
                         <label for="email">ایمیل رسمی</label>
                         <input type="email" id="email" placeholder="info@company.com" required dir="ltr">
                     </div>
-
                     <div class="form-group full-width">
                         <label for="mobile">شماره همراه مسئول</label>
                         <input type="tel" id="mobile" placeholder="09123456789" maxlength="11" required dir="ltr">
                     </div>
-
                     <div class="form-group">
                         <label for="password">رمز عبور</label>
                         <input type="password" id="password" placeholder="حداقل ۸ کاراکتر" minlength="8" required
                             dir="ltr">
                     </div>
-
                     <div class="form-group">
                         <label for="confirm_password">تأیید رمز عبور</label>
                         <input type="password" id="confirm_password" placeholder="تکرار رمز عبور" minlength="8" required
                             dir="ltr">
                     </div>
-
                     <div class="form-actions">
                         <button type="submit" id="submit-btn" class="btn-primary full-width">
                             <span class="btn-text">ایجاد حساب و ورود</span>
                             <div class="loader" id="btn-loader"></div>
                         </button>
                     </div>
-
                     <div class="auth-footer">
                         <span>قبلاً ثبت‌نام کرده‌اید؟</span>
                         <a href="../login">ورود به حساب</a>
                     </div>
                 </div>
             </form>
-            <!-- تگ form که در کد قبلی جا افتاده بود اینجا بسته شد -->
-
         </div>
     </div>
 

@@ -1,4 +1,3 @@
-<!-- products/new/index.html -->
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 
@@ -6,6 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>تعریف محصول جدید - سامانه گارانتی</title>
+
+    <!-- جلوگیری از فلش سیاه -->
+    <script>if (localStorage.getItem("app_theme") === "light") document.documentElement.classList.add("theme-light");</script>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100;200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="../../assets/css/global.css">
     <link rel="stylesheet" href="style.css">
 </head>
@@ -13,10 +19,11 @@
 <body>
 
     <div id="toast-container" class="toast-container"></div>
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
 
     <div class="panel-layout">
 
-        <aside class="sidebar">
+        <aside class="sidebar" id="sidebar">
             <div class="brand">
                 <div class="logo-icon">G</div>
                 <h2>گارانتی هوشمند</h2>
@@ -28,19 +35,19 @@
                     داشبورد
                 </a>
 
-                <!-- بعد از اصلاح -->
                 <div class="menu-group">
-                    <button class="menu-item has-submenu active open" id="product-menu-btn">
-                        <span><span class="icon"><img src="../../assets/img/icon/products2.png" alt=""></span> مدیریت
-                            محصولات</span>
+                    <button class="menu-item has-submenu open" id="product-menu-btn">
+                        <span><span class="icon"><img src="../../assets/img/icon/products2.png" alt="محصولات"></span>
+                            مدیریت محصولات</span>
                         <span class="arrow">▼</span>
                     </button>
                     <div class="submenu open" id="product-submenu">
                         <a href="../new" class="submenu-item active">
-                            <span><img class="icon" src="../../assets/img/icon/add.png" alt="add"></span> ثبت محصول جدید
+                            <span class="icon"><img src="../../assets/img/icon/add.png" alt="افزودن"></span> ثبت محصول
+                            جدید
                         </a>
                         <a href="../list" class="submenu-item">
-                            <span><img class="icon" src="../../assets/img/icon/list.png" alt=""></span> لیست محصولات
+                            <span class="icon"><img src="../../assets/img/icon/list.png" alt="لیست"></span> لیست محصولات
                         </a>
                     </div>
                 </div>
@@ -50,16 +57,32 @@
         <main class="main-content">
 
             <header class="top-bar">
-                <div class="welcome-section">
-                    <h3>مدیریت محصولات</h3>
-                    <p style="color: var(--text-muted); font-size: 0.85rem;">تعریف تنوع و شناسنامه محصولات شرکت</p>
-                </div>
-                <div class="user-profile">
-                    <div class="user-avatar" id="avatar-container">
-                        <img id="user-avatar-img" src="" alt="User Avatar"
-                            style="display: none; width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">
+                <div class="flex items-center">
+                    <button class="mobile-menu-toggle" id="mobile-menu-btn"><span></span></button>
+                    <div class="welcome-section">
+                        <h3>مدیریت محصولات</h3>
+                        <p style="color: var(--text-muted); font-size: 0.85rem;">تعریف تنوع و شناسنامه محصولات شرکت</p>
                     </div>
-                    <span id="user-role">تولیدکننده</span>
+                </div>
+
+                <div class="flex items-center" style="gap: 16px;">
+                    <div class="theme-switch-wrapper">
+                        <label class="theme-switch" for="theme-toggle">
+                            <input type="checkbox" id="theme-toggle">
+                            <div class="slider round">
+                                <span class="icon-sun">☀️</span>
+                                <span class="icon-moon">🌙</span>
+                            </div>
+                        </label>
+                    </div>
+                    <div class="user-profile">
+                        <span id="user-role">تولیدکننده</span>
+                        <div class="user-avatar" id="avatar-container">
+                            <img id="user-avatar-img" src="" alt="User Avatar"
+                                style="display: none; width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">
+                            <span id="avatar-initials" style="display: none;"></span>
+                        </div>
+                    </div>
                 </div>
             </header>
 
@@ -102,7 +125,6 @@
                 </div>
             </section>
         </main>
-
     </div>
 
     <script src="../../config/api-config.js"></script>

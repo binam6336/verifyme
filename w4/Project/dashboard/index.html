@@ -5,6 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>پنل مدیریتی تولیدکننده - سامانه گارانتی هوشمند</title>
+
+    <!-- اسکریپت جلوگیری از فلش سیاه (باید روی html اعمال شود) -->
+    <script>if (localStorage.getItem("app_theme") === "light") document.documentElement.classList.add("theme-light");</script>
+
     <link
         href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100;200;300;400;500;600;700;800;900&display=swap"
         rel="stylesheet">
@@ -14,11 +18,12 @@
 
 <body>
 
-    <!-- لودینگ اولیه صفحه -->
     <div class="page-loader" id="page-loader">
         <div class="loader-spinner"></div>
         <p>در حال بارگذاری...</p>
     </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
 
     <div class="panel-layout">
 
@@ -27,61 +32,60 @@
                 <div class="logo-icon">G</div>
                 <h2>گارانتی هوشمند</h2>
             </div>
-
             <nav class="menu">
                 <a href="../dashboard" class="menu-item active">
                     <span class="icon"><img src="../assets/img/icon/dashboard.png" alt="داشبورد"></span>
                     داشبورد
                 </a>
-
                 <div class="menu-group">
                     <button class="menu-item has-submenu" id="product-menu-btn">
-                        <span>
-                            <span class="icon"><img src="../assets/img/icon/products2.png" alt="محصولات"></span>
-                            مدیریت محصولات
-                        </span>
+                        <span><span class="icon"><img src="../assets/img/icon/products2.png" alt="محصولات"></span>
+                            مدیریت محصولات</span>
                         <span class="arrow">▼</span>
                     </button>
                     <div class="submenu" id="product-submenu">
-                        <a href="../products/new" class="submenu-item">
-                            <span class="icon"><img src="../assets/img/icon/add.png" alt="افزودن"></span>
-                            ثبت محصول جدید
-                        </a>
-                        <a href="../products/list" class="submenu-item">
-                            <span class="icon"><img src="../assets/img/icon/list.png" alt="لیست"></span>
-                            لیست محصولات
-                        </a>
+                        <a href="../products/new" class="submenu-item"><span class="icon"><img
+                                    src="../assets/img/icon/add.png" alt="افزودن"></span> ثبت محصول جدید</a>
+                        <a href="../products/list" class="submenu-item"><span class="icon"><img
+                                    src="../assets/img/icon/list.png" alt="لیست"></span> لیست محصولات</a>
                     </div>
                 </div>
             </nav>
         </aside>
 
         <main class="main-content">
-
             <header class="top-bar">
                 <div class="flex items-center">
-                    <button class="mobile-menu-toggle" id="mobile-menu-btn">
-                        <span></span>
-                    </button>
+                    <button class="mobile-menu-toggle" id="mobile-menu-btn"><span></span></button>
                     <div class="welcome-section">
                         <h3>بررسی وضعیت جاری</h3>
                         <p style="color: var(--text-muted); font-size: 0.85rem;">خوش آمدید، <span
                                 id="user-display-name">...</span></p>
                     </div>
                 </div>
-                <div class="user-profile">
-                    <span id="user-role">تولیدکننده</span>
-                    <div class="user-avatar" id="avatar-container">
-                        <img id="user-avatar-img" src="" alt="User Avatar"
-                            style="display: none; width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">
-                        <span id="avatar-initials" style="display: none;"></span>
+                <div class="flex items-center" style="gap: 16px;">
+                    <div class="theme-switch-wrapper">
+                        <label class="theme-switch" for="theme-toggle">
+                            <input type="checkbox" id="theme-toggle">
+                            <div class="slider round">
+                                <span class="icon-sun">☀️</span>
+                                <span class="icon-moon">🌙</span>
+                            </div>
+                        </label>
+                    </div>
+                    <div class="user-profile">
+                        <span id="user-role">تولیدکننده</span>
+                        <div class="user-avatar" id="avatar-container">
+                            <img id="user-avatar-img" src="" alt="User Avatar"
+                                style="display: none; width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">
+                            <span id="avatar-initials" style="display: none;"></span>
+                        </div>
                     </div>
                 </div>
             </header>
 
             <section class="content-body">
                 <div class="stats-container">
-
                     <div class="stat-card animate-in animate-in-delay-1">
                         <div class="card-header">
                             <span class="icon-lg"><img src="../assets/img/icon/products.png" alt="محصولات"></span>
@@ -90,17 +94,14 @@
                         <p class="card-value" id="stat-total">-</p>
                         <div class="card-glow"></div>
                     </div>
-
                     <div class="stat-card accent animate-in animate-in-delay-2">
                         <div class="card-header">
-                            <span class="icon-lg"><img src="../assets/img/icon/warranty.png" alt="گارانتی"
-                                    width="85%"></span>
+                            <span class="icon-lg"><img src="../assets/img/icon/warranty.png" alt="گارانتی"></span>
                             <h3>گارانتی‌های فعال</h3>
                         </div>
                         <p class="card-value" id="stat-active">-</p>
                         <div class="card-glow"></div>
                     </div>
-
                     <div class="stat-card animate-in animate-in-delay-3">
                         <div class="card-header">
                             <span class="icon-lg"><img src="../assets/img/icon/pending.png" alt="در انتظار"></span>
@@ -109,14 +110,11 @@
                         <p class="card-value" id="stat-pending">-</p>
                         <div class="card-glow"></div>
                     </div>
-
                 </div>
             </section>
         </main>
-
     </div>
 
-    <!-- کانتینر تاست -->
     <div class="toast-container" id="toast-container"></div>
 
     <script src="../config/api-config.js"></script>

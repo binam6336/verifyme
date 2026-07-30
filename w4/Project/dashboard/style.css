@@ -2,31 +2,25 @@
    استایل اختصاصی صفحه داشبورد
    ============================================ */
 
-
-/* ---------- کانتینر آمار ---------- */
 .stats-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 24px;
     max-width: 1100px;
 }
 
-
-/* ---------- کارت آمار ---------- */
 .stat-card {
     position: relative;
     padding: 30px 28px 28px;
     border-radius: var(--radius-lg);
     background: var(--glass-bg);
     backdrop-filter: blur(var(--glass-blur));
-    -webkit-backdrop-filter: blur(var(--glass-blur));
     border: 1px solid var(--glass-border);
     overflow: hidden;
     transition: all 0.45s var(--ease-out-expo);
     cursor: default;
 }
 
-/* خط قرمز پایین کارت — نمایش در هاور */
 .stat-card::after {
     content: '';
     position: absolute;
@@ -43,23 +37,16 @@
     transform: translateY(-6px);
     background: var(--glass-bg-hover);
     border-color: rgba(230, 57, 70, 0.18);
-    box-shadow:
-        0 12px 40px rgba(0, 0, 0, 0.35),
-        0 0 60px var(--accent-glow-soft);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35), 0 0 60px var(--accent-glow-soft);
 }
 
 .stat-card:hover::after {
     opacity: 0.7;
 }
 
-
-/* ---------- حالت اکسنت (کارت وسط) ---------- */
 .stat-card.accent {
     border-color: rgba(230, 57, 70, 0.15);
-    background: linear-gradient(135deg,
-            rgba(230, 57, 70, 0.06) 0%,
-            var(--glass-bg) 50%,
-            rgba(230, 57, 70, 0.04) 100%);
+    background: linear-gradient(135deg, rgba(230, 57, 70, 0.06) 0%, var(--glass-bg) 50%, rgba(230, 57, 70, 0.04) 100%);
 }
 
 .stat-card.accent::before {
@@ -76,13 +63,9 @@
 
 .stat-card.accent:hover {
     border-color: rgba(230, 57, 70, 0.3);
-    box-shadow:
-        0 12px 40px rgba(0, 0, 0, 0.35),
-        0 0 80px rgba(230, 57, 70, 0.15);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35), 0 0 80px rgba(230, 57, 70, 0.15);
 }
 
-
-/* ---------- هدر کارت ---------- */
 .card-header {
     display: flex;
     align-items: center;
@@ -106,9 +89,13 @@
     border-radius: var(--radius-sm);
     background: rgba(255, 255, 255, 0.04);
     transition: all var(--transition-normal);
+    overflow: hidden;
 }
 
 .icon-lg img {
+    width: 26px !important;
+    height: 26px !important;
+    object-fit: contain;
     opacity: 0.55;
     transition: opacity var(--transition-normal);
 }
@@ -129,8 +116,6 @@
     opacity: 0.75;
 }
 
-
-/* ---------- مقدار عددی ---------- */
 .card-value {
     font-size: 2.6rem;
     font-weight: 900;
@@ -138,11 +123,17 @@
     line-height: 1;
     letter-spacing: -1px;
     padding-right: 4px;
-    transition: color var(--transition-normal);
 }
 
 .stat-card.accent .card-value {
-    background: linear-gradient(135deg, #fff, var(--accent-light));
+    background: linear-gradient(135deg, #ffffff, var(--accent-light));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.theme-light .stat-card.accent .card-value {
+    background: linear-gradient(135deg, var(--text-primary), var(--accent));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -152,17 +143,13 @@
     transform: scale(1.02);
 }
 
-
-/* ---------- درخشش پس‌زمینه کارت ---------- */
 .card-glow {
     position: absolute;
     top: -40%;
     left: -40%;
     width: 120%;
     height: 120%;
-    background: radial-gradient(circle at 30% 30%,
-            rgba(230, 57, 70, 0.06) 0%,
-            transparent 60%);
+    background: radial-gradient(circle at 30% 30%, rgba(230, 57, 70, 0.06) 0%, transparent 60%);
     opacity: 0;
     transition: opacity 0.7s ease;
     pointer-events: none;
@@ -180,8 +167,78 @@
     opacity: 1;
 }
 
+/* --- سوییچر تم --- */
+.theme-switch-wrapper {
+    display: flex;
+    align-items: center;
+}
 
-/* ---------- ریسپانسیو ---------- */
+.theme-switch {
+    position: relative;
+    display: inline-block;
+    width: 52px;
+    height: 28px;
+}
+
+.theme-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    inset: 0;
+    background-color: var(--glass-bg-solid);
+    border: 1px solid var(--glass-border);
+    transition: 0.4s;
+    border-radius: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 6px;
+}
+
+.slider .icon-sun,
+.slider .icon-moon {
+    font-size: 14px;
+    transition: opacity 0.3s ease;
+}
+
+.slider .icon-sun {
+    opacity: 0.3;
+}
+
+.slider .icon-moon {
+    opacity: 1;
+}
+
+.theme-light .slider .icon-sun {
+    opacity: 1;
+}
+
+.theme-light .slider .icon-moon {
+    opacity: 0.3;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 22px;
+    width: 22px;
+    right: 3px;
+    bottom: 2px;
+    background-color: var(--accent);
+    transition: 0.4s;
+    border-radius: 50%;
+}
+
+input:checked+.slider:before {
+    transform: translateX(-23px);
+    background-color: #f59e0b;
+}
+
 @media (max-width: 768px) {
     .stats-container {
         grid-template-columns: 1fr;
@@ -194,11 +251,5 @@
 
     .stat-card {
         padding: 24px 22px;
-    }
-}
-
-@media (max-width: 480px) {
-    .card-value {
-        font-size: 1.8rem;
     }
 }
