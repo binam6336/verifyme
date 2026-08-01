@@ -944,6 +944,15 @@ body,
     color: var(--accent) !important;
 }
 
+/* رفع باگ مخفی شدن متن تاست در تم روشن */
+.theme-light .toast {
+    background: rgba(255, 255, 255, 0.95) !important;
+    color: var(--text-primary) !important;
+    border-color: rgba(0, 0, 0, 0.08) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12) !important;
+    backdrop-filter: blur(20px);
+}
+
 /* ---------- ریسپانسیو برای موبایل‌های بسیار کوچک ---------- */
 @media (max-width: 480px) {
     .top-bar {
