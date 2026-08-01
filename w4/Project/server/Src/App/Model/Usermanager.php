@@ -64,12 +64,17 @@ class Usermanager
 
 
 
-        $token = $this->auth->CreateToken($this->conn->lastInsertId())['token'];
+
 
         if ($stmt->execute()) {
+            $token = $this->auth->CreateToken($this->conn->lastInsertId())['token'];
+            $userid = $this->conn->lastInsertId();
+
+            // loggs
+            // $this->logger->warning("userid", [$this->conn->lastInsertId()]);
             return [
                 "status" => true,
-                "id" => $this->conn->lastInsertId(),
+                "id" => $userid,
                 "token" => $token
             ];
         } else {
