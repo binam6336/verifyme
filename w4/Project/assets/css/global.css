@@ -173,7 +173,6 @@ button {
     display: flex;
     min-height: 100vh;
     position: relative;
-    z-index: 1;
 }
 
 /* ---------- ۷. سایدبار ---------- */
@@ -407,11 +406,16 @@ button {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    min-width: 0;
+    /* رفع باگ خروج کارت‌ها از کادر در لپ‌تاپ */
+    overflow-x: hidden;
+    /* جلوگیری از هرگونه اسکرول افقی */
 }
 
 /* ---------- ۱۲. توپ‌بار ---------- */
 .top-bar {
-    height: var(--topbar-height);
+    height: auto;
+    /* اجازه ارتفاع آزاد در صورت نیاز */
     min-height: var(--topbar-height);
     display: flex;
     align-items: center;
@@ -424,6 +428,9 @@ button {
     position: sticky;
     top: 0;
     z-index: 50;
+    flex-wrap: wrap;
+    /* چیدمان مجدد در لپ‌تاپ‌های کوچک */
+    gap: 10px;
 }
 
 .welcome-section h3 {
@@ -826,6 +833,8 @@ button {
         transition: transform 0.4s var(--ease-out-expo);
         width: 280px;
         box-shadow: -10px 0 40px rgba(0, 0, 0, 0.3);
+        z-index: 100 !important;
+        /* تضمین میکنه همیشه بالای اورلی بمونه */
     }
 
     .sidebar.mobile-open {
@@ -933,4 +942,28 @@ body,
 .theme-light .user-avatar {
     border-color: rgba(220, 38, 38, 0.4) !important;
     color: var(--accent) !important;
+}
+
+/* ---------- ریسپانسیو برای موبایل‌های بسیار کوچک ---------- */
+@media (max-width: 480px) {
+    .top-bar {
+        padding: 0 12px !important;
+    }
+
+    .content-body {
+        padding: 12px !important;
+    }
+
+    /* جلوگیری از خارج شدن فرم‌ها و گریدها از صفحه */
+    .form-grid,
+    .stats-container {
+        grid-template-columns: 1fr !important;
+    }
+
+    .form-container,
+    .glass-card,
+    .auth-container {
+        padding: 20px 16px !important;
+        border-radius: 16px !important;
+    }
 }

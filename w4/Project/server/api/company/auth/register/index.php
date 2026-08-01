@@ -41,6 +41,11 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
 
   // logs
+
+  // $logger->warning("register response", [
+  //   $register
+  // ]);
+
   // $logger->debug("input data", [$data]);
   // $logger->debug("response", [
   //   $response
