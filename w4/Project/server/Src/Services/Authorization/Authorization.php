@@ -95,7 +95,7 @@ class Authorization
         $stmt->bindParam(":token", $token);
 
         if ($stmt->execute()) {
-            $result = $stmt->fetchAll(PDO::FETCH_DEFAULT);
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
             $this->logger->info("fetch result", [$result]);
         }
     }
