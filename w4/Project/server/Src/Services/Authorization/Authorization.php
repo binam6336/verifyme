@@ -39,7 +39,7 @@ class Authorization
         $this->logger  = new Logger('app');
 
         $this->logger->pushHandler(
-            new StreamHandler(__DIR__ . '/../../../Logs/WARNING/TokenError.log', Logger::WARNING)
+            new StreamHandler(__DIR__ . '/../../../Logs/WARNING/TokenError.log', Logger::INFO)
         );
     }
 
