@@ -39,7 +39,7 @@ class Authorization
         $this->logger  = new Logger('app');
 
         $this->logger->pushHandler(
-            new StreamHandler(__DIR__ . '/../../../Logs/WARNING/Tokenmanager/TokenError.log', Logger::INFO)
+            new StreamHandler(__DIR__ . '/../../../Logs/WARNING/Tokenmanager/TokenError.log', Logger::WARNING)
         );
     }
 
@@ -97,11 +97,11 @@ class Authorization
 
         if ($stmt->execute()) {
             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            $this->logger->info("fetch result", [$result[0]["userid"]]);
+            // $this->logger->info("fetch result", [$result[0]["userid"]]);
 
-            // return [$result[0]["userid"]];
+            return [$result[0]["userid"]];
         }
     }
 }
-$a = new Authorization;
-$b = $a->GetIdWithToken("82a1bdad64da235f5594ff620ac8cb498b86aff983eb88ef3508bcc517e1eb64b257126594b4f74558dd431a945d942210eb7f3305e14553c0a3184ee590ababebfde0f029eb");
+// $a = new Authorization;
+// $b = $a->GetIdWithToken("82a1bdad64da235f5594ff620ac8cb498b86aff983eb88ef3508bcc517e1eb64b257126594b4f74558dd431a945d942210eb7f3305e14553c0a3184ee590ababebfde0f029eb");
