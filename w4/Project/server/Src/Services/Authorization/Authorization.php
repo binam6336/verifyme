@@ -20,6 +20,7 @@ require __DIR__ . '/../../../vendor/autoload.php';
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Src\Config\Config;
+use PDO;
 
 class Authorization
 {
