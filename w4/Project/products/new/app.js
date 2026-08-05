@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const productSubmenu = document.getElementById("product-submenu");
 
     // ==========================================
-    // منطق تم (اصلاح شده روی documentElement)
+    // منطق تم
     // ==========================================
     if (localStorage.getItem("app_theme") === "light") {
         themeToggle.checked = true;
@@ -43,17 +43,14 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // ==========================================
-    // آواتار
+    // توابع کمکی
     // ==========================================
-    const savedAvatar = localStorage.getItem("user_avatar");
-    if (savedAvatar && avatarImg) {
-        avatarImg.src = savedAvatar; avatarImg.style.display = "block";
-        avatarImg.onerror = () => { avatarImg.style.display = "none"; };
+    function extractInitials(n) {
+        if (!n) return "؟";
+        const p = n.trim().split(/\s+/);
+        return p.length >= 2 ? p[0][0] + p[1][0] : p[0].substring(0, 2);
     }
 
-    // ==========================================
-    // فرم ثبت محصول
-    // ==========================================
     function showToast(message, type = "success") {
         const toast = document.createElement("div"); toast.className = `toast ${type}`; toast.textContent = message; toastContainer.appendChild(toast);
         setTimeout(() => { toast.classList.add("removing"); toast.addEventListener("animationend", () => toast.remove()); }, 4000);
@@ -64,6 +61,45 @@ document.addEventListener("DOMContentLoaded", () => {
         else { submitBtn.classList.remove("loading"); submitBtn.disabled = false; }
     }
 
+    // ==========================================
+    // دریافت مستقیم آواتار از API (بدون وابستگی به localStorage)
+    // ==========================================
+    async function loadAvatar() {
+        try {
+            const response = await API_CONFIG.sendRequest("dashboard/init/");
+
+            if (response.status === "success" && response.data && response.data.user) {
+                const user = response.data.user;
+
+                if (user.avatar && user.avatar.trim() && avatarImg) {
+                    avatarImg.src = user.avatar;
+                    avatarImg.style.display = "block";
+                    avatarInitials.style.display = "none";
+
+                    // اگر عکس لود نشد، فال‌بک به حروف اول نام
+                    avatarImg.onerror = () => {
+                        avatarImg.style.display = "none";
+                        avatarInitials.textContent = extractInitials(user.name);
+                        avatarInitials.style.display = "block";
+                    };
+                } else {
+                    // بدون آواتار -> حروف اول نام
+                    avatarImg.style.display = "none";
+                    avatarInitials.textContent = extractInitials(user.name);
+                    avatarInitials.style.display = "block";
+                }
+            }
+        } catch (error) {
+            console.error("خطا در دریافت اطلاعات کاربر:", error);
+            // در صورت خطا، حروف اول رو نشون بده
+            avatarInitials.textContent = "؟";
+            avatarInitials.style.display = "block";
+        }
+    }
+
+    // ==========================================
+    // فرم ثبت محصول
+    // ==========================================
     productForm.addEventListener("submit", async (e) => {
         e.preventDefault();
         const payload = {
@@ -94,4 +130,9 @@ document.addEventListener("DOMContentLoaded", () => {
             toggleLoading(false);
         }
     });
+
+    // ==========================================
+    // اجرای اولیه
+    // ==========================================
+    loadAvatar();
 });
