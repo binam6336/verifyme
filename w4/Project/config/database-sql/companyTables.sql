@@ -10,6 +10,8 @@
             phone varchar(255),
             password varchar(255)
             );
+            CHARACTER SET utf8mb4
+            COLLATE utf8mb4_unicode_ci;
             -- insert test
             INSERT INTO user ( firstName , lastName , companyname , email , username , phone , password)
             VALUES ('test' , 'test', 'test','test','test','test','test');
@@ -22,6 +24,8 @@
             userid varchar(255),
             brand varchar(255)
             );  
+            CHARACTER SET utf8mb4
+            COLLATE utf8mb4_unicode_ci;
             -- product test
             INSERT INTO product ( name , category , userid )
             VALUES ('test' , 'test', 'test');
