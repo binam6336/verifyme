@@ -157,7 +157,7 @@ class Usermanager
         }
     }
     public function UpdateUser() {}
-    public function ReadUser() {}
+    public function ReadUser($token) {}
     public function GetAllUsers() {}
     public function DeleteUser() {}
 }

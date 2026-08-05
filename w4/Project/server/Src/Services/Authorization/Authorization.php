@@ -6,6 +6,7 @@
 // methods
 // ** SaveToken
 // ** CreateToken
+// ** GetIdWithToken
 //
 
 namespace Src\Services\Authorization;
@@ -77,7 +78,21 @@ class Authorization
             ];
         }
     }
-}
 
-// $a = new Authorization;
-// print_r($b = $a->CreateToken(12));
+    public function GetIdWithToken($token)
+    {
+        $sql = "
+        SELECT userid
+        FROM authorization
+        WHERE token = :token
+        ";
+        $stmt =  $this->conn->prepare($sql);
+
+        $stmt->bindParam(":token", $token);
+
+        if ($stmt->execute()) {
+            $result = $stmt->fetchAll(MYSQLI_ASSOC);
+            $this->logger->info("fetch result", [$result]);
+        }
+    }
+}
