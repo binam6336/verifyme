@@ -19,6 +19,7 @@ use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Src\Config\Config;
 use Src\Services\Authorization\Authorization;
+use PDO;
 
 class Usermanager
 {
@@ -70,8 +71,6 @@ class Usermanager
             $token = $this->auth->CreateToken($this->conn->lastInsertId())['token'];
             $userid = $this->conn->lastInsertId();
 
-            // loggs
-            // $this->logger->warning("userid", [$this->conn->lastInsertId()]);
             return [
                 "status" => true,
                 "id" => $userid,
@@ -92,9 +91,28 @@ class Usermanager
 
         $userid = $this->auth->GetIdWithToken($token);
 
-        $this->logger->info("recived userid", [
+        $this->logger->info("recived userid / get user", [
             $userid
         ]);
+
+        // sql
+        $sql = "
+        SELECT * FROM
+        user
+        WHERE id = :id
+        ";
+
+        $stmt = $this->conn->prepare($sql);
+
+        $stmt->bindParam(":id", $userid);
+
+        if ($stmt->execute()) {
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            $this->logger->info("fetch result / get user", [
+                $result
+            ]);
+        }
     }
     public function GetAllUsers() {}
     public function DeleteUser() {}

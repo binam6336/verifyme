@@ -100,6 +100,6 @@ class Authorization
             // $this->logger->info("fetch result", [$result[0]["userid"]]);
 
             return [$result[0]["userid"]];
-        }
+        } else return;
     }
 }
