@@ -84,7 +84,14 @@ class Usermanager
         }
     }
     public function UpdateUser() {}
-    public function GetUser() {}
+    public function GetUser(array $data)
+    {
+
+        // change token to user id
+        $token = $data['token'];
+
+        $userid = $this->auth->GetIdWithToken($token);
+    }
     public function GetAllUsers() {}
     public function DeleteUser() {}
 }
