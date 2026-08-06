@@ -1,3 +1,0 @@
-[2026-07-27T00:14:48.997117+02:00] app.WARNING: database connection error {"db username":"root","db name":"crm","db password":""} []
-[2026-07-27T00:14:53.637181+02:00] app.WARNING: database connection error {"db username":"root","db name":"crm","db password":""} []
-[2026-07-27T00:15:28.567168+02:00] app.WARNING: database connection error {"db username":"root","db name":"crm","db password":""} []

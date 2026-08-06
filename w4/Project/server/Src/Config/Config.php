@@ -30,7 +30,7 @@ class Config
         $this->logger  = new Logger('app');
 
         $this->logger->pushHandler(
-            new StreamHandler(__DIR__ . '/../../Logs/WARNING/databse/error.log', Logger::WARNING)
+            new StreamHandler(__DIR__ . '/../../Logs/Databse/error.log', Logger::WARNING)
         );
 
         try {

@@ -47,7 +47,7 @@ class Usermanager
         $this->logger  = new Logger('app');
 
         $this->logger->pushHandler(
-            new StreamHandler(__DIR__ . '/../../../Logs/WARNING/htmlpurifier/bad-script.log', Logger::WARNING)
+            new StreamHandler(__DIR__ . '/../../../Logs/Controller/Usermanager.log', Logger::WARNING)
         );
     }
 

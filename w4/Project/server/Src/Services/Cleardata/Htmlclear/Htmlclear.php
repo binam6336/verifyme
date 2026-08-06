@@ -22,7 +22,7 @@ class Htmlclear
         // logger
         $this->logger = new Logger('app');
         $this->logger->pushHandler(
-            new StreamHandler(__DIR__ . '/app.log', Logger::DEBUG)
+            new StreamHandler(__DIR__ . '/../../../../', Logger::DEBUG)
         );
 
         // HTML purifier

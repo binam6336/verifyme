@@ -44,7 +44,7 @@ class Usermanager
         $this->logger  = new Logger('app');
 
         $this->logger->pushHandler(
-            new StreamHandler(__DIR__ . '/../../../Logs/Warning/Model/Usermanager.log', Logger::DEBUG)
+            new StreamHandler(__DIR__ . '/../../../Logs/Model/Usermanager.log', Logger::DEBUG)
         );
     }
 
