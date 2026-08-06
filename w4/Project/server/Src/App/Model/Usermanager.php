@@ -44,7 +44,7 @@ class Usermanager
         $this->logger  = new Logger('app');
 
         $this->logger->pushHandler(
-            new StreamHandler(__DIR__ . '/../../../Logs/Model/Usermanager.log', Logger::DEBUG)
+            new StreamHandler(__DIR__ . '/../../../Logs/Model/Usermanager.log', Logger::INFO)
         );
     }
 
@@ -91,6 +91,10 @@ class Usermanager
         $token = $data['token'];
 
         $userid = $this->auth->GetIdWithToken($token);
+
+        $this->logger->info("recived userid", [
+            $userid
+        ]);
     }
     public function GetAllUsers() {}
     public function DeleteUser() {}
