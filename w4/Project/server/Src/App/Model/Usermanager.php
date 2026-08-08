@@ -89,7 +89,7 @@ class Usermanager
         // change token to user id
         $token = $data['token'];
 
-        $userid = $this->auth->GetIdWithToken($token);
+        $userid = $this->auth->GetIdWithToken($token)[0];
 
         $this->logger->info("recived userid / get user", [
             $userid
@@ -112,8 +112,42 @@ class Usermanager
             $this->logger->info("fetch result / get user", [
                 $result
             ]);
+
+            $firstname = $result[0]["firstName"] ?? "NULL";
+            $lastName = $result[0]["lastName"] ?? "NULL";
+            $companyname = $result[0]["companyname"] ?? "NULL";
+            $email = $result[0]["email"] ?? "NULL";
+            $username = $result[0]["username"] ?? "NULL";
+            $phone = $result[0]["phone"] ?? "NULL";
+
+            $userdata = [
+                "status" => true,
+                "firstname" => $firstname,
+                "lastName" => $lastName,
+                "companyname" => $companyname,
+                "email" => $email,
+                "username" => $username,
+                "phone" => $phone,
+
+            ];
+
+            $this->logger->info(" user data to return / get user", [
+                $userdata
+            ]);
+
+            return $userdata;
+        } else {
+            return [
+                "status" => false
+            ];
         }
     }
     public function GetAllUsers() {}
     public function DeleteUser() {}
 }
+$a = new Usermanager;
+$data = [
+    "token" => "537937979d11a2341ae65e0660caf393a65f4661d9cf52ef157882ae47e98c9d212dd6ed53e1b52090829c5ffa344a4045fbdef0918a07aba95a336c4f4dcdf91e7877e7d636"
+];
+$b = $a->GetUser($data);
+var_dump($b);
