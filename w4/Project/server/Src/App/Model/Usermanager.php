@@ -145,9 +145,3 @@ class Usermanager
     public function GetAllUsers() {}
     public function DeleteUser() {}
 }
-$a = new Usermanager;
-$data = [
-    "token" => "537937979d11a2341ae65e0660caf393a65f4661d9cf52ef157882ae47e98c9d212dd6ed53e1b52090829c5ffa344a4045fbdef0918a07aba95a336c4f4dcdf91e7877e7d636"
-];
-$b = $a->GetUser($data);
-var_dump($b);
