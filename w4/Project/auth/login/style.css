@@ -1,0 +1,407 @@
+/* ============================================
+   استایل اختصاصی صفحات احراز هویت
+   ============================================ */
+
+/* CRITICAL FIX: قفل اسکرول افقی در بالاترین سطح */
+html {
+    overflow-x: hidden !important;
+}
+
+/* ---------- بدنه صفحات auth ---------- */
+.auth-body {
+    min-height: 100vh;
+    padding: 24px 0 40px 0;
+    position: relative;
+    overflow-x: hidden !important;
+    width: 100%;
+    max-width: 100vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.auth-body::before {
+    content: '';
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(230, 57, 70, 0.08) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: pulseGlow 6s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 0;
+}
+
+@keyframes pulseGlow {
+
+    0%,
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0.6;
+    }
+
+    50% {
+        transform: translate(-50%, -50%) scale(1.15);
+        opacity: 1;
+    }
+}
+
+/* ---------- سوییچر شناور گوشه صفحه ---------- */
+.auth-theme-toggle {
+    position: fixed;
+    top: 24px;
+    left: 24px;
+    z-index: 1000;
+}
+
+/* ---------- کانتینر و کارت ---------- */
+.auth-container {
+    width: 100%;
+    max-width: 480px;
+    position: relative;
+    z-index: 1;
+    animation: fadeSlideUp 0.7s var(--ease-out-expo) both;
+    padding: 0 20px;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+.glass-card {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(40px);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: var(--radius-xl);
+    padding: 40px 36px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    position: relative;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.glass-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 15%;
+    right: 15%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    border-radius: 2px;
+}
+
+.theme-light .glass-card {
+    background: rgba(255, 255, 255, 0.95) !important;
+    border-color: rgba(0, 0, 0, 0.08) !important;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* ---------- هدر فرم ---------- */
+.auth-header {
+    text-align: center;
+    margin-bottom: 36px;
+}
+
+.auth-header .logo-icon {
+    margin: 0 auto 20px;
+}
+
+.auth-header h2 {
+    font-size: 1.3rem;
+    font-weight: 800;
+    margin-bottom: 10px;
+    letter-spacing: -0.5px;
+}
+
+.auth-header p {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    line-height: 1.8;
+}
+
+/* ---------- فرم ---------- */
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 18px;
+    min-width: 0;
+}
+
+.form-group {
+    min-width: 0 !important;
+    overflow: hidden;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: 10px;
+}
+
+.form-group input {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    word-break: break-all;
+
+    padding: 14px 18px;
+    border-radius: var(--radius-sm);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--glass-border);
+    color: var(--text-primary);
+    font-family: inherit;
+    font-size: 0.95rem;
+    transition: all var(--transition-normal);
+    outline: none;
+}
+
+.form-group input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(230, 57, 70, 0.12);
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.form-group input::placeholder {
+    color: var(--text-muted);
+    font-size: 0.88rem;
+}
+
+.form-group input[dir="ltr"] {
+    text-align: left;
+}
+
+.theme-light .form-group input {
+    background: rgba(0, 0, 0, 0.03) !important;
+    border-color: rgba(0, 0, 0, 0.1) !important;
+    color: #111827 !important;
+}
+
+/* ---------- دکمه و لودر ---------- */
+.form-actions {
+    margin-top: 8px;
+}
+
+.full-width {
+    width: 100%;
+}
+
+#submit-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 16px 20px;
+    border-radius: var(--radius-sm);
+    background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+    color: #fff;
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    box-shadow: 0 4px 20px rgba(230, 57, 70, 0.35);
+    min-height: 54px;
+    letter-spacing: -0.3px;
+}
+
+#submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(230, 57, 70, 0.5);
+}
+
+#submit-btn:active {
+    transform: translateY(0);
+}
+
+#submit-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+.loader {
+    width: 22px;
+    height: 22px;
+    border: 2.5px solid rgba(255, 255, 255, 0.3);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    display: none;
+}
+
+#submit-btn.loading .btn-text {
+    display: none;
+}
+
+#submit-btn.loading .loader {
+    display: block;
+}
+
+/* ---------- فوتر فرم ---------- */
+.auth-footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 12px;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.auth-footer a {
+    color: var(--accent-light);
+    font-weight: 600;
+    transition: color var(--transition-fast);
+}
+
+.auth-footer a:hover {
+    color: #fff;
+}
+
+.theme-light .auth-footer a {
+    color: var(--accent);
+}
+
+.theme-light .auth-footer a:hover {
+    color: var(--accent-dark);
+}
+
+/* --- سوییچر تم --- */
+.theme-switch {
+    position: relative;
+    display: inline-block;
+    width: 52px;
+    height: 28px;
+}
+
+.theme-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    inset: 0;
+    background-color: var(--glass-bg-solid);
+    border: 1px solid var(--glass-border);
+    transition: 0.4s;
+    border-radius: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 6px;
+}
+
+.slider .icon-sun,
+.slider .icon-moon {
+    font-size: 14px;
+    transition: opacity 0.3s ease;
+}
+
+.slider .icon-sun {
+    opacity: 0.3;
+}
+
+.slider .icon-moon {
+    opacity: 1;
+}
+
+.theme-light .slider .icon-sun {
+    opacity: 1;
+}
+
+.theme-light .slider .icon-moon {
+    opacity: 0.3;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 22px;
+    width: 22px;
+    right: 3px;
+    bottom: 2px;
+    background-color: var(--accent);
+    transition: 0.4s;
+    border-radius: 50%;
+}
+
+input:checked+.slider:before {
+    transform: translateX(-23px);
+    background-color: #f59e0b;
+}
+
+
+/* ==========================================
+   ریسپانسیو موبایل
+   ========================================== */
+@media (max-width: 600px) {
+
+    .auth-container {
+        padding: 0 0px;
+    }
+
+    .glass-card {
+        padding: 40px 24px 32px 24px;
+        border-radius: 0 !important;
+        min-height: 100vh;
+        border-left: none !important;
+        border-right: none !important;
+        box-shadow: none !important;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+        gap: 28px;
+    }
+
+    .form-group input {
+        padding: 18px 20px !important;
+        font-size: 16px !important;
+        border-radius: 14px !important;
+        background: rgba(255, 255, 255, 0.05) !important;
+        border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    }
+
+    .form-group input:focus {
+        border-color: var(--accent) !important;
+        background: rgba(255, 255, 255, 0.07) !important;
+    }
+
+    .form-group label {
+        font-size: 0.9rem !important;
+        margin-bottom: 12px !important;
+        font-weight: 700 !important;
+    }
+
+    #submit-btn {
+        padding: 20px 20px !important;
+        font-size: 1.1rem !important;
+        border-radius: 14px !important;
+        margin-top: 10px;
+    }
+
+    .auth-header {
+        margin-bottom: 40px;
+        margin-top: 20px;
+    }
+
+    .auth-header h2 {
+        font-size: 1.5rem !important;
+    }
+}

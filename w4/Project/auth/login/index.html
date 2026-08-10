@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ورود | سامانه گارانتی هوشمند</title>
+
+    <!-- جلوگیری از فلش سیاه -->
+    <script>if (localStorage.getItem("app_theme") === "light") document.documentElement.classList.add("theme-light");</script>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100;200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/css/global.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="auth-body">
+
+    <div id="toast-container" class="toast-container"></div>
+
+    <div class="auth-theme-toggle">
+        <label class="theme-switch" for="auth-theme-toggle">
+            <input type="checkbox" id="auth-theme-toggle">
+            <div class="slider round">
+                <span class="icon-sun">☀️</span>
+                <span class="icon-moon">🌙</span>
+            </div>
+        </label>
+    </div>
+
+    <div class="auth-container">
+        <div class="auth-card glass-card">
+
+            <div class="auth-header">
+                <div class="logo-icon">G</div>
+                <h2>ورود به حساب کاربری</h2>
+                <p>برای مدیریت گارانتی محصولات خود وارد شوید.</p>
+            </div>
+
+            <form id="login-form" class="auth-form">
+                <div class="form-grid">
+                    <div class="form-group full-width">
+                        <label for="mobile">شماره همراه</label>
+                        <input type="tel" id="mobile" placeholder="09123456789" maxlength="11" required dir="ltr">
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="password">رمز عبور</label>
+                        <input type="password" id="password" placeholder="رمز عبور خود را وارد کنید" required dir="ltr">
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" id="submit-btn" class="btn-primary full-width">
+                            <span class="btn-text">ورود به داشبورد</span>
+                            <div class="loader" id="btn-loader"></div>
+                        </button>
+                    </div>
+                    <div class="auth-footer">
+                        <span>حساب کاربری ندارید؟</span>
+                        <a href="../register">ثبت‌نام کنید</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../../config/api-config.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>
