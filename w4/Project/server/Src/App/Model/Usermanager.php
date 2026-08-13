@@ -89,11 +89,17 @@ class Usermanager
         // change token to user id
         $token = $data['token'];
 
-        $userid = $this->auth->GetIdWithToken($token)[0];
+        $userid = $this->auth->GetIdWithToken($token)[0] ?? false;
 
-        $this->logger->info("recived userid / get user", [
-            $userid
-        ]);
+        if ($userid == false) {
+            return [
+                "status" => false
+            ];
+        }
+
+        // $this->logger->info("recived userid / get user", [
+        //     $userid
+        // ]);
 
         // sql
         $sql = "
@@ -113,12 +119,19 @@ class Usermanager
                 $result
             ]);
 
+            if ($result == null || empty($result)) {
+                return [
+                    "status" => false
+                ];
+            }
+
             $firstname = $result[0]["firstName"] ?? "NULL";
             $lastName = $result[0]["lastName"] ?? "NULL";
             $companyname = $result[0]["companyname"] ?? "NULL";
             $email = $result[0]["email"] ?? "NULL";
             $username = $result[0]["username"] ?? "NULL";
             $phone = $result[0]["phone"] ?? "NULL";
+            $id =  $result[0]["id"] ?? "NULL";
 
             $userdata = [
                 "status" => true,
@@ -128,6 +141,7 @@ class Usermanager
                 "email" => $email,
                 "username" => $username,
                 "phone" => $phone,
+                "id" => $id
 
             ];
 

@@ -47,7 +47,7 @@ class Usermanager
         $this->logger  = new Logger('app');
 
         $this->logger->pushHandler(
-            new StreamHandler(__DIR__ . '/../../../Logs/Controller/Usermanager.log', Logger::WARNING)
+            new StreamHandler(__DIR__ . '/../../../Logs/Controller/Usermanager.log', Logger::INFO)
         );
     }
 
@@ -157,9 +157,40 @@ class Usermanager
         }
     }
     public function UpdateUser() {}
-    public function ReadUser($token) {}
+    public function ReadUser(string $token)
+    {
+
+        // check null or empty
+        if ($token == null || empty($token)) {
+            return [
+                "status" => "error",
+                "message" => "خطا ! مقدار توکن صحیح نیست",
+                "errors" => [
+                    "Token" => "خطا در انجام عملیات ! لطفا خارج و مجدد وارد شوید"
+                ]
+            ];
+        }
+        $data = [
+            "token" => $token
+        ];
+        $send = $this->model->GetUser($data);
+
+        // $this->logger->info("model response", [$send]);
+
+        if ($send['status'] == true) {
+            return $send;
+        } else {
+            return [
+                "status" => "error",
+                "message" => "خطا ! مقدار توکن صحیح نیست",
+                "errors" => [
+                    "Token" => "خطا در انجام عملیات ! لطفا خارج و مجدد وارد شوید"
+                ]
+            ];
+        }
+    }
     public function GetAllUsers() {}
     public function DeleteUser() {}
 }
-// $a = new Usermanager;
-// print_r($a->Register("test", "test echo 'testp'; ", "test", "test", "test", "test", "test<>"));
+$a = new Usermanager;
+var_dump($b = $a->ReadUser("d3d6fb975f0f4963fd4024d8e14491f237678f6697c23807feef797e81e235b6c3c15ffcca357ac6ade23bff62b6c5fbc51fc8228e6b3ee7946fbac969c101543a77a5185436"));

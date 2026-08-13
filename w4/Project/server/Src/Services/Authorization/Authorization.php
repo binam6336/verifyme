@@ -98,8 +98,16 @@ class Authorization
         if ($stmt->execute()) {
             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
             // $this->logger->info("fetch result", [$result[0]["userid"]]);
-
-            return [$result[0]["userid"]];
-        } else return;
+            $id = $result[0]["userid"] ?? null;
+            if ($id == null || empty($id)) {
+                return [
+                    "status" => false
+                ];
+            } else return [
+                $id
+            ];
+        } else return [
+            "status" => false
+        ];
     }
 }
