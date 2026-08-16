@@ -1,4 +1,9 @@
 <?php
+
+use Src\App\Controller\Usermanager;
+
+require __DIR__ . "/../../../../vendor/autoload.php";
+
 // حل مشکل دسترسی و پیش‌پرواز مرورگر
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With");
@@ -10,7 +15,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit();
 }
 
-// دیتای کاملاً ساختاریافته و استاندارد
+$usermanager = new Usermanager;
+
+$token = getallheaders()['Authorization'] ?? "NULl";
+
+// $userdata =
+
 $response = [
     "status" => "success",
     "data" => [
