@@ -192,5 +192,3 @@ class Usermanager
     public function GetAllUsers() {}
     public function DeleteUser() {}
 }
-$a = new Usermanager;
-var_dump($b = $a->ReadUser("d3d6fb975f0f4963fd4024d8e14491f237678f6697c23807feef797e81e235b6c3c15ffcca357ac6ade23bff62b6c5fbc51fc8228e6b3ee7946fbac969c101543a77a5185436"));
