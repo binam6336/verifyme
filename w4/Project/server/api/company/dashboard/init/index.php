@@ -1,5 +1,7 @@
 <?php
 
+use Monolog\Handler\StreamHandler;
+use Monolog\Logger;
 use Src\App\Controller\Usermanager;
 
 require __DIR__ . "/../../../../vendor/autoload.php";
@@ -10,6 +12,14 @@ header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-W
 header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
 header("Content-Type: application/json; charset=UTF-8");
 
+
+$logger = new Logger('app');
+
+$logger->pushHandler(
+    new StreamHandler(__DIR__ . '/app.log', Logger::INFO)
+);
+
+
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
     exit();
@@ -19,20 +29,23 @@ $usermanager = new Usermanager;
 
 $token = getallheaders()['Authorization'] ?? "NULl";
 
-// $userdata =
+$userdata = $usermanager->ReadUser($token);
+
+$firstname = $userdata['firstname'];
+$lastName = $userdata['lastName'];
 
 $response = [
     "status" => "success",
     "data" => [
         "user" => [
-            "name" => "شرکت مهیار نوین",
+            "name" => $firstname . " " . $lastName,
             "role" => "تولید کننده",
-            "avatar" => "https://vignette.wikia.nocookie.net/line/images/b/bb/2015-brown.png" // <-- آدرس عکس از سرور      
-        ],
-        "stats" => [
-            "total_products" => 500,
-            "active_warranties" => 120,
-            "pending_activations" => 380
+            "avatar" => "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQfTtsmPeViVO3WNJ84YBB5uqYSyk_HTq0l4vDUm-facA&s=10",
+            "stats" => [
+                "total_products" => 500,
+                "active_warranties" => 120,
+                "pending_activations" => 380
+            ]
         ]
     ]
 ];
