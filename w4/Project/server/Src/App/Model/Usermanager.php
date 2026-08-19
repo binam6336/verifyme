@@ -131,6 +131,7 @@ class Usermanager
             $email = $result[0]["email"] ?? "NULL";
             $username = $result[0]["username"] ?? "NULL";
             $phone = $result[0]["phone"] ?? "NULL";
+            $company_status = $result[0]["company_status"] ?? "NULL";
             $id =  $result[0]["id"] ?? "NULL";
 
             $userdata = [
@@ -141,6 +142,7 @@ class Usermanager
                 "email" => $email,
                 "username" => $username,
                 "phone" => $phone,
+                "company_status" => $company_status,
                 "id" => $id
 
             ];
