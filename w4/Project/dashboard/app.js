@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
     const pageLoader = document.getElementById("page-loader");
     const userNameEl = document.getElementById("user-display-name");
-    const userCompanyNameEl = document.getElementById("user-company-name"); // ✅ جدید
+    const userCompanyNameEl = document.getElementById("user-company-name");
     const userRoleEl = document.getElementById("user-role");
     const avatarImg = document.getElementById("user-avatar-img");
     const avatarInitials = document.getElementById("avatar-initials");
@@ -15,6 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const statActive = document.getElementById("stat-active");
     const statPending = document.getElementById("stat-pending");
     const themeToggle = document.getElementById("theme-toggle");
+    const statusIndicator = document.getElementById("company-status"); // ✅ جدید
 
     // ==========================================
     // منطق تم (استفاده از documentElement به جای body)
@@ -34,17 +35,27 @@ document.addEventListener("DOMContentLoaded", () => {
     function toggleMobileMenu(close) {
         const isOpen = sidebar.classList.contains("mobile-open");
         if (close || isOpen) {
-            sidebar.classList.remove("mobile-open"); sidebarOverlay.classList.remove("active"); document.body.style.overflow = "";
+            sidebar.classList.remove("mobile-open");
+            sidebarOverlay.classList.remove("active");
+            document.body.style.overflow = "";
         } else {
-            sidebar.classList.add("mobile-open"); sidebarOverlay.classList.add("active"); document.body.style.overflow = "hidden";
+            sidebar.classList.add("mobile-open");
+            sidebarOverlay.classList.add("active");
+            document.body.style.overflow = "hidden";
         }
     }
-    if (mobileMenuBtn) mobileMenuBtn.addEventListener("click", (e) => { e.stopPropagation(); toggleMobileMenu(); });
+    if (mobileMenuBtn) mobileMenuBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        toggleMobileMenu();
+    });
     if (sidebarOverlay) sidebarOverlay.addEventListener("click", () => toggleMobileMenu(true));
 
     // زیرمنو
     if (productMenuBtn && productSubmenu) {
-        productMenuBtn.addEventListener("click", () => { productMenuBtn.classList.toggle("open"); productSubmenu.classList.toggle("open"); });
+        productMenuBtn.addEventListener("click", () => {
+            productMenuBtn.classList.toggle("open");
+            productSubmenu.classList.toggle("open");
+        });
     }
 
     // ==========================================
@@ -63,25 +74,65 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function extractInitials(n) {
-        if (!n) return "؟"; const p = n.trim().split(/\s+/);
+        if (!n) return "؟";
+        const p = n.trim().split(/\s+/);
         return p.length >= 2 ? p[0][0] + p[1][0] : p[0].substring(0, 2);
     }
 
     function setupAvatar(user) {
         if (user.avatar && user.avatar.trim()) {
-            avatarImg.src = user.avatar; avatarImg.style.display = "block"; avatarInitials.style.display = "none";
-            avatarImg.onerror = () => { avatarImg.style.display = "none"; avatarInitials.textContent = extractInitials(user.name); avatarInitials.style.display = "block"; };
+            avatarImg.src = user.avatar;
+            avatarImg.style.display = "block";
+            avatarInitials.style.display = "none";
+            avatarImg.onerror = () => {
+                avatarImg.style.display = "none";
+                avatarInitials.textContent = extractInitials(user.name);
+                avatarInitials.style.display = "block";
+            };
         } else {
-            avatarImg.style.display = "none"; avatarInitials.textContent = extractInitials(user.name); avatarInitials.style.display = "block";
+            avatarImg.style.display = "none";
+            avatarInitials.textContent = extractInitials(user.name);
+            avatarInitials.style.display = "block";
+        }
+    }
+
+    // ✅ تابع جدید برای نمایش وضعیت فروشگاه
+    function setupCompanyStatus(status) {
+        const dot = statusIndicator.querySelector(".status-dot");
+        const text = statusIndicator.querySelector(".status-text");
+
+        // حذف کلاس‌های قبلی
+        statusIndicator.classList.remove("active", "pending");
+
+        if (status === "active") {
+            statusIndicator.classList.add("active");
+            text.textContent = "فعال";
+        } else if (status === "deactive") {
+            statusIndicator.classList.add("pending");
+            text.textContent = "در انتظار تایید";
+        } else {
+            statusIndicator.classList.add("pending");
+            text.textContent = "نامشخص";
         }
     }
 
     function showToast(msg, type = "success") {
-        const t = document.createElement("div"); t.className = `toast ${type}`; t.textContent = msg; toastContainer.appendChild(t);
-        setTimeout(() => { t.classList.add("removing"); t.addEventListener("animationend", () => t.remove()); }, 3500);
+        const t = document.createElement("div");
+        t.className = `toast ${type}`;
+        t.textContent = msg;
+        toastContainer.appendChild(t);
+        setTimeout(() => {
+            t.classList.add("removing");
+            t.addEventListener("animationend", () => t.remove());
+        }, 3500);
     }
 
-    function hideLoader() { if (pageLoader) { pageLoader.classList.add("hidden"); setTimeout(() => pageLoader.remove(), 600); } }
+    function hideLoader() {
+        if (pageLoader) {
+            pageLoader.classList.add("hidden");
+            setTimeout(() => pageLoader.remove(), 600);
+        }
+    }
 
     // ==========================================
     // بارگذاری داده‌ها
@@ -94,7 +145,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (user) {
                     userNameEl.textContent = user.name || "نامشخص";
 
-                    // ✅ نمایش نام شرکت زیر اسم کاربر
+                    // نمایش نام شرکت زیر اسم کاربر
                     if (user.company_name) {
                         userCompanyNameEl.textContent = user.company_name;
                         userCompanyNameEl.style.display = "block";
@@ -104,6 +155,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     if (user.role) userRoleEl.textContent = user.role;
                     setupAvatar(user);
+
+                    // ✅ نمایش وضعیت فروشگاه
+                    if (user.company_status) {
+                        setupCompanyStatus(user.company_status);
+                    } else {
+                        setupCompanyStatus("deactive");
+                    }
                 }
                 if (stats) {
                     setTimeout(() => {
@@ -132,6 +190,7 @@ document.addEventListener("DOMContentLoaded", () => {
         avatarImg.style.display = "none";
         avatarInitials.textContent = extractInitials("شرکت نمونه");
         avatarInitials.style.display = "block";
+        setupCompanyStatus("deactive");
         setTimeout(() => {
             animateNumber(statTotal, 0, 800);
             animateNumber(statActive, 0, 800);
