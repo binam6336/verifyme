@@ -33,6 +33,7 @@ $userdata = $usermanager->ReadUser($token);
 
 $firstname = $userdata['firstname'];
 $lastName = $userdata['lastName'];
+$companyname = $userdata['companyname'];
 
 $response = [
     "status" => "success",
@@ -40,6 +41,7 @@ $response = [
         "user" => [
             "name" => $firstname . " " . $lastName,
             "role" => "تولید کننده",
+            "company_name" => $companyname,  // ✅ نام شرکت (برای نمایش زیر نام)
             "avatar" => "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQfTtsmPeViVO3WNJ84YBB5uqYSyk_HTq0l4vDUm-facA&s=10",
             "stats" => [
                 "total_products" => 500,

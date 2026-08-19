@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
     const pageLoader = document.getElementById("page-loader");
     const userNameEl = document.getElementById("user-display-name");
+    const userCompanyNameEl = document.getElementById("user-company-name"); // ✅ جدید
     const userRoleEl = document.getElementById("user-role");
     const avatarImg = document.getElementById("user-avatar-img");
     const avatarInitials = document.getElementById("avatar-initials");
@@ -19,11 +20,10 @@ document.addEventListener("DOMContentLoaded", () => {
     // منطق تم (استفاده از documentElement به جای body)
     // ==========================================
     if (localStorage.getItem("app_theme") === "light") {
-        themeToggle.checked = true; // فقط چک‌باکس رو سینک می‌کنیم چون کلاس تو head اضافه شده
+        themeToggle.checked = true;
     }
 
     themeToggle.addEventListener("change", () => {
-        // رفع باگ اصلی: تغییر روی html اعمال میشه نه body
         document.documentElement.classList.toggle("theme-light");
         localStorage.setItem("app_theme", themeToggle.checked ? "light" : "dark");
     });
@@ -91,15 +91,52 @@ document.addEventListener("DOMContentLoaded", () => {
             const res = await API_CONFIG.sendRequest("dashboard/init/");
             if (res.status === "success" && res.data) {
                 const { user, stats } = res.data;
-                if (user) { userNameEl.textContent = user.name || "نامشخص"; if (user.role) userRoleEl.textContent = user.role; setupAvatar(user); }
-                if (stats) { setTimeout(() => { animateNumber(statTotal, stats.total_products, 1200); animateNumber(statActive, stats.active_warranties, 1400); animateNumber(statPending, stats.pending_activations, 1000); }, 200); }
-            } else { showToast(res.message || "خطا در دریافت اطلاعات", "error"); setFallback(); }
-        } catch (e) { console.error(e); showToast("اتصال برقرار نشد.", "warning"); setFallback(); } finally { hideLoader(); }
+                if (user) {
+                    userNameEl.textContent = user.name || "نامشخص";
+
+                    // ✅ نمایش نام شرکت زیر اسم کاربر
+                    if (user.company_name) {
+                        userCompanyNameEl.textContent = user.company_name;
+                        userCompanyNameEl.style.display = "block";
+                    } else {
+                        userCompanyNameEl.style.display = "none";
+                    }
+
+                    if (user.role) userRoleEl.textContent = user.role;
+                    setupAvatar(user);
+                }
+                if (stats) {
+                    setTimeout(() => {
+                        animateNumber(statTotal, stats.total_products, 1200);
+                        animateNumber(statActive, stats.active_warranties, 1400);
+                        animateNumber(statPending, stats.pending_activations, 1000);
+                    }, 200);
+                }
+            } else {
+                showToast(res.message || "خطا در دریافت اطلاعات", "error");
+                setFallback();
+            }
+        } catch (e) {
+            console.error(e);
+            showToast("اتصال برقرار نشد.", "warning");
+            setFallback();
+        } finally {
+            hideLoader();
+        }
     }
 
     function setFallback() {
-        userNameEl.textContent = "شرکت نمونه (دمو)"; avatarImg.style.display = "none"; avatarInitials.textContent = extractInitials("شرکت نمونه"); avatarInitials.style.display = "block";
-        setTimeout(() => { animateNumber(statTotal, 0, 800); animateNumber(statActive, 0, 800); animateNumber(statPending, 0, 800); }, 200);
+        userNameEl.textContent = "شرکت نمونه (دمو)";
+        userCompanyNameEl.textContent = "شرکت نمونه (دمو)";
+        userCompanyNameEl.style.display = "block";
+        avatarImg.style.display = "none";
+        avatarInitials.textContent = extractInitials("شرکت نمونه");
+        avatarInitials.style.display = "block";
+        setTimeout(() => {
+            animateNumber(statTotal, 0, 800);
+            animateNumber(statActive, 0, 800);
+            animateNumber(statPending, 0, 800);
+        }, 200);
     }
 
     loadDashboard();

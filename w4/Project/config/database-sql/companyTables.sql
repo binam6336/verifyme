@@ -8,13 +8,15 @@
             email varchar(255),
             username varchar(255),
             phone varchar(255),
-            password varchar(255)
+            password varchar(255),
+            company_status varchar(255),
+
             );
             CHARACTER SET utf8mb4
             COLLATE utf8mb4_unicode_ci;
             -- insert test
-            INSERT INTO user ( firstName , lastName , companyname , email , username , phone , password)
-            VALUES ('test' , 'test', 'test','test','test','test','test');
+            INSERT INTO user ( firstName , lastName , companyname , email , username , phone , password , company_status)
+            VALUES ('test' , 'test', 'test','test','test','test','test' , 0);
 
         -- ptroduct
             CREATE TABLE product (
