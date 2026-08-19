@@ -51,8 +51,8 @@ class Usermanager
 
     public function NewUser(array $data)
     {
-        $sql = "INSERT INTO user ( firstName , lastName , companyname , email , username , phone , password)
-            VALUES ( :firstName , :lastName  , :companyname ,  :email , :username  , :phone  , :password )";
+        $sql = "INSERT INTO user ( firstName , lastName , companyname , email , username , phone , password , company_status)
+            VALUES ( :firstName , :lastName  , :companyname ,  :email , :username  , :phone  , :password , 0 )";
 
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(":firstName", $data['firstName']);
