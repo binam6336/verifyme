@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>پروفایل کاربر | سامانه گارانتی هوشمند</title>
+
+    <!-- اسکریپت جلوگیری از فلش سیاه -->
+    <script>if (localStorage.getItem("app_theme") === "light") document.documentElement.classList.add("theme-light");</script>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100;200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/css/global.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="page-loader" id="page-loader">
+        <div class="loader-spinner"></div>
+        <p>در حال بارگذاری...</p>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+    <div class="panel-layout">
+
+        <aside class="sidebar" id="sidebar">
+            <div class="brand">
+                <div class="logo-icon">G</div>
+                <h2>گارانتی هوشمند</h2>
+            </div>
+            <nav class="menu">
+                <a href="../../dashboard" class="menu-item">
+                    <span class="icon"><img src="../../assets/img/icon/dashboard.png" alt="داشبورد"></span>
+                    داشبورد
+                </a>
+                <div class="menu-group">
+                    <button class="menu-item has-submenu" id="product-menu-btn">
+                        <span><span class="icon"><img src="../../assets/img/icon/products2.png" alt="محصولات"></span>
+                            مدیریت محصولات</span>
+                        <span class="arrow">▼</span>
+                    </button>
+                    <div class="submenu" id="product-submenu">
+                        <a href="../../products/new" class="submenu-item"><span class="icon"><img
+                                    src="../../assets/img/icon/add.png" alt="افزودن"></span> ثبت محصول جدید</a>
+                        <a href="../../products/list" class="submenu-item"><span class="icon"><img
+                                    src="../../assets/img/icon/list.png" alt="لیست"></span> لیست محصولات</a>
+                    </div>
+                </div>
+                <a href="../../dashboard/profile" class="menu-item active">
+                    <span class="icon"><img src="../../assets/img/icon/profile.png" alt="پروفایل"></span>
+                    پروفایل کاربر
+                </a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-bar">
+                <div class="flex items-center">
+                    <button class="mobile-menu-toggle" id="mobile-menu-btn"><span></span></button>
+                    <div class="welcome-section">
+                        <h3>پروفایل کاربر</h3>
+                        <p style="color: var(--text-muted); font-size: 0.85rem;">
+                            خوش آمدید، <span id="user-display-name">...</span>
+                            <span id="user-company-name"
+                                style="display: block; font-size: 0.75rem; color: var(--text-muted); opacity: 0.7;"></span>
+                        </p>
+                    </div>
+                </div>
+                <div class="flex items-center" style="gap: 16px;">
+                    <div class="theme-switch-wrapper">
+                        <label class="theme-switch" for="theme-toggle">
+                            <input type="checkbox" id="theme-toggle">
+                            <div class="slider round">
+                                <span class="icon-sun">☀️</span>
+                                <span class="icon-moon">🌙</span>
+                            </div>
+                        </label>
+                    </div>
+                    <div class="user-profile">
+                        <span id="user-role">تولیدکننده</span>
+                        <div class="user-avatar-wrapper">
+                            <div class="user-avatar" id="avatar-container">
+                                <img id="user-avatar-img" src="" alt="User Avatar"
+                                    style="display: none; width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">
+                                <span id="avatar-initials" style="display: none;"></span>
+                            </div>
+                            <div class="status-indicator" id="company-status">
+                                <span class="status-dot"></span>
+                                <span class="status-text">...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <section class="content-body">
+                <div class="profile-container">
+                    <div class="profile-card glass-card">
+
+                        <!-- آواتار بزرگ -->
+                        <div class="profile-avatar-section">
+                            <div class="profile-avatar" id="profile-avatar-container">
+                                <img id="profile-avatar-img" src="" alt="User Avatar"
+                                    style="display: none; width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">
+                                <span id="profile-avatar-initials" style="display: none;"></span>
+                            </div>
+                            <button class="btn-ghost btn-sm" id="change-avatar-btn">تغییر آواتار</button>
+                            <input type="file" id="avatar-upload" accept="image/*" style="display: none;">
+                        </div>
+
+                        <!-- فرم پروفایل -->
+                        <form id="profile-form" class="profile-form">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="first_name">نام</label>
+                                    <input type="text" id="first_name" placeholder="نام خود را وارد کنید" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="last_name">نام خانوادگی</label>
+                                    <input type="text" id="last_name" placeholder="نام خانوادگی خود را وارد کنید"
+                                        required>
+                                </div>
+                                <div class="form-group full-width">
+                                    <label for="company_name">نام شرکت / برند</label>
+                                    <input type="text" id="company_name" placeholder="نام شرکت خود را وارد کنید"
+                                        required>
+                                </div>
+                                <div class="form-group full-width">
+                                    <label for="email">ایمیل</label>
+                                    <input type="email" id="email" placeholder="ایمیل خود را وارد کنید" required
+                                        dir="ltr">
+                                </div>
+                                <div class="form-group full-width">
+                                    <label for="mobile">شماره همراه</label>
+                                    <input type="tel" id="mobile" placeholder="09123456789" maxlength="11" required
+                                        dir="ltr">
+                                </div>
+                                <div class="form-group full-width">
+                                    <label for="password">رمز عبور جدید (اختیاری)</label>
+                                    <input type="password" id="password" placeholder="برای تغییر رمز عبور وارد کنید"
+                                        dir="ltr">
+                                </div>
+                                <div class="form-group full-width">
+                                    <label for="confirm_password">تأیید رمز عبور جدید</label>
+                                    <input type="password" id="confirm_password" placeholder="تکرار رمز عبور جدید"
+                                        dir="ltr">
+                                </div>
+                                <div class="form-actions">
+                                    <button type="submit" id="submit-btn" class="btn-primary full-width">
+                                        <span class="btn-text">ذخیره تغییرات</span>
+                                        <div class="loader" id="btn-loader"></div>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <div class="toast-container" id="toast-container"></div>
+
+    <script src="../../config/api-config.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>
