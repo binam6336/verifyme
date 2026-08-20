@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
         themeToggle.checked = false;
     }
 
-    themeToggle.addEventListener("change", function () {
+    themeToggle.addEventListener("change", function() {
         if (this.checked) {
             document.documentElement.classList.add("theme-light");
             localStorage.setItem("app_theme", "light");

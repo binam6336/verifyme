@@ -975,4 +975,100 @@ body,
         padding: 20px 16px !important;
         border-radius: 16px !important;
     }
+
+}
+
+/* ==========================================
+   استایل سوییچ تغییر تم (مطابق تصویر دوم)
+   ========================================== */
+.theme-switch-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.theme-switch {
+    position: relative;
+    display: inline-block;
+    width: 56px;
+    height: 30px;
+}
+
+.theme-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ffffff;
+    /* پس‌زمینه سفید سوییچ */
+    border: 1px solid #d1d5db;
+    transition: .4s;
+    border-radius: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 6px;
+    box-sizing: border-box;
+}
+
+/* آیکون‌های خورشید و ماه در دو طرف */
+.icon-sun {
+    color: #f9a825;
+    font-size: 14px;
+    z-index: 1;
+    line-height: 1;
+}
+
+.icon-moon {
+    color: #455a64;
+    font-size: 14px;
+    z-index: 1;
+    line-height: 1;
+}
+
+/* دکمه گرد متحرک (نارنجی - شبیه تصویر دوم) */
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 24px;
+    width: 24px;
+    left: 2px;
+    bottom: 2px;
+    background-color: #ffb300;
+    /* رنگ نارنجی */
+    transition: .4s;
+    border-radius: 50%;
+    z-index: 2;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+/* ==========================================
+   حالت‌های سوییچ (مهم: هماهنگ با app.js)
+   ========================================== */
+
+/* حالت تاریک (Dark) - چک‌باکس خالی است (input:not(:checked)) */
+/* دکمه نارنجی در سمت چپ (نزدیک ماه) می‌ماند */
+.theme-switch input:not(:checked)+.slider {
+    background-color: #ffffff;
+}
+
+/* حالت روشن (Light) - چک‌باکس تیک دارد (input:checked) */
+/* دکمه نارنجی به سمت راست (نزدیک خورشید) حرکت می‌کند */
+.theme-switch input:checked+.slider:before {
+    transform: translateX(24px);
+    background-color: #f9a825;
+    /* تغییر رنگ جزئی دکمه در حالت روشن */
+}
+
+.theme-switch input:checked+.slider {
+    background-color: #ffffff;
+    border-color: #d1d5db;
 }
