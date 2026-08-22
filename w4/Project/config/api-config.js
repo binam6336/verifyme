@@ -9,8 +9,9 @@ const API_CONFIG = {
 
         // پنل تولیدکننده
         DASHBOARD_INIT: "dashboard/init/",
+        DASHBOARD_UPDATE: "dashboard/update/",  // ✅ جدید - به‌روزرسانی پروفایل
         PRODUCT_CREATE: "products/create/",
-        PRODUCT_LIST: "products/list/"  // اضافه شد
+        PRODUCT_LIST: "products/list/"
     },
 
     // دریافت توکن از حافظه مرورگر
@@ -89,7 +90,7 @@ const API_CONFIG = {
 
         } catch (error) {
             console.error("ارتباط با بک‌اِند برقرار نشد:", error);
-            throw error; // دیگر Mock برنمی‌گردونه
+            throw error;
         }
     },
 
@@ -100,6 +101,15 @@ const API_CONFIG = {
     // دریافت اطلاعات داشبورد
     async getDashboard() {
         return this.sendRequest(this.ENDPOINTS.DASHBOARD_INIT, {});
+    },
+
+    // ✅ به‌روزرسانی پروفایل کاربر
+    async updateProfile(userData) {
+        return this.sendRequest(
+            this.ENDPOINTS.DASHBOARD_UPDATE,
+            userData,
+            { method: "POST" }
+        );
     },
 
     // ثبت محصول جدید

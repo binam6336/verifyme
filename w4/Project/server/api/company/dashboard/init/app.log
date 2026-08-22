@@ -1,7 +1,0 @@
-[2026-08-19T12:19:45.419139+02:00] app.INFO: userdata recived [{"status":true,"firstname":"مهیار","lastName":"صالحی","companyname":"jsj","email":"MAHYARGAMER9@GMAIL.COM","username":"09991867331","phone":"09991867331","id":8}] []
-[2026-08-19T12:34:58.115705+02:00] app.INFO: userdata recived [null] []
-[2026-08-19T12:35:17.816660+02:00] app.INFO: userdata recived ["مهیار"] []
-[2026-08-19T12:36:54.943064+02:00] app.INFO: userdata recived ["مهیار"] []
-[2026-08-19T12:38:20.802328+02:00] app.INFO: userdata recived ["مهیار"] []
-[2026-08-19T12:39:09.480878+02:00] app.INFO: fname recived ["مهیار"] []
-[2026-08-19T12:47:07.824610+02:00] app.INFO: fname recived ["مهیار"] []
