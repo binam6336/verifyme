@@ -127,9 +127,9 @@ class Usermanager
             if ($stmt->execute()) {
                 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-                $this->logger->info("fetch result / get user", [
-                    $result
-                ]);
+                // $this->logger->info("fetch result / get user", [
+                //     $result
+                // ]);
 
                 if ($result == null || empty($result)) {
                     return [
@@ -159,9 +159,9 @@ class Usermanager
 
                 ];
 
-                $this->logger->info(" user data to return / get user", [
-                    $userdata
-                ]);
+                // $this->logger->info(" user data to return / get user", [
+                //     $userdata
+                // ]);
 
                 return $userdata;
             } else {
