@@ -1,88 +1,61 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // ==========================================
-    // المنت‌های اصلی (مثل داشبورد)
-    // ==========================================
-    const pageLoader = document.getElementById("page-loader");
-    const userNameEl = document.getElementById("user-display-name");
-    const userCompanyNameEl = document.getElementById("user-company-name");
-    const userRoleEl = document.getElementById("user-role");
-    const avatarImg = document.getElementById("user-avatar-img");
-    const avatarInitials = document.getElementById("avatar-initials");
-    const productMenuBtn = document.getElementById("product-menu-btn");
-    const productSubmenu = document.getElementById("product-submenu");
-    const sidebar = document.getElementById("sidebar");
-    const mobileMenuBtn = document.getElementById("mobile-menu-btn");
-    const sidebarOverlay = document.getElementById("sidebar-overlay");
-    const toastContainer = document.getElementById("toast-container");
-    const themeToggle = document.getElementById("theme-toggle");
-    const statusIndicator = document.getElementById("company-status");
+    // المنت‌ها
+    const $ = id => document.getElementById(id);
+    const pageLoader = $("page-loader");
+    const userNameEl = $("user-display-name");
+    const userCompanyNameEl = $("user-company-name");
+    const userRoleEl = $("user-role");
+    const avatarImg = $("user-avatar-img");
+    const avatarInitials = $("avatar-initials");
+    const themeToggle = $("theme-toggle");
+    const statusIndicator = $("company-status");
+    const profileForm = $("profile-form");
+    const submitBtn = $("submit-btn");
+    const fullNameEl = $("full_name");
+    const companyNameEl = $("company_name");
+    const emailEl = $("email");
+    const mobileEl = $("mobile");
+    const passwordEl = $("password");
+    const confirmPasswordEl = $("confirm_password");
+    const profileAvatarImg = $("profile-avatar-img");
+    const profileAvatarInitials = $("profile-avatar-initials");
+    const changeAvatarBtn = $("change-avatar-btn");
+    const avatarUpload = $("avatar-upload");
+    const toastContainer = $("toast-container");
 
-    // المنت‌های پروفایل
-    const profileForm = document.getElementById("profile-form");
-    const submitBtn = document.getElementById("submit-btn");
-    const firstNameEl = document.getElementById("first_name");
-    const lastNameEl = document.getElementById("last_name");
-    const companyNameEl = document.getElementById("company_name");
-    const emailEl = document.getElementById("email");
-    const mobileEl = document.getElementById("mobile");
-    const passwordEl = document.getElementById("password");
-    const confirmPasswordEl = document.getElementById("confirm_password");
-
-    // المنت‌های آواتار (هدر و پروفایل)
-    const profileAvatarImg = document.getElementById("profile-avatar-img");
-    const profileAvatarInitials = document.getElementById("profile-avatar-initials");
-    const changeAvatarBtn = document.getElementById("change-avatar-btn");
-    const avatarUpload = document.getElementById("avatar-upload");
-
-    // ==========================================
-    // ✅ منطق تم (دقیقاً مثل داشبورد)
-    // ==========================================
+    // ===== تم =====
     if (localStorage.getItem("app_theme") === "light") {
         document.documentElement.classList.add("theme-light");
         themeToggle.checked = true;
-    } else {
-        document.documentElement.classList.remove("theme-light");
-        themeToggle.checked = false;
     }
-
-    themeToggle.addEventListener("change", function() {
-        if (this.checked) {
-            document.documentElement.classList.add("theme-light");
-            localStorage.setItem("app_theme", "light");
-        } else {
-            document.documentElement.classList.remove("theme-light");
-            localStorage.setItem("app_theme", "dark");
-        }
+    themeToggle.addEventListener("change", function () {
+        document.documentElement.classList.toggle("theme-light");
+        localStorage.setItem("app_theme", this.checked ? "light" : "dark");
     });
 
-    // ==========================================
-    // منوی موبایل و اورلی (مثل داشبورد)
-    // ==========================================
+    // ===== منو =====
     function toggleMobileMenu(close) {
-        const isOpen = sidebar.classList.contains("mobile-open");
-        if (close || isOpen) {
+        const sidebar = $("sidebar");
+        const overlay = $("sidebar-overlay");
+        if (close || sidebar.classList.contains("mobile-open")) {
             sidebar.classList.remove("mobile-open");
-            sidebarOverlay.classList.remove("active");
+            overlay.classList.remove("active");
             document.body.style.overflow = "";
         } else {
             sidebar.classList.add("mobile-open");
-            sidebarOverlay.classList.add("active");
+            overlay.classList.add("active");
             document.body.style.overflow = "hidden";
         }
     }
-
-    if (mobileMenuBtn) {
-        mobileMenuBtn.addEventListener("click", (e) => {
-            e.stopPropagation();
-            toggleMobileMenu();
-        });
-    }
-
-    if (sidebarOverlay) {
-        sidebarOverlay.addEventListener("click", () => toggleMobileMenu(true));
-    }
+    $("mobile-menu-btn")?.addEventListener("click", (e) => {
+        e.stopPropagation();
+        toggleMobileMenu();
+    });
+    $("sidebar-overlay")?.addEventListener("click", () => toggleMobileMenu(true));
 
     // زیرمنو
+    const productMenuBtn = $("product-menu-btn");
+    const productSubmenu = $("product-submenu");
     if (productMenuBtn && productSubmenu) {
         productMenuBtn.addEventListener("click", () => {
             productMenuBtn.classList.toggle("open");
@@ -90,98 +63,21 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // ==========================================
-    // توابع کمکی (مثل داشبورد)
-    // ==========================================
-    function extractInitials(firstName, lastName) {
-        if (!firstName && !lastName) return "؟";
-        if (firstName && lastName) return firstName[0] + lastName[0];
-        if (firstName) return firstName.substring(0, 2);
-        return "؟";
-    }
-
-    function setupAvatar(user) {
-        const avatarUrl = user.avatar || "";
-
-        // آواتار هدر
-        if (avatarUrl && avatarUrl.trim()) {
-            avatarImg.src = avatarUrl;
-            avatarImg.style.display = "block";
-            avatarInitials.style.display = "none";
-            avatarImg.onerror = () => {
-                avatarImg.style.display = "none";
-                avatarInitials.textContent = extractInitials(user.first_name, user.last_name);
-                avatarInitials.style.display = "block";
-            };
-        } else {
-            avatarImg.style.display = "none";
-            avatarInitials.textContent = extractInitials(user.first_name, user.last_name);
-            avatarInitials.style.display = "block";
-        }
-
-        // آواتار بزرگ پروفایل
-        if (avatarUrl && avatarUrl.trim()) {
-            profileAvatarImg.src = avatarUrl;
-            profileAvatarImg.style.display = "block";
-            profileAvatarInitials.style.display = "none";
-            profileAvatarImg.onerror = () => {
-                profileAvatarImg.style.display = "none";
-                profileAvatarInitials.textContent = extractInitials(user.first_name, user.last_name);
-                profileAvatarInitials.style.display = "block";
-            };
-        } else {
-            profileAvatarImg.style.display = "none";
-            profileAvatarInitials.textContent = extractInitials(user.first_name, user.last_name);
-            profileAvatarInitials.style.display = "block";
-        }
-    }
-
-    function setupCompanyStatus(status) {
-        const dot = statusIndicator.querySelector(".status-dot");
-        const text = statusIndicator.querySelector(".status-text");
-
-        statusIndicator.classList.remove("active", "pending");
-
-        if (status === "active") {
-            statusIndicator.classList.add("active");
-            text.textContent = "فعال";
-        } else if (status === "deactive") {
-            statusIndicator.classList.add("pending");
-            text.textContent = "در انتظار تایید";
-        } else {
-            statusIndicator.classList.add("pending");
-            text.textContent = "نامشخص";
-        }
-    }
-
-    function fillForm(user) {
-        firstNameEl.value = user.first_name || "";
-        lastNameEl.value = user.last_name || "";
-        companyNameEl.value = user.company_name || "";
-        emailEl.value = user.email || "";
-        mobileEl.value = user.mobile || "";
-        if (user.role) userRoleEl.textContent = user.role;
-    }
-
-    function showToast(message, type = "success") {
-        const toast = document.createElement("div");
-        toast.className = `toast ${type}`;
-        toast.textContent = message;
-        toastContainer.appendChild(toast);
+    // ===== توابع کمکی =====
+    function showToast(msg, type = "success") {
+        const t = document.createElement("div");
+        t.className = `toast ${type}`;
+        t.textContent = msg;
+        toastContainer.appendChild(t);
         setTimeout(() => {
-            toast.classList.add("removing");
-            toast.addEventListener("animationend", () => toast.remove());
+            t.classList.add("removing");
+            t.addEventListener("animationend", () => t.remove());
         }, 4000);
     }
 
     function toggleLoading(isLoading) {
-        if (isLoading) {
-            submitBtn.classList.add("loading");
-            submitBtn.disabled = true;
-        } else {
-            submitBtn.classList.remove("loading");
-            submitBtn.disabled = false;
-        }
+        submitBtn.classList.toggle("loading", isLoading);
+        submitBtn.disabled = isLoading;
     }
 
     function hideLoader() {
@@ -191,54 +87,96 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // ==========================================
-    // بارگذاری اطلاعات پروفایل از API (init)
-    // ==========================================
+    function setupAvatar(user) {
+        const url = user.avatar || "";
+        const name = user.name || "کاربر";
+        const initials = name.split(" ").map(w => w[0]).join("").substring(0, 2);
+
+        [avatarImg, profileAvatarImg].forEach(img => {
+            if (url) {
+                img.src = url;
+                img.style.display = "block";
+                img.onerror = () => {
+                    img.style.display = "none";
+                    img.parentElement.querySelector("span").style.display = "block";
+                };
+            } else {
+                img.style.display = "none";
+            }
+        });
+
+        [avatarInitials, profileAvatarInitials].forEach(el => {
+            el.textContent = initials;
+            el.style.display = url ? "none" : "block";
+        });
+    }
+
+    // ✅ تابع نمایش وضعیت فروشگاه (مثل داشبورد)
+    function setupCompanyStatus(status) {
+        // اگر المنت وجود نداشت، خارج شو
+        if (!statusIndicator) return;
+
+        const dot = statusIndicator.querySelector(".status-dot");
+        const text = statusIndicator.querySelector(".status-text");
+
+        // حذف کلاس‌های قبلی
+        statusIndicator.classList.remove("active", "pending");
+
+        // تنظیم وضعیت
+        if (status === "active") {
+            statusIndicator.classList.add("active");
+            if (text) text.textContent = "فعال";
+        } else {
+            statusIndicator.classList.add("pending");
+            if (text) text.textContent = "در انتظار تایید";
+        }
+    }
+
+    function fillForm(user) {
+        fullNameEl.value = user.name || "";
+        companyNameEl.value = user.company_name || "";
+        emailEl.value = user.email || "";
+        mobileEl.value = user.mobile || "";
+        userRoleEl.textContent = user.role || "تولیدکننده";
+        userNameEl.textContent = user.name || "نامشخص";
+        userCompanyNameEl.textContent = user.company_name || "";
+        userCompanyNameEl.style.display = user.company_name ? "block" : "none";
+
+        // ✅ نمایش وضعیت فروشگاه در هدر
+        if (user.company_status) {
+            setupCompanyStatus(user.company_status);
+        } else {
+            setupCompanyStatus("deactive"); // مقدار پیش‌فرض
+        }
+    }
+
+    // ===== بارگذاری با API جدید =====
     async function loadProfile() {
         try {
-            const res = await API_CONFIG.sendRequest("dashboard/init/", {});
-            if (res.status === "success" && res.data) {
-                const { user } = res.data;
-                if (user) {
-                    // نمایش نام و شرکت در هدر
-                    userNameEl.textContent = user.name || "نامشخص";
-                    if (user.company_name) {
-                        userCompanyNameEl.textContent = user.company_name;
-                        userCompanyNameEl.style.display = "block";
-                    } else {
-                        userCompanyNameEl.style.display = "none";
-                    }
-
-                    fillForm(user);
-                    setupAvatar(user);
-                    if (user.company_status) {
-                        setupCompanyStatus(user.company_status);
-                    } else {
-                        setupCompanyStatus("deactive");
-                    }
-                }
+            const res = await API_CONFIG.getProfile();
+            if (res.status === "success" && res.data?.user) {
+                const user = res.data.user;
+                fillForm(user);
+                setupAvatar(user);
+                // fillForm قبلاً setupCompanyStatus رو صدا زده، ولی برای اطمینان دوباره صدا می‌زنیم
+                setupCompanyStatus(user.company_status || "deactive");
             } else {
                 showToast(res.message || "خطا در دریافت اطلاعات", "error");
             }
         } catch (e) {
-            console.error(e);
-            showToast("اتصال به سرور برقرار نشد.", "warning");
+            showToast("اتصال برقرار نشد.", "warning");
         } finally {
             hideLoader();
         }
     }
 
-    // ==========================================
-    // به‌روزرسانی پروفایل (update)
-    // ==========================================
+    // ===== ارسال فرم =====
     profileForm.addEventListener("submit", async (e) => {
         e.preventDefault();
-
         const password = passwordEl.value.trim();
-        const confirmPassword = confirmPasswordEl.value.trim();
+        const confirm = confirmPasswordEl.value.trim();
 
-        // اعتبارسنجی رمز عبور (اگر وارد شده باشد)
-        if (password && password !== confirmPassword) {
+        if (password && password !== confirm) {
             showToast("رمز عبور و تکرار آن مطابقت ندارند.", "error");
             return;
         }
@@ -248,96 +186,59 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         const payload = {
-            first_name: firstNameEl.value.trim(),
-            last_name: lastNameEl.value.trim(),
+            name: fullNameEl.value.trim(),
             company_name: companyNameEl.value.trim(),
             email: emailEl.value.trim(),
             mobile: mobileEl.value.trim(),
         };
-
-        if (password) {
-            payload.password = password;
-        }
+        if (password) payload.password = password;
 
         toggleLoading(true);
-
         try {
-            const res = await API_CONFIG.sendRequest("dashboard/update/", payload);
+            const res = await API_CONFIG.updateProfile(payload);
             if (res.status === "success") {
-                showToast(res.message || "پروفایل با موفقیت به‌روزرسانی شد.", "success");
-                // به‌روزرسانی آواتار و اطلاعات در صورت تغییر
+                showToast(res.message || "پروفایل به‌روزرسانی شد.", "success");
                 if (res.data?.user) {
                     const updatedUser = res.data.user;
-                    // به‌روزرسانی نام در هدر
-                    if (updatedUser.first_name && updatedUser.last_name) {
-                        userNameEl.textContent = updatedUser.first_name + " " + updatedUser.last_name;
-                    }
                     fillForm(updatedUser);
                     setupAvatar(updatedUser);
+                    setupCompanyStatus(updatedUser.company_status || "deactive");
                 }
-                // پاک کردن فیلدهای رمز عبور
                 passwordEl.value = "";
                 confirmPasswordEl.value = "";
             } else {
-                let errorMsg = res.message || "خطا در به‌روزرسانی پروفایل.";
-                if (res.errors && typeof res.errors === "object") {
-                    const firstError = Object.values(res.errors)[0];
-                    if (firstError) errorMsg = firstError;
-                }
-                showToast(errorMsg, "error");
+                const err = res.errors ? Object.values(res.errors)[0] : res.message;
+                showToast(err || "خطا در به‌روزرسانی", "error");
             }
         } catch (e) {
-            console.error(e);
-            showToast("اتصال به سرور برقرار نشد.", "warning");
+            showToast("اتصال برقرار نشد.", "warning");
         } finally {
             toggleLoading(false);
         }
     });
 
-    // ==========================================
-    // تغییر آواتار (آپلود)
-    // ==========================================
-    if (changeAvatarBtn) {
-        changeAvatarBtn.addEventListener("click", () => {
-            avatarUpload.click();
-        });
-    }
+    // ===== آواتار =====
+    changeAvatarBtn?.addEventListener("click", () => avatarUpload.click());
+    avatarUpload?.addEventListener("change", (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        if (!file.type.startsWith("image/") || file.size > 2 * 1024 * 1024) {
+            showToast("فایل نامعتبر است.", "error");
+            return;
+        }
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+            const data = ev.target.result;
+            avatarImg.src = data;
+            avatarImg.style.display = "block";
+            avatarInitials.style.display = "none";
+            profileAvatarImg.src = data;
+            profileAvatarImg.style.display = "block";
+            profileAvatarInitials.style.display = "none";
+            showToast("آواتار آپلود شد.", "success");
+        };
+        reader.readAsDataURL(file);
+    });
 
-    if (avatarUpload) {
-        avatarUpload.addEventListener("change", (e) => {
-            const file = e.target.files[0];
-            if (!file) return;
-
-            if (!file.type.startsWith("image/")) {
-                showToast("لطفاً یک فایل تصویری انتخاب کنید.", "error");
-                return;
-            }
-
-            if (file.size > 2 * 1024 * 1024) {
-                showToast("حجم فایل نباید بیشتر از ۲ مگابایت باشد.", "error");
-                return;
-            }
-
-            const reader = new FileReader();
-            reader.onload = (event) => {
-                const dataUrl = event.target.result;
-                // به‌روزرسانی آواتار هدر
-                avatarImg.src = dataUrl;
-                avatarImg.style.display = "block";
-                avatarInitials.style.display = "none";
-                // به‌روزرسانی آواتار بزرگ پروفایل
-                profileAvatarImg.src = dataUrl;
-                profileAvatarImg.style.display = "block";
-                profileAvatarInitials.style.display = "none";
-
-                showToast("آواتار با موفقیت آپلود شد.", "success");
-            };
-            reader.readAsDataURL(file);
-        });
-    }
-
-    // ==========================================
-    // اجرا
-    // ==========================================
     loadProfile();
 });

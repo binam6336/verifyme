@@ -9,7 +9,9 @@ const API_CONFIG = {
 
         // پنل تولیدکننده
         DASHBOARD_INIT: "dashboard/init/",
-        DASHBOARD_UPDATE: "dashboard/update/",  // ✅ جدید - به‌روزرسانی پروفایل
+        DASHBOARD_UPDATE: "dashboard/update/",
+        PROFILE: "dashboard/profile/",  // ✅ جدید - دریافت اطلاعات پروفایل
+
         PRODUCT_CREATE: "products/create/",
         PRODUCT_LIST: "products/list/"
     },
@@ -50,24 +52,22 @@ const API_CONFIG = {
         const token = this.getToken();
         const method = options.method || "POST";
 
-        // ساخت هدرها — توکن فقط از اینجا عبور می‌کنه
+        // ساخت هدرها
         const headers = {
             "Content-Type": "application/json",
             "Accept": "application/json"
         };
 
-        // ⚠️ توکن رو فقط به صورت خودش می‌فرستیم، بدون "Bearer"
         if (token) {
             headers["Authorization"] = token;
         }
 
-        // ساخت گزینه‌های درخواست
         const fetchOptions = {
             method: method,
             headers: headers,
         };
 
-        // اگر متد GET نباشه، body رو اضافه کن
+        // اگر متد GET نباشد، body را اضافه کن
         if (method.toUpperCase() !== "GET") {
             fetchOptions.body = JSON.stringify(payload);
         }
@@ -75,10 +75,8 @@ const API_CONFIG = {
         try {
             const response = await fetch(url, fetchOptions);
 
-            // اگر سرور 401 برگرداند یعنی توکن منقضی یا نامعتبره
             if (response.status === 401) {
                 this.clearToken();
-                console.warn("توکن نامعتبر است — کاربر باید دوباره لاگین کند.");
                 throw new Error("توکن نامعتبر");
             }
 
@@ -103,7 +101,16 @@ const API_CONFIG = {
         return this.sendRequest(this.ENDPOINTS.DASHBOARD_INIT, {});
     },
 
-    // ✅ به‌روزرسانی پروفایل کاربر
+    // ✅ دریافت اطلاعات پروفایل (متد GET)
+    async getProfile() {
+        return this.sendRequest(
+            this.ENDPOINTS.PROFILE,
+            {},
+            { method: "GET" }
+        );
+    },
+
+    // به‌روزرسانی پروفایل کاربر
     async updateProfile(userData) {
         return this.sendRequest(
             this.ENDPOINTS.DASHBOARD_UPDATE,
@@ -145,9 +152,6 @@ const API_CONFIG = {
     }
 };
 
-// ==========================================
-// اکسپورت برای استفاده در سایر فایل‌ها
-// ==========================================
 if (typeof module !== "undefined" && module.exports) {
     module.exports = API_CONFIG;
 }
